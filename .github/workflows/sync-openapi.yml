@@ -18,3 +18,4 @@ jobs:
           branch: main
           auto_merge: true
           token: ${{ secrets.GITHUB_TOKEN }}
+          repository: IcePanel/ice-dev-docs
