@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://schema.buildwithfern.dev/docs-yml.json
+
+instances:
+- url: icepanel.docs.buildwithfern.com
+  custom-domain: developer.icepanel.io
+
+title: IcePanel Developer Docs
+favicon: assets/favicon.svg
+default-language: typescript
+
+experimental:
+  ai-examples: false
+
+logo: 
+  href: /
+  dark: assets/logo-dark.svg
+  light: assets/logo-light.svg
+  height: 36
+
+colors:
+  accent-primary:
+    light: "#346DDB"
+    dark: "#346DDB"
+  background:
+    light: "#f3f4f6" 
+    dark: "#1b1d20"
+
+typography:
+  headingsFont:
+    name: IBM Plex Sans
+    paths: 
+      - path: fonts/IBMPlexSans-Bold.ttf
+        weight: 700
+        style: normal
+  bodyFont:
+    name: IBM Plex Sans
+    path: fonts/IBMPlexSans-Regular.ttf
+    style: normal
+
+navigation:
+  - section: Introduction
+    contents:
+      - page: Getting Started
+        path: ./introduction/getting-started.mdx
+      - page: Guides
+        path: ./introduction/guides.mdx
+      - page: Use Cases
+        path: ./introduction/use-cases.mdx
+      - page: Rate Limits
+        path: ./introduction/rate-limits.mdx
+  - api: API Reference
+    snippets:
+      typescript: '@icepanel/sdk'
+      java: 'com.icepanel:sdk'
+    audiences:
+      - public
+
+navbar-links:                       
+  - type: filled
+    text: "Sign up"
+    href: "https://app.icepanel.io/user/sign-up"
+  - type: minimal 
+    text: "Log in"
+    href: "https://app.icepanel.io"
+
+settings:
+  http-snippets:
+    - csharp
+    - curl
+    - go
+    - python

@@ -1,0 +1,7 @@
+We apply the following rate limits to our REST API which are the same for all environments.
+
+| Endpoints | Methods     | Limit |
+| -------- | -------- | ------- |
+| `/user/*` | `POST` | 10 per minute |
+| `/*` | `GET` `HEAD` | 2,400 per minute  |
+| `/*` | `POST` `PUT` `PATCH` `DELETE` | 60 per minute |

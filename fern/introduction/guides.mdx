@@ -1,0 +1,36 @@
+## Synchronize IcePanel objects with external resources
+
+If you have objects in IcePanel that also live in other systems/platforms/cloud providers you may want synchronize properties between these systems. For example you could synchronize external links to a resource from your IcePanel model.
+
+To do this, we recommend using a script to populate/synchronize properties in IcePanel.
+
+### Configure labels on the resource
+
+First, use the labels property to store the identifier of your external resource in the IcePanel object.
+
+```
+curl -X PATCH https://api.icepanel.io/v1/landscapes/{landscapeId}/versions/latest/model/objects/{modelObjectId} \
+  -H 'Content-Type: application/json' \
+  -H 'X-API-Key {apiKey}' \
+  -d '{"labels": {"cloudId": "xxxxxxxxxx"}}'
+```
+
+Labels are only for use in the IcePanel API and are not available on the UI.
+
+### Use labels to update the resource
+
+Once each object has the `cloudId` label assigned you can use that field to reverse lookup the coresponding IcePanel object.
+
+```
+curl -g 'https://api.icepanel.io/v1/landscapes/{landscapeId}/versions/latest/model/objects?filter[labels][cloudId]=xxxxxxxxxx' \
+  -H 'X-API-Key {apiKey}'
+```
+
+Once the object has been retrieved, you can use the update endpoint to upsert the link URL to the resource, optionally specifying a friendly name for the UI.
+
+```
+curl -X PATCH https://api.icepanel.io/v1/landscapes/{landscapeId}/versions/latest/model/objects/{modelObjectId} \
+  -H 'Content-Type: application/json' \
+  -H 'X-API-Key {apiKey}' \
+  -d '{"links": {"$add": { "xxxxxxxxxx": { "customName": "Cloud Resource", "url": "https://console.cloud.google.com/run" } } } }'
+```

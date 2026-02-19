@@ -1,0 +1,14 @@
+{
+  "name": "@icepanel/ice-dev-docs",
+  "version": "0.0.0",
+  "repository": "git@github.com:IcePanel/ice-platform.git",
+  "author": "Victor Leach <victor@icepanel.io>",
+  "scripts": {
+    "check": "fern check",
+    "dev": "fern docs dev",
+    "release": "fern generate --docs"
+  },
+  "devDependencies": {
+    "fern-api": "^3.24.1"
+  }
+}
