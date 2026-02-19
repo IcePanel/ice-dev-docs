@@ -6,6 +6,7 @@
   "scripts": {
     "check": "fern check",
     "dev": "fern docs dev",
+    "upgrade": "fern upgrade",
     "release": "fern generate --docs"
   },
   "devDependencies": {
