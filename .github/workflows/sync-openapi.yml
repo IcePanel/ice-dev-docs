@@ -17,3 +17,4 @@ jobs:
         with:
           branch: main
           auto_merge: true
+          token: ${{ secrets.GITHUB_TOKEN }}
