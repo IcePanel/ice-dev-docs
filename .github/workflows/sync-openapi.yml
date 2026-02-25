@@ -16,7 +16,7 @@ jobs:
       - uses: fern-api/sync-openapi@v2
         with:
           branch: main
-          auto_merge: true
+          auto_merge: false
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: IcePanel/ice-dev-docs
           update_from_source: true
