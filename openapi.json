@@ -25100,7 +25100,7 @@
               "id": "object-2",
               "name": "System",
               "parentId": "object-1",
-              "type": "System"
+              "type": "system"
             },
             {
               "id": "object-3",
