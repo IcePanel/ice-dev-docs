@@ -1,0 +1,75 @@
+# Landscapes
+
+A landscape is the primary workspace in IcePanel. It holds a complete C4 architecture model including all objects, connections, diagrams, flows, and versions.
+
+---
+
+## What a landscape contains
+
+Each landscape is versioned. All models like objects, connections, diagrams, flows, and domains live inside a [version](/core-concepts/versions) of a landscape.
+
+When you create a landscape, IcePanel automatically creates an initial `latest` version that you can modify immediately.
+
+Create a landscape:
+
+<EndpointRequestSnippet endpoint="POST /organizations/{organizationId}/landscapes" />
+
+The response returns both the `landscape` and the initial `version` objects.
+
+List all landscapes in your organization:
+
+<EndpointRequestSnippet endpoint="GET /organizations/{organizationId}/landscapes" />
+
+---
+
+## URL patterns
+
+Landscape endpoints are available in two forms.
+
+**Organization-scoped** (includes org context, useful when you have the org ID in scope):
+```
+GET /organizations/{organizationId}/landscapes/{landscapeId}
+```
+
+**Landscape-scoped** (shorter, useful when you already know the landscape ID):
+```
+GET /landscapes/{landscapeId}
+```
+
+All version-scoped resources (model objects, diagrams, flows, etc.) use only the landscape-scoped pattern:
+```
+GET /landscapes/{landscapeId}/versions/{versionId}/model/objects
+```
+
+You can also specify `latest` as a shorthand for getting the latest version:
+
+```
+GET /landscapes/{landscapeId}/versions/latest/model/objects
+```
+
+---
+
+## Duplicate vs copy
+
+IcePanel provides two operations for replicating a landscape:
+
+| Operation | Description |
+| --- | --- |
+| **Duplicate** | Creates a full copy of the landscape within the same organization, including all versions and model content |
+| **Copy** | Copies the model content of a specific version into a different target landscape. This is useful for merging two models or seeding a new landscape from an existing one |
+
+Duplicate a landscape:
+
+<EndpointRequestSnippet endpoint="POST /landscapes/{landscapeId}/duplicate" />
+
+Copy to another landscape:
+
+<EndpointRequestSnippet endpoint="POST /landscapes/{landscapeId}/copy" />
+
+---
+
+## Related concepts
+
+- [Versions](/core-concepts/versions)
+- [Model Objects](/core-concepts/model-objects)
+- [Diagrams](/core-concepts/diagrams)

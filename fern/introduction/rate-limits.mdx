@@ -1,7 +1,23 @@
-We apply the following rate limits to our REST API which are the same for all environments.
+# Rate limits
 
-| Endpoints | Methods     | Limit |
-| -------- | -------- | ------- |
+We apply the following rate limits to our REST API. Limits are the same for all environments.
+
+| Endpoints | Methods | Limit |
+| --- | --- | --- |
 | `/user/*` | `POST` | 10 per minute |
-| `/*` | `GET` `HEAD` | 2,400 per minute  |
+| `/*` | `GET` `HEAD` | 2,400 per minute |
 | `/*` | `POST` `PUT` `PATCH` `DELETE` | 60 per minute |
+
+---
+
+## Handling rate limit errors
+
+When you exceed a limit, the API returns a `429 Too Many Requests` response with a JSON error body:
+
+```json
+{
+  "message": "Too Many Requests"
+}
+```
+
+Check the `Retry-After` response header to see how many seconds to wait before retrying.

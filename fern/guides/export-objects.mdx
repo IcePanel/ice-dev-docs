@@ -1,0 +1,47 @@
+# Export objects and relationships
+
+This guide shows how to export IcePanel model objects and relationships. Useful for scenarios like identifying a service's dependencies and ownership during incident response.
+
+IcePanel supports two formats:
+1. **CSV** for importing spreadsheets (does not support [Flows](/core-concepts/flows)).
+2. **JSON** for build pipelines, scripts, and automation (supports [Flows](/core-concepts/flows)).
+
+## Prerequisites
+
+- [IcePanel account](https://app.icepanel.io/user/sign-up)
+- [API key](https://app.icepanel.io)
+
+```bash
+export ICEPANEL_API_KEY='your-api-key'
+export ICEPANEL_ORGANIZATION_ID='your-organization-id'
+```
+
+## Export as CSV
+
+<Steps>
+  <Step title="Get your landscape">
+    Get all landscapes in your organization and select a landscape ID:
+
+    <EndpointRequestSnippet endpoint="GET /organizations/{organizationId}/landscapes" />
+
+    Note the `id` of the landscape:
+
+    ```bash
+    export ICEPANEL_LANDSCAPE_ID='your-landscape-id'
+    ```
+  </Step>
+
+  <Step title="Export model objects">
+    <EndpointRequestSnippet endpoint="GET /landscapes/{landscapeId}/versions/{versionId}/model/objects/export/csv" />
+  </Step>
+
+  <Step title="Export model connections">
+    <EndpointRequestSnippet endpoint="GET /landscapes/{landscapeId}/versions/{versionId}/model/connections/export/csv" />
+  </Step>
+</Steps>
+
+## Export as JSON
+
+Export the whole model as JSON which can be easily used as part of a build pipeline, script or automation. This also includes flows which the CSV export does not.
+
+<EndpointRequestSnippet endpoint="GET /landscapes/{landscapeId}/versions/{versionId}/model/objects/{modelObjectId}/dependencies/export/json" />

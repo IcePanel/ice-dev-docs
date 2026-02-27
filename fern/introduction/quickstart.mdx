@@ -1,0 +1,414 @@
+---
+title: Quickstart
+description: Make your first API call to IcePanel
+---
+
+In this example, we'll walk through IcePanel's data model by listing <Tooltip tip="Your primary workspace in IcePanel. It holds your architecture: objects, connections, diagrams, flows, and versions.">landscapes</Tooltip>, viewing <Tooltip tip="Actors, systems, services, and components that make up your software architecture.">model objects</Tooltip>, and finding their <Tooltip tip="Defined relationships between two model objects.">model connections</Tooltip>.
+
+## Prerequisites
+
+- [IcePanel account](https://app.icepanel.io/user/sign-up)
+- [API key](https://app.icepanel.io)
+
+## Call the API
+
+<Steps>
+  <Step title="Set your API key">
+    Go to **Profile settings** -> **API keys** -> **Create API key** and create a new key.
+
+    <Tip>
+      For future sessions, store it in a `~/.zshrc` or `~/.bashrc`
+      ```bash
+      export ICEPANEL_API_KEY='your-api-key'
+      ```
+      Then run `source ~/.zshrc` (or `~/.bashrc`) to apply immediately.
+    </Tip>
+  </Step>
+
+  <Step title="List your organizations">
+    This is the top-level model for access control. Landscapes and users belong to an organization.
+
+    <CodeBlocks>
+      ```typescript title="TypeScript"
+      import { IcePanelClient } from "@icepanel/sdk";
+
+      async function main() {
+          const client = new IcePanelClient({
+              apiKey: "your-api-key",
+              apiVersion: "v1",
+          });
+          const response = await client.organizations.list({});
+          console.log(response);
+      }
+      main();
+      ```
+
+      ```bash title="cURL"
+      curl "https://api.icepanel.io/v1/organizations" \
+        -H "X-API-Key: $ICEPANEL_API_KEY"
+      ```
+
+      ```python title="Python"
+      import requests
+
+      url = "https://api.icepanel.io/v1/organizations"
+      headers = {"X-API-Key": "your-api-key"}
+      response = requests.get(url, headers=headers)
+      print(response.json())
+      ```
+
+      ```csharp title="C#"
+      using RestSharp;
+
+      var client = new RestClient("https://api.icepanel.io/v1/organizations");
+      var request = new RestRequest();
+      request.AddHeader("X-API-Key", "your-api-key");
+      RestResponse response = client.Execute(request);
+      Console.WriteLine(response.Content);
+      ```
+
+      ```go title="Go"
+      package main
+
+      import (
+        "fmt"
+        "net/http"
+        "io"
+      )
+
+      func main() {
+        url := "https://api.icepanel.io/v1/organizations"
+
+        req, _ := http.NewRequest("GET", url, nil)
+        req.Header.Add("X-API-Key", "your-api-key")
+
+        res, _ := http.DefaultClient.Do(req)
+        defer res.Body.Close()
+        body, _ := io.ReadAll(res.Body)
+
+        fmt.Println(string(body))
+      }
+      ```
+
+      ```java title="Java"
+      package com.example.usage;
+
+      import com.icepanel.IcePanelClient;
+      import com.icepanel.types.OrganizationsListRequest;
+
+      public class Example {
+          public static void main(String[] args) {
+              IcePanelClient client = IcePanelClient
+                  .builder()
+                  .apiKey("your-api-key")
+                  .build();
+
+              var response = client.organizations().list(
+                  OrganizationsListRequest.builder().build()
+              );
+              System.out.println(response);
+          }
+      }
+      ```
+    </CodeBlocks>
+
+    Note the `id` field. This is your `organizationId`.
+  </Step>
+
+  <Step title="List your landscapes">
+    A workspace within an organization (like a repository).
+
+    <CodeBlocks>
+      ```typescript title="TypeScript"
+      import { IcePanelClient } from "@icepanel/sdk";
+
+      async function main() {
+          const client = new IcePanelClient({
+              apiKey: "your-api-key",
+              apiVersion: "v1",
+          });
+          const response = await client.organizations.landscapes.list({
+              organizationId: "organizationId"
+          });
+          console.log(response);
+      }
+      main();
+      ```
+
+      ```bash title="cURL"
+      curl "https://api.icepanel.io/v1/organizations/$ICEPANEL_ORGANIZATION_ID/landscapes" \
+        -H "X-API-Key: $ICEPANEL_API_KEY"
+      ```
+
+      ```python title="Python"
+      import requests
+
+      url = "https://api.icepanel.io/v1/organizations/organizationId/landscapes"
+      headers = {"X-API-Key": "your-api-key"}
+      response = requests.get(url, headers=headers)
+      print(response.json())
+      ```
+
+      ```csharp title="C#"
+      using RestSharp;
+
+      var client = new RestClient("https://api.icepanel.io/v1/organizations/organizationId/landscapes");
+      var request = new RestRequest();
+      request.AddHeader("X-API-Key", "your-api-key");
+      RestResponse response = client.Execute(request);
+      Console.WriteLine(response.Content);
+      ```
+
+      ```go title="Go"
+      package main
+
+      import (
+        "fmt"
+        "net/http"
+        "io"
+      )
+
+      func main() {
+        url := "https://api.icepanel.io/v1/organizations/organizationId/landscapes"
+
+        req, _ := http.NewRequest("GET", url, nil)
+        req.Header.Add("X-API-Key", "your-api-key")
+
+        res, _ := http.DefaultClient.Do(req)
+        defer res.Body.Close()
+        body, _ := io.ReadAll(res.Body)
+
+        fmt.Println(string(body))
+      }
+      ```
+
+      ```java title="Java"
+      package com.example.usage;
+
+      import com.icepanel.IcePanelClient;
+      import com.icepanel.organizations.types.OrganizationLandscapesListRequest;
+
+      public class Example {
+          public static void main(String[] args) {
+              IcePanelClient client = IcePanelClient
+                  .builder()
+                  .apiKey("your-api-key")
+                  .build();
+
+              var response = client.organizations().landscapes().list(
+                  OrganizationLandscapesListRequest.builder()
+                      .organizationId("organizationId")
+                      .build()
+              );
+              System.out.println(response);
+          }
+      }
+      ```
+    </CodeBlocks>
+
+    Note the `id` field. This is your `landscapeId`.
+  </Step>
+
+  <Step title="List model objects">
+    An object within your landscape. It can be a `system`, `app`, `component`, `store`, `actor`, `group`, or `root`.
+
+    <CodeBlocks>
+      ```typescript title="TypeScript"
+      import { IcePanelClient } from "@icepanel/sdk";
+
+      async function main() {
+          const client = new IcePanelClient({
+              apiKey: "your-api-key",
+              apiVersion: "v1",
+          });
+          const response = await client.model.objects.list({
+              landscapeId: "landscapeId",
+              versionId: "latest"
+          });
+          console.log(response);
+      }
+      main();
+      ```
+
+      ```bash title="cURL"
+      curl "https://api.icepanel.io/v1/landscapes/$ICEPANEL_LANDSCAPE_ID/versions/latest/model/objects" \
+        -H "X-API-Key: $ICEPANEL_API_KEY"
+      ```
+
+      ```python title="Python"
+      import requests
+
+      url = "https://api.icepanel.io/v1/landscapes/landscapeId/versions/latest/model/objects"
+      headers = {"X-API-Key": "your-api-key"}
+      response = requests.get(url, headers=headers)
+      print(response.json())
+      ```
+
+      ```csharp title="C#"
+      using RestSharp;
+
+      var client = new RestClient("https://api.icepanel.io/v1/landscapes/landscapeId/versions/latest/model/objects");
+      var request = new RestRequest();
+      request.AddHeader("X-API-Key", "your-api-key");
+      RestResponse response = client.Execute(request);
+      Console.WriteLine(response.Content);
+      ```
+
+      ```go title="Go"
+      package main
+
+      import (
+        "fmt"
+        "net/http"
+        "io"
+      )
+
+      func main() {
+        url := "https://api.icepanel.io/v1/landscapes/landscapeId/versions/latest/model/objects"
+
+        req, _ := http.NewRequest("GET", url, nil)
+        req.Header.Add("X-API-Key", "your-api-key")
+
+        res, _ := http.DefaultClient.Do(req)
+        defer res.Body.Close()
+        body, _ := io.ReadAll(res.Body)
+
+        fmt.Println(string(body))
+      }
+      ```
+
+      ```java title="Java"
+      package com.example.usage;
+
+      import com.icepanel.IcePanelClient;
+      import com.icepanel.model.types.ModelObjectsListRequest;
+
+      public class Example {
+          public static void main(String[] args) {
+              IcePanelClient client = IcePanelClient
+                  .builder()
+                  .apiKey("your-api-key")
+                  .build();
+
+              var response = client.model().objects().list(
+                  ModelObjectsListRequest.builder()
+                      .landscapeId("landscapeId")
+                      .versionId("latest")
+                      .build()
+              );
+              System.out.println(response);
+          }
+      }
+      ```
+    </CodeBlocks>
+
+    Note the `id` of any object. This is your `modelObjectId`.
+  </Step>
+
+  <Step title="List model connections">
+    A defined relationship between two model objects. We'll list model connections where `originId = modelObjectId`.
+
+    <CodeBlocks>
+      ```typescript title="TypeScript"
+      import { IcePanelClient } from "@icepanel/sdk";
+
+      async function main() {
+          const client = new IcePanelClient({
+              apiKey: "your-api-key",
+              apiVersion: "v1",
+          });
+          const response = await client.model.connections.list({
+              landscapeId: "landscapeId",
+              versionId: "latest",
+              filter: { originId: "modelObjectId" }
+          });
+          console.log(response);
+      }
+      main();
+      ```
+
+      ```bash title="cURL"
+      curl --globoff "https://api.icepanel.io/v1/landscapes/$ICEPANEL_LANDSCAPE_ID/versions/latest/model/connections?filter[originId]=modelObjectId" \
+        -H "X-API-Key: $ICEPANEL_API_KEY"
+      ```
+
+      ```python title="Python"
+      import requests
+
+      url = "https://api.icepanel.io/v1/landscapes/landscapeId/versions/latest/model/connections"
+      params = {"filter[originId]": "modelObjectId"}
+      headers = {"X-API-Key": "your-api-key"}
+      response = requests.get(url, headers=headers, params=params)
+      print(response.json())
+      ```
+
+      ```csharp title="C#"
+      using RestSharp;
+
+      var client = new RestClient("https://api.icepanel.io/v1/landscapes/landscapeId/versions/latest/model/connections");
+      var request = new RestRequest();
+      request.AddHeader("X-API-Key", "your-api-key");
+      request.AddQueryParameter("filter[originId]", "modelObjectId");
+      RestResponse response = client.Execute(request);
+      Console.WriteLine(response.Content);
+      ```
+
+      ```go title="Go"
+      package main
+
+      import (
+        "fmt"
+        "net/http"
+        "io"
+      )
+
+      func main() {
+        url := "https://api.icepanel.io/v1/landscapes/landscapeId/versions/latest/model/connections?filter[originId]=modelObjectId"
+
+        req, _ := http.NewRequest("GET", url, nil)
+        req.Header.Add("X-API-Key", "your-api-key")
+
+        res, _ := http.DefaultClient.Do(req)
+        defer res.Body.Close()
+        body, _ := io.ReadAll(res.Body)
+
+        fmt.Println(string(body))
+      }
+      ```
+
+      ```java title="Java"
+      package com.example.usage;
+
+      import com.icepanel.IcePanelClient;
+      import com.icepanel.model.types.ModelConnectionsListRequest;
+      import com.icepanel.types.ModelConnectionFilter;
+
+      public class Example {
+          public static void main(String[] args) {
+              IcePanelClient client = IcePanelClient
+                  .builder()
+                  .apiKey("your-api-key")
+                  .build();
+
+              var response = client.model().connections().list(
+                  ModelConnectionsListRequest.builder()
+                      .landscapeId("landscapeId")
+                      .versionId("latest")
+                      .filter(ModelConnectionFilter.builder()
+                          .originId(ModelConnectionFilter.OriginId.of("modelObjectId"))
+                          .build())
+                      .build()
+              );
+              System.out.println(response);
+          }
+      }
+      ```
+    </CodeBlocks>
+  </Step>
+</Steps>
+
+## Next steps
+
+- [Create model objects](/developer-guide/how-to-guides/create-model-objects) Add new objects to your landscape.
+- [Core Concepts](/core-concepts/overview) Learn the IcePanel data model
+- [API Reference](/api-reference) Explore the IcePanel REST API

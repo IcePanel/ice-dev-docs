@@ -1,0 +1,68 @@
+# Versions
+
+IcePanel uses a versioning system to let you maintain a live working model while also capturing point-in-time snapshots for communication and history.
+
+---
+
+## The `latest` version
+
+Every [landscape](/core-concepts/landscapes) has a special version with the ID `latest`. This is the live version where you make changes through the IcePanel UI or the API.
+
+Use `latest` in any version-scoped endpoint:
+
+```
+GET /landscapes/{landscapeId}/versions/latest/model/objects
+POST /landscapes/{landscapeId}/versions/latest/model/objects
+```
+
+---
+
+## Version snapshots
+
+A version snapshot is an immutable copy of the model at a point in time. Snapshots are useful for:
+
+- Marking a release or milestone
+- Sharing a stable view of the architecture with stakeholders
+- Reverting to a known-good state
+
+Create a snapshot from the current state of `latest`:
+
+<EndpointRequestSnippet endpoint="POST /landscapes/{landscapeId}/versions" />
+
+Required fields:
+
+| Field | Description |
+| --- | --- |
+| `name` | Version name, e.g. `v2.4.0` or `Q3 2025` |
+| `notes` | Description of what changed in this version |
+| `modelHandleId` | The `handleId` of the root model object to snapshot |
+
+Once created, a snapshot version is read-only. Its ID is a system-generated string (not `latest`).
+
+List all versions for a landscape:
+
+<EndpointRequestSnippet endpoint="GET /landscapes/{landscapeId}/versions" />
+
+---
+
+## Version reverts
+
+Roll back a landscape to the state captured in a previous snapshot:
+
+<EndpointRequestSnippet endpoint="POST /landscapes/{landscapeId}/version/reverts" />
+
+Required fields:
+
+| Field | Description |
+| --- | --- |
+| `versionId` | The snapshot to revert to |
+| `notes` | Reason for the revert |
+
+A revert creates a new entry in the revert history and replaces the `latest` version with the snapshot state. The snapshot itself is not modified.
+
+---
+
+## Related concepts
+
+- [Landscapes](/core-concepts/landscapes)
+- [Model Objects](/core-concepts/model-objects)

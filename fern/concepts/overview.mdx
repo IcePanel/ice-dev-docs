@@ -1,0 +1,98 @@
+---
+title: Core Concepts
+description: Understand the IcePanel data model before building integrations
+---
+
+The IcePanel API is built around a set of concepts called the **Data Model** that you'll see throughout every endpoint.
+
+---
+
+## Key concepts
+
+**[Organization](/core-concepts/organizations)**
+The top-level model for access control. All landscapes and users belong to an organization.
+
+**[Landscape](/core-concepts/landscapes)**
+A self-contained model workspace (like a repository). An organization can have multiple landscapes for different products or teams.
+
+**[Version](/core-concepts/versions)**
+A snapshot of a landscape's model. The `latest` version is the live editable version. Numbered versions are immutable snapshots created at meaningful points in time. All model data is scoped to a version.
+
+**[Domain](/core-concepts/domains)**
+A bounded context that groups related model objects. Every model object belongs to exactly one domain.
+
+**[Model (Object)](/core-concepts/model-objects)**
+A node in the architecture graph. Can be a `system`, `app`, `component`, `store`, `actor`, `group`, or `root`. Objects form a parent–child hierarchy and can carry tags, technology associations, and custom labels.
+
+**[Model (Connection)](/core-concepts/model-connections)**
+A defined relationship between two model objects. Represents a dependency, data flow, or API call.
+
+**[Diagram](/core-concepts/diagrams)**
+A view onto the model. The underlying model objects and connections exist independently of any diagram.
+
+**[Flow](/core-concepts/flows)**
+A step-by-step sequence that traces a path through model objects and connections. Useful for documenting user journeys, request paths, or data flows.
+
+---
+
+## Data Model hierarchy
+
+```
+Organization
+├── Team
+└── Landscape
+    └── Version
+        ├── Domain
+        ├── Model (Object)
+        │   └── Model Objects Children (Recursive)
+        ├── Model (Connection)
+        ├── Flow
+        ├── Comment
+        ├── Draft
+        └── Share Link
+```
+
+Everything beneath a version is **version-scoped**. When you read or write model objects, connections, diagrams, flows, tags, or domains, you always specify both a `landscapeId` and a `versionId`:
+
+```
+/landscapes/{landscapeId}/versions/{versionId}/model/objects
+/landscapes/{landscapeId}/versions/{versionId}/diagrams
+/landscapes/{landscapeId}/versions/{versionId}/flows
+```
+
+Use `latest` to select the live editable version. Use a version ID (e.g. `xqD4yXmqukb1LKaMAAUL`) to select an immutable snapshot.
+
+---
+
+## What to learn next
+
+<Cards>
+  <Card
+    title="Organizations"
+    icon="building"
+    href="/core-concepts/organizations"
+  >
+    Where all landscapes and users belong to an organization.
+  </Card>
+  <Card
+    title="Landscapes"
+    icon="map"
+    href="/core-concepts/landscapes"
+  >
+    Your C4 model workspace. Create, duplicate, and manage landscapes across your organization.
+  </Card>
+  <Card
+    title="Versions"
+    icon="clock-rotate-left"
+    href="/core-concepts/versions"
+  >
+    Snapshots and the live `latest` version. Understand how version scoping works across the API.
+  </Card>
+  <Card
+    title="Domains"
+    icon="cubes"
+    href="/core-concepts/domains"
+  >
+    Bounded contexts that group model objects.
+  </Card>
+</Cards>

@@ -1,0 +1,93 @@
+# Model Objects
+
+Model objects are the nodes in your architecture graph. They represent the actors, systems, services, and components that make up your software architecture.
+
+---
+
+## Object types
+
+IcePanel uses the <Tooltip tip="Framework for visualising software architecture through four levels of abstraction: Context, Containers, Components, and Code">C4 model</Tooltip>'s levels of abstraction. Each object type maps to a C4 level:
+
+| Type | C4 Level | Description |
+| --- | --- | --- |
+| `root` | — | The root node of every [domain](/core-concepts/domains). There is exactly one per domain. All top-level systems and actors are children of the root. |
+| `actor` | Level 1 | A person or external role that interacts with your architecture (e.g. "Customer", "Admin") |
+| `system` | Level 1 | A top-level software system (e.g. "IcePanel") |
+| `group` | Level 1 | A visual grouping (e.g. "Worker Pool", "Subnet") |
+| `app` | Level 2 | A deployable unit (container) inside a system: a service, web app, mobile app, or queue |
+| `store` | Level 2 | A persistent data store inside a system: a database, blob store, or cache |
+| `component` | Level 3 | An internal building block inside an `app` or `store` |
+
+---
+
+## The parent–child hierarchy
+
+Model objects form a tree. Every object except `root` has a `parentId` pointing to its parent:
+
+```
+root
+├── actor: Customer
+├── system: Payment Service
+│   ├── app: API Gateway
+│   │   ├── component: Auth Middleware
+│   │   └── component: Rate Limiter
+│   ├── app: Payment Processor
+│   └── store: Transactions DB
+└── system: Auth Platform (external)
+```
+
+---
+
+## Creating objects
+
+To create a new object, specify the `landscapeId` and either the `versionId` or `latest`:
+<EndpointRequestSnippet endpoint="POST /landscapes/{landscapeId}/versions/{versionId}/model/objects" />
+
+---
+
+## Filtering objects
+
+To find the root object (required as `parentId` when creating top-level objects), use the query parameter `?filter[type]=root`
+
+<EndpointRequestSnippet endpoint="GET /landscapes/{landscapeId}/versions/{versionId}/model/objects" />
+
+The `GET /model/objects` endpoint supports the following filters:
+
+| Query parameter | Description |
+| --- | --- |
+| `filter[type]` | Object type |
+| `filter[status]` | Status lifecycle value |
+| `filter[parentId]` | Direct parent ID |
+| `filter[domainId]` | Domain ID |
+| `filter[external]` | `true` / `false` |
+| `filter[tagIds][]` | One or more tag IDs |
+| `filter[teamIds][]` | One or more team IDs |
+| `filter[technologyIds][]` | One or more technology IDs |
+| `filter[labels][key]` | Label key-value pair |
+| `filter[name]` | Partial name match |
+| `filter[linked]` | `true` to return only objects with at least one link |
+
+---
+
+## Status lifecycle
+
+Objects and connections share a four-state lifecycle representing their architectural status:
+
+```
+live  →  deprecated  →  removed →  future
+```
+
+| Status | Description |
+| --- | --- |
+| `live` | Current, active element |
+| `future` | Planned but not yet built |
+| `deprecated` | Still in use but being phased out |
+| `removed` | Retired, kept for historical reference |
+
+Use the `filter[status]` query parameter to retrieve only objects with a given status.
+
+---
+
+## Related concepts
+
+- [Model Connections](/core-concepts/model-connections)

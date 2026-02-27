@@ -1,0 +1,23 @@
+# Diagrams
+
+Diagrams are C4 visualisations of your model. They are views onto the underlying model [objects](/core-concepts/model-objects) and [connections](/core-concepts/model-connections). The model data exists independently of any diagram, and the same object can appear in multiple diagrams.
+
+---
+
+## Diagram types
+
+Each diagram type maps to a C4 level of abstraction:
+
+| Type | C4 Level | Description |
+| --- | --- | --- |
+| `context-diagram` | Level 1 | Shows a `system` in the context of its actors and external systems |
+| `app-diagram` | Level 2 | Shows the `app` and `store` containers inside a `system` |
+| `component-diagram` | Level 3 | Shows the `component` objects inside an `app` or `store` |
+
+---
+
+## Related concepts
+
+- [Model Objects](/core-concepts/model-objects)
+- [Flows](/core-concepts/flows)
+- [Versions](/core-concepts/versions)

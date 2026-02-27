@@ -1,0 +1,47 @@
+# Model Connections
+
+Model connections are the edges of the <Tooltip tip="Actors, systems, services, and components that make up your software architecture.">model objects</Tooltip> in your architecture. They represent relationships, dependencies, API calls, data flows, or any meaningful interaction between two model objects.
+
+---
+
+## Creating connections
+
+<EndpointRequestSnippet endpoint="POST /landscapes/{landscapeId}/versions/{versionId}/model/connections" />
+
+---
+
+## Filtering connections
+
+The `GET /model/connections` endpoint supports filtering:
+
+| Query parameter | Description |
+| --- | --- |
+| `filter[originId]` | Connections starting from a specific object |
+| `filter[targetId]` | Connections ending at a specific object |
+| `filter[viaId]` | Connections passing through a specific object |
+| `filter[direction]` | `outgoing` or `bidirectional` |
+| `filter[status]` | Status lifecycle value |
+| `filter[tagIds][]` | One or more tag IDs |
+| `filter[technologyIds][]` | One or more technology IDs |
+| `filter[labels][key]` | Label key-value pair |
+| `filter[name]` | Partial name match |
+| `filter[linked]` | `true` to return only connections with at least one link |
+
+---
+
+## Status lifecycle
+
+Connections share the same four-state lifecycle as [model objects](/core-concepts/model-objects):
+
+| Status | Description |
+| --- | --- |
+| `live` | Active dependency or relationship |
+| `future` | Planned but not yet implemented |
+| `deprecated` | In use but being phased out |
+| `removed` | Retired, kept for historical reference |
+
+---
+
+## Related concepts
+
+- [Model Objects](/core-concepts/model-objects)

@@ -1,0 +1,34 @@
+# Domains
+
+Domains are named groupings that organise [model objects](/core-concepts/model-objects) into bounded contexts. They map closely to the <Tooltip tip="A software design approach that focuses on modeling software to match a domain. It divides a large system into bounded contexts, each of which have their own model.">Domain-Driven Design (DDD)</Tooltip>.
+
+---
+
+## What a domain is
+
+Every model object in a version belongs to exactly one domain. Domains provide a way to segment a large architecture either by business unit (e.g., `Payments`) or by team ownership (e.g., `platform`).
+
+---
+
+## Creating domains
+
+Create a domain in a version:
+
+<EndpointRequestSnippet endpoint="POST /landscapes/{landscapeId}/versions/{versionId}/domains" />
+
+---
+
+## Filtering model objects by domain
+
+Use the `GET` endpoint with query parameter `?filter[domainId]={domainId}` to filter objects.
+
+<EndpointRequestSnippet endpoint="GET /landscapes/{landscapeId}/versions/{versionId}/model/objects" />
+
+This is useful for extracting a bounded-context slice of the architecture for reports or external tools.
+
+---
+
+## Related concepts
+
+- [Model Objects](/core-concepts/model-objects)
+- [Model Connections](/core-concepts/model-connections)
