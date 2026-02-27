@@ -1,0 +1,43 @@
+# Update descriptions with Markdown
+
+Use the existing Markdown documentation stored in a code repository to populate the descriptions of your IcePanel model objects and connections. This can be automatically updated as part of a build pipeline.
+
+## Prerequisites
+
+- [IcePanel account](https://app.icepanel.io/user/sign-up)
+- [API key](https://app.icepanel.io)
+
+```bash
+export ICEPANEL_API_KEY='your-api-key'
+export ICEPANEL_ORGANIZATION_ID='your-organization-id'
+```
+
+## Steps
+
+<Steps>
+  <Step title="Get your landscape">
+    Get all landscapes in your organization and select a landscape ID:
+
+    <EndpointRequestSnippet endpoint="GET /organizations/{organizationId}/landscapes" />
+
+    Note the `id` of the landscape:
+
+    ```bash
+    export ICEPANEL_LANDSCAPE_ID='your-landscape-id'
+    ```
+  </Step>
+
+  <Step title="Find the object to update">
+    List all model objects in a landscape:
+
+    <EndpointRequestSnippet endpoint="GET /landscapes/{landscapeId}/versions/{versionId}/model/objects" />
+
+    Note the `id` of the object you want to update.
+  </Step>
+
+  <Step title="Update the description">
+    Patch the model object with your Markdown description. Replace `modelObjectId` with the object's `id`.
+
+    <EndpointRequestSnippet endpoint="PATCH /landscapes/{landscapeId}/versions/{versionId}/model/objects/{modelObjectId}" />
+  </Step>
+</Steps>

@@ -1,0 +1,60 @@
+---
+title: Create model objects
+description: Add new objects to your landscape.
+---
+
+This guide shows how to create new objects in your landscape model. Useful for automatically filling out your model from another source.
+
+## Prerequisites
+
+- [IcePanel account](https://app.icepanel.io/user/sign-up)
+- [API key](https://app.icepanel.io)
+
+```bash
+export ICEPANEL_API_KEY='your-api-key'
+export ICEPANEL_ORGANIZATION_ID='your-organization-id'
+```
+
+## Steps
+
+<Steps>
+  <Step title="Get your landscape">
+    Get all landscapes in your organization and select a landscape ID:
+
+    <EndpointRequestSnippet endpoint="GET /organizations/{organizationId}/landscapes" />
+
+    Note the `id` of the landscape:
+
+    ```bash
+    export ICEPANEL_LANDSCAPE_ID='your-landscape-id'
+    ```
+  </Step>
+
+  <Step title="Find the root object">
+      Call a `GET` request with query parameter `?filter[type]=root` to find the root model object. Your landscape may have multiple root model objects if you use domains.
+
+    <EndpointRequestSnippet endpoint="GET /landscapes/{landscapeId}/versions/{versionId}/model/objects" />
+
+    Note the `id` from the response. This is the `parentId` for any top-level objects you create.
+  </Step>
+
+  <Step title="Create an object">
+    Create a new model object as a child of the root:
+
+    <EndpointRequestSnippet endpoint="POST /landscapes/{landscapeId}/versions/{versionId}/model/objects" />
+  </Step>
+</Steps>
+
+Below is a list of different objects you can create.
+
+### Object types
+
+| Type | Description |
+| --- | --- |
+| `root` | A root object of a landscape. |
+| `system` | A top-level system or bounded context |
+| `app` | An application or service within a system |
+| `component` | A component within an app |
+| `store` | A data store (database, queue, cache) |
+| `actor` | An external user, team, or system |
+| `group` | A logical grouping within a diagram |

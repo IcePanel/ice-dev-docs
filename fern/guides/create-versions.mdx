@@ -1,0 +1,33 @@
+# Create landscape versions
+
+Version your landscape and create a snapshot in time on your version timeline. This can be run automatically as part of a build or release pipeline.
+
+## Prerequisites
+
+- [IcePanel account](https://app.icepanel.io/user/sign-up)
+- [API key](https://app.icepanel.io)
+
+```bash
+export ICEPANEL_API_KEY='your-api-key'
+export ICEPANEL_ORGANIZATION_ID='your-organization-id'
+```
+
+## Steps
+
+<Steps>
+  <Step title="Get your landscape">
+    Get all landscapes in your organization and select a landscape ID:
+
+    <EndpointRequestSnippet endpoint="GET /organizations/{organizationId}/landscapes" />
+
+    Note the `id` of the landscape:
+
+    ```bash
+    export ICEPANEL_LANDSCAPE_ID='your-landscape-id'
+    ```
+  </Step>
+
+  <Step title="Create a version">
+    <EndpointRequestSnippet endpoint="POST /landscapes/{landscapeId}/versions" />
+  </Step>
+</Steps>

@@ -11,7 +11,7 @@ default-language: typescript
 experimental:
   ai-examples: false
 
-logo: 
+logo:
   href: /
   dark: assets/logo-dark.svg
   light: assets/logo-light.svg
@@ -22,13 +22,13 @@ colors:
     light: "#346DDB"
     dark: "#346DDB"
   background:
-    light: "#f3f4f6" 
+    light: "#f3f4f6"
     dark: "#1b1d20"
 
 typography:
   headingsFont:
     name: IBM Plex Sans
-    paths: 
+    paths:
       - path: fonts/IBMPlexSans-Bold.ttf
         weight: 700
         style: normal
@@ -37,29 +37,75 @@ typography:
     path: fonts/IBMPlexSans-Regular.ttf
     style: normal
 
-navigation:
-  - section: Introduction
-    contents:
-      - page: Getting Started
-        path: ./introduction/getting-started.mdx
-      - page: Guides
-        path: ./introduction/guides.mdx
-      - page: Use Cases
-        path: ./introduction/use-cases.mdx
-      - page: Rate Limits
-        path: ./introduction/rate-limits.mdx
-  - api: API Reference
-    snippets:
-      typescript: '@icepanel/sdk'
-      java: 'com.icepanel:sdk'
-    audiences:
-      - public
+tabs:
+  developer_guide:
+    display-name: Developer Guide
+    icon: book
+  core_concepts:
+    display-name: Core Concepts
+    icon: sitemap
+  api_reference:
+    display-name: API Reference
+    icon: puzzle
 
-navbar-links:                       
+navigation:
+  - tab: developer_guide
+    layout:
+      - section: Getting Started
+        contents:
+          - page: Introduction
+            path: ./introduction/what-is-icepanel.mdx
+          - page: Quickstart
+            path: ./introduction/quickstart.mdx
+          - page: Rate limits
+            path: ./introduction/rate-limits.mdx
+
+      - section: How-to Guides
+        contents:
+          - page: Create model objects
+            path: ./guides/create-objects.mdx
+          - page: Export objects and relationships
+            path: ./guides/export-objects.mdx
+          - page: Update model descriptions
+            path: ./guides/update-descriptions.mdx
+          - page: Create landscape versions
+            path: ./guides/create-versions.mdx
+
+  - tab: core_concepts
+    layout:
+      - page: Overview
+        path: ./concepts/overview.mdx
+      - page: Organizations
+        path: ./concepts/organizations.mdx
+      - page: Landscapes
+        path: ./concepts/landscapes.mdx
+      - page: Versions
+        path: ./concepts/versions.mdx
+      - page: Domains
+        path: ./concepts/domains.mdx
+      - page: Model Objects
+        path: ./concepts/model-objects.mdx
+      - page: Model Connections
+        path: ./concepts/model-connections.mdx
+      - page: Diagrams
+        path: ./concepts/diagrams.mdx
+      - page: Flows
+        path: ./concepts/flows.mdx
+
+  - tab: api_reference
+    layout:
+      - api: API Reference
+        snippets:
+          typescript: '@icepanel/sdk'
+          java: 'com.icepanel:sdk'
+        audiences:
+          - public
+
+navbar-links:
   - type: filled
     text: "Sign up"
     href: "https://app.icepanel.io/user/sign-up"
-  - type: minimal 
+  - type: minimal
     text: "Log in"
     href: "https://app.icepanel.io"
 
