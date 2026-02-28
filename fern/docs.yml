@@ -95,6 +95,7 @@ navigation:
   - tab: api_reference
     layout:
       - api: API Reference
+        slug: ""
         snippets:
           typescript: '@icepanel/sdk'
           java: 'com.icepanel:sdk'
