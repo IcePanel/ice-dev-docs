@@ -2904,12 +2904,38 @@
           "bucketPath": {
             "type": "string"
           },
+          "modelConnectionCount": {
+            "type": "number"
+          },
+          "modelObjectCount": {
+            "type": "number"
+          },
+          "modelObjectTypeCount": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object"
+          },
+          "prune": {
+            "type": "boolean"
+          },
+          "tagCount": {
+            "type": "number"
+          },
+          "tagGroupCount": {
+            "type": "number"
+          },
           "versionId": {
             "type": "string"
           }
         },
         "required": [
           "bucketPath",
+          "modelConnectionCount",
+          "modelObjectCount",
+          "modelObjectTypeCount",
+          "tagCount",
+          "tagGroupCount",
           "versionId"
         ],
         "type": "object"
@@ -4532,6 +4558,277 @@
           }
         ]
       },
+      "ADRFilter": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ADRStatus"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ADRStatus"
+                },
+                "maxItems": 3,
+                "type": "array"
+              }
+            ]
+          }
+        },
+        "type": "object"
+      },
+      "ADRStatus": {
+        "enum": [
+          "accepted",
+          "draft",
+          "rejected"
+        ],
+        "type": "string"
+      },
+      "ADRStatusChange": {
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/AuthType"
+          },
+          "createdById": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ADRStatus"
+          }
+        },
+        "required": [
+          "status",
+          "createdAt",
+          "createdBy",
+          "createdById"
+        ],
+        "type": "object"
+      },
+      "ADRRelatedItemType": {
+        "enum": [
+          "adr",
+          "diagram",
+          "draft",
+          "link"
+        ],
+        "type": "string"
+      },
+      "ADRRelatedItem": {
+        "properties": {
+          "adrId": {
+            "type": "string"
+          },
+          "diagramId": {
+            "type": "string"
+          },
+          "draftId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "index": {
+            "type": "number"
+          },
+          "link": {
+            "$ref": "#/components/schemas/RealityLink"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ADRRelatedItemType"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "index"
+        ],
+        "type": "object"
+      },
+      "ADRPartial": {
+        "properties": {
+          "commit": {
+            "type": "number"
+          },
+          "description": {
+            "description": "The description of the ADR",
+            "type": "string"
+          },
+          "name": {
+            "description": "The name of the ADR",
+            "type": "string"
+          },
+          "relatedItems": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ADRRelatedItem"
+            },
+            "type": "object"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ADRStatus",
+            "description": "The status of the ADR"
+          },
+          "statusChanges": {
+            "items": {
+              "$ref": "#/components/schemas/ADRStatusChange"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "ADRRequired": {
+        "properties": {
+          "commit": {
+            "type": "number"
+          },
+          "description": {
+            "description": "The description of the ADR",
+            "type": "string"
+          },
+          "name": {
+            "description": "The name of the ADR",
+            "type": "string"
+          },
+          "relatedItems": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ADRRelatedItem"
+            },
+            "type": "object"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ADRStatus",
+            "description": "The status of the ADR"
+          },
+          "statusChanges": {
+            "items": {
+              "$ref": "#/components/schemas/ADRStatusChange"
+            },
+            "type": "array"
+          },
+          "handleId": {
+            "description": "The handle id of the ADR",
+            "type": "string"
+          }
+        },
+        "required": [
+          "handleId",
+          "name",
+          "status"
+        ],
+        "type": "object"
+      },
+      "ADR": {
+        "properties": {
+          "commit": {
+            "type": "number"
+          },
+          "description": {
+            "description": "The description of the ADR",
+            "type": "string"
+          },
+          "name": {
+            "description": "The name of the ADR",
+            "type": "string"
+          },
+          "relatedItems": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ADRRelatedItem"
+            },
+            "type": "object"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ADRStatus",
+            "description": "The status of the ADR"
+          },
+          "statusChanges": {
+            "items": {
+              "$ref": "#/components/schemas/ADRStatusChange"
+            },
+            "type": "array"
+          },
+          "handleId": {
+            "description": "The handle id of the ADR",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/AuthType"
+          },
+          "createdById": {
+            "type": "string"
+          },
+          "deletedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deletedBy": {
+            "$ref": "#/components/schemas/AuthType"
+          },
+          "deletedById": {
+            "type": "string"
+          },
+          "id": {
+            "description": "The id of the ADR",
+            "type": "string"
+          },
+          "landscapeId": {
+            "description": "The id of the landscape that the ADR belongs to",
+            "type": "string"
+          },
+          "latestEntityId": {
+            "type": "string"
+          },
+          "number": {
+            "description": "The incremental number of the ADR",
+            "type": "number"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/AuthType"
+          },
+          "updatedById": {
+            "type": "string"
+          },
+          "version": {
+            "type": "number"
+          },
+          "versionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "handleId",
+          "name",
+          "status",
+          "commit",
+          "createdAt",
+          "createdBy",
+          "createdById",
+          "id",
+          "number",
+          "landscapeId",
+          "updatedAt",
+          "updatedBy",
+          "updatedById",
+          "version",
+          "versionId"
+        ],
+        "type": "object"
+      },
       "ApiKeyPartial": {
         "properties": {
           "name": {
@@ -6144,6 +6441,20 @@
       },
       "CatalogTechnologyFilter": {
         "properties": {
+          "name": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 30,
+                "type": "array"
+              }
+            ]
+          },
           "provider": {
             "oneOf": [
               {
@@ -6153,6 +6464,7 @@
                 "items": {
                   "$ref": "#/components/schemas/CatalogProviderNullable"
                 },
+                "maxItems": 30,
                 "type": "array"
               }
             ]
@@ -6166,6 +6478,7 @@
                 "items": {
                   "$ref": "#/components/schemas/CatalogRestrictionNullable"
                 },
+                "maxItems": 30,
                 "type": "array"
               }
             ]
@@ -6179,6 +6492,7 @@
                 "items": {
                   "$ref": "#/components/schemas/CatalogTechnologyStatus"
                 },
+                "maxItems": 30,
                 "type": "array"
               }
             ]
@@ -6192,6 +6506,7 @@
                 "items": {
                   "$ref": "#/components/schemas/CatalogTechnologyTypeNullable"
                 },
+                "maxItems": 30,
                 "type": "array"
               }
             ]
@@ -11430,6 +11745,10 @@
           "landscapeId": {
             "type": "string"
           },
+          "prune": {
+            "description": "When enabled, entities that are missing from the import will be deleted.",
+            "type": "boolean"
+          },
           "status": {
             "$ref": "#/components/schemas/LandscapeImportStatus"
           },
@@ -15319,6 +15638,9 @@
       },
       "TaskType": {
         "enum": [
+          "adr-create",
+          "adr-delete",
+          "adr-update",
           "batch",
           "comment-create",
           "comment-delete",
@@ -15747,6 +16069,68 @@
           "type": {
             "enum": [
               "diagram-group-delete"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ],
+        "type": "object"
+      },
+      "TaskAdrCreate": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "props": {
+            "$ref": "#/components/schemas/ADRRequired"
+          },
+          "type": {
+            "enum": [
+              "adr-create"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "props",
+          "type"
+        ],
+        "type": "object"
+      },
+      "TaskAdrUpdate": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "props": {
+            "$ref": "#/components/schemas/ADRPartial"
+          },
+          "type": {
+            "enum": [
+              "adr-update"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "props",
+          "type"
+        ],
+        "type": "object"
+      },
+      "TaskAdrDelete": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "adr-delete"
             ],
             "type": "string"
           }
@@ -16288,6 +16672,15 @@
           },
           {
             "$ref": "#/components/schemas/TaskDiagramGroupDelete"
+          },
+          {
+            "$ref": "#/components/schemas/TaskAdrCreate"
+          },
+          {
+            "$ref": "#/components/schemas/TaskAdrUpdate"
+          },
+          {
+            "$ref": "#/components/schemas/TaskAdrDelete"
           },
           {
             "$ref": "#/components/schemas/TaskDraftCreate"
@@ -17066,6 +17459,9 @@
       "SocketClientEvents": {
         "allOf": [
           {
+            "$ref": "#/components/schemas/SocketClientAdrsEvents"
+          },
+          {
             "$ref": "#/components/schemas/SocketClientCommentEvents"
           },
           {
@@ -17100,6 +17496,9 @@
       "SocketServerEvents": {
         "allOf": [
           {
+            "$ref": "#/components/schemas/SocketServerAdrsEvents"
+          },
+          {
             "$ref": "#/components/schemas/SocketServerCommentEvents"
           },
           {
@@ -17130,6 +17529,319 @@
             "$ref": "#/components/schemas/SocketServerVersionEvents"
           }
         ]
+      },
+      "SocketClientAdrsListBody": {
+        "properties": {
+          "batchSize": {
+            "default": 1000,
+            "maximum": 10000,
+            "minimum": 1,
+            "type": "number"
+          },
+          "landscapeId": {
+            "type": "string"
+          },
+          "stream": {
+            "type": "boolean"
+          },
+          "versionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "landscapeId",
+          "versionId"
+        ],
+        "type": "object"
+      },
+      "SocketClientAdrsListReply": {
+        "properties": {
+          "adrs": {
+            "items": {
+              "$ref": "#/components/schemas/ADR"
+            },
+            "type": "array"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "adrs",
+          "requestId"
+        ],
+        "type": "object"
+      },
+      "SocketClientAdrsSubscribeBody": {
+        "properties": {
+          "initialValue": {
+            "type": "boolean"
+          },
+          "landscapeId": {
+            "type": "string"
+          },
+          "versionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "landscapeId",
+          "versionId"
+        ],
+        "type": "object"
+      },
+      "SocketClientAdrsSubscribeReply": {
+        "properties": {
+          "subscriptionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "subscriptionId"
+        ],
+        "type": "object"
+      },
+      "SocketClientAdrsUnsubscribeBody": {
+        "properties": {
+          "subscriptionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "subscriptionId"
+        ],
+        "type": "object"
+      },
+      "SocketClientAdrsEvents": {
+        "properties": {
+          "adrs-list": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketClientAdrsListBody"
+              },
+              "reply": {
+                "$ref": "#/components/schemas/SocketClientAdrsListReply"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "adrs-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketClientAdrsSubscribeBody"
+              },
+              "reply": {
+                "$ref": "#/components/schemas/SocketClientAdrsSubscribeReply"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "adrs-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketClientAdrsUnsubscribeBody"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "adrs-list",
+          "adrs-subscribe",
+          "adrs-unsubscribe"
+        ],
+        "type": "object"
+      },
+      "SocketServerAdrsListStreamBody": {
+        "properties": {
+          "adrs": {
+            "items": {
+              "$ref": "#/components/schemas/ADR"
+            },
+            "type": "array"
+          },
+          "lastBatch": {
+            "type": "boolean"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "adrs",
+          "lastBatch",
+          "requestId"
+        ],
+        "type": "object"
+      },
+      "SocketServerAdrInitialValueBody": {
+        "properties": {
+          "adrs": {
+            "items": {
+              "$ref": "#/components/schemas/ADR"
+            },
+            "type": "array"
+          },
+          "finalValue": {
+            "type": "boolean"
+          },
+          "subscriptionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "adrs",
+          "finalValue",
+          "subscriptionId"
+        ],
+        "type": "object"
+      },
+      "SocketServerAdrAddedBody": {
+        "properties": {
+          "adr": {
+            "$ref": "#/components/schemas/ADR"
+          },
+          "subscriptionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "adr",
+          "subscriptionId"
+        ],
+        "type": "object"
+      },
+      "SocketServerAdrModifiedBody": {
+        "properties": {
+          "adr": {
+            "$ref": "#/components/schemas/ADR"
+          },
+          "subscriptionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "adr",
+          "subscriptionId"
+        ],
+        "type": "object"
+      },
+      "SocketServerAdrRemovedBody": {
+        "properties": {
+          "adr": {
+            "$ref": "#/components/schemas/ADR"
+          },
+          "subscriptionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "adr",
+          "subscriptionId"
+        ],
+        "type": "object"
+      },
+      "SocketServerAdrsEvents": {
+        "properties": {
+          "adr-added": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketServerAdrAddedBody"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "adr-initial-value": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketServerAdrInitialValueBody"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "adr-modified": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketServerAdrModifiedBody"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "adr-removed": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketServerAdrRemovedBody"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "adrs-list-stream": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketServerAdrsListStreamBody"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "adr-added",
+          "adr-initial-value",
+          "adr-modified",
+          "adr-removed",
+          "adrs-list-stream"
+        ],
+        "type": "object"
       },
       "SocketClientCommentsListBody": {
         "properties": {
@@ -22185,6 +22897,9 @@
       "Partial": {
         "anyOf": [
           {
+            "$ref": "#/components/schemas/ADRPartial"
+          },
+          {
             "$ref": "#/components/schemas/ApiKeyPartial"
           },
           {
@@ -22297,6 +23012,9 @@
       "Required": {
         "anyOf": [
           {
+            "$ref": "#/components/schemas/ADRRequired"
+          },
+          {
             "$ref": "#/components/schemas/ApiKeyRequired"
           },
           {
@@ -22396,6 +23114,30 @@
       },
       "All": {
         "anyOf": [
+          {
+            "$ref": "#/components/schemas/ADR"
+          },
+          {
+            "$ref": "#/components/schemas/ADRFilter"
+          },
+          {
+            "$ref": "#/components/schemas/ADRPartial"
+          },
+          {
+            "$ref": "#/components/schemas/ADRRelatedItem"
+          },
+          {
+            "$ref": "#/components/schemas/ADRRelatedItemType"
+          },
+          {
+            "$ref": "#/components/schemas/ADRRequired"
+          },
+          {
+            "$ref": "#/components/schemas/ADRStatus"
+          },
+          {
+            "$ref": "#/components/schemas/ADRStatusChange"
+          },
           {
             "$ref": "#/components/schemas/AIDescriptionType"
           },
@@ -24029,6 +24771,24 @@
             "$ref": "#/components/schemas/ShareLinkStats"
           },
           {
+            "$ref": "#/components/schemas/SocketClientAdrsEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketClientAdrsListBody"
+          },
+          {
+            "$ref": "#/components/schemas/SocketClientAdrsListReply"
+          },
+          {
+            "$ref": "#/components/schemas/SocketClientAdrsSubscribeBody"
+          },
+          {
+            "$ref": "#/components/schemas/SocketClientAdrsSubscribeReply"
+          },
+          {
+            "$ref": "#/components/schemas/SocketClientAdrsUnsubscribeBody"
+          },
+          {
             "$ref": "#/components/schemas/SocketClientCommentEvents"
           },
           {
@@ -24279,6 +25039,24 @@
           },
           {
             "$ref": "#/components/schemas/SocketClientVersionsUnsubscribeBody"
+          },
+          {
+            "$ref": "#/components/schemas/SocketServerAdrAddedBody"
+          },
+          {
+            "$ref": "#/components/schemas/SocketServerAdrInitialValueBody"
+          },
+          {
+            "$ref": "#/components/schemas/SocketServerAdrModifiedBody"
+          },
+          {
+            "$ref": "#/components/schemas/SocketServerAdrRemovedBody"
+          },
+          {
+            "$ref": "#/components/schemas/SocketServerAdrsEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketServerAdrsListStreamBody"
           },
           {
             "$ref": "#/components/schemas/SocketServerCommentAddedBody"
@@ -24614,6 +25392,15 @@
             "$ref": "#/components/schemas/Task"
           },
           {
+            "$ref": "#/components/schemas/TaskAdrCreate"
+          },
+          {
+            "$ref": "#/components/schemas/TaskAdrDelete"
+          },
+          {
+            "$ref": "#/components/schemas/TaskAdrUpdate"
+          },
+          {
             "$ref": "#/components/schemas/TaskBatch"
           },
           {
@@ -24856,12 +25643,12 @@
       },
       "ImportIcon": {
         "properties": {
-          "catalogTechnologyId": {
+          "technologyId": {
             "type": "string"
           }
         },
         "required": [
-          "catalogTechnologyId"
+          "technologyId"
         ],
         "type": "object"
       },
@@ -24983,7 +25770,7 @@
             "type": "string"
           },
           "parentId": {
-            "description": "Parent model object ID, must follow the IcePanel hierarchy.\n\nDomain: parent must be null\n\nActor/System/Group: parent must be a domain\n\nApp/Store: parent must be a system\n\nComponent: parent must be an app or store",
+            "description": "Parent model object ID, must follow the IcePanel hierarchy.\n\nDomain: parent must be missing/null\n\nActor/System/Group: parent must be a domain\n\nApp/Store: parent must be a system\n\nComponent: parent must be an app or store",
             "nullable": true,
             "type": "string"
           },
@@ -25015,7 +25802,6 @@
         "required": [
           "id",
           "name",
-          "parentId",
           "type"
         ],
         "type": "object"
@@ -25082,15 +25868,14 @@
               "direction": "outgoing",
               "id": "connection-1",
               "name": "Connection",
-              "originId": "object-1",
-              "targetId": "object-2"
+              "originId": "object-2",
+              "targetId": "object-3"
             }
           ],
           "modelObjects": [
             {
               "id": "object-1",
               "name": "Domain",
-              "parentId": null,
               "type": "domain"
             },
             {
@@ -25140,6 +25925,10 @@
               "$ref": "#/components/schemas/ModelObjectImport"
             },
             "type": "array"
+          },
+          "namespace": {
+            "description": "The namespace of the import, used for seperate operations when using multiple import sources",
+            "type": "string"
           },
           "tagGroups": {
             "items": {
@@ -26687,6 +27476,22 @@
             "schema": {
               "type": "boolean"
             }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
           }
         ],
         "responses": {
@@ -26700,6 +27505,9 @@
                         "$ref": "#/components/schemas/CatalogTechnology"
                       },
                       "type": "array"
+                    },
+                    "nextCursor": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -26763,6 +27571,11 @@
           }
         },
         "summary": "List",
+        "x-fern-pagination": {
+          "cursor": "$request.cursor",
+          "next_cursor": "$response.nextCursor",
+          "results": "$response.catalogTechnologies"
+        },
         "x-fern-request-name": "CatalogTechnologiesListRequest",
         "x-fern-sdk-method-name": "list"
       }
@@ -36100,7 +36913,7 @@
             "description": "Internal Server"
           }
         },
-        "summary": "Create",
+        "summary": "Export",
         "x-fern-request-name": "LandscapeExportRequest",
         "x-fern-sdk-method-name": "create"
       }
@@ -36258,6 +37071,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "When enabled, entities that are missing from the import will be deleted.",
+            "in": "query",
+            "name": "prune",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -36265,6 +37087,11 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/LandscapeImportData"
+              }
+            },
+            "application/yaml": {
+              "schema": {
+                "type": "string"
               }
             }
           },
@@ -36288,6 +37115,16 @@
               }
             },
             "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Bad Request"
           },
           "401": {
             "content": {
@@ -36340,7 +37177,7 @@
             "description": "Internal Server"
           }
         },
-        "summary": "Create",
+        "summary": "Import",
         "x-fern-request-name": "LandscapeImportRequest",
         "x-fern-sdk-method-name": "create"
       }
