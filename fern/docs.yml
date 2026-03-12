@@ -62,6 +62,8 @@ navigation:
 
       - section: How-to Guides
         contents:
+          - page: Import landscapes
+            path: ./guides/import-diagrams.mdx
           - page: Create model objects
             path: ./guides/create-objects.mdx
           - page: Export objects and relationships
