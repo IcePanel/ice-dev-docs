@@ -1171,7 +1171,6 @@ tags:
 ```
 </Accordion>
 
-
 ## Prune option
 
 By default, data models that exist in IcePanel but are missing from your import file are left untouched. To have IcePanel **delete** models not present in the import file, add the `prune=true` query parameter.
@@ -1185,4 +1184,35 @@ curl -sf -X POST "https://api.icepanel.io/v1/landscapes/$ICEPANEL_LANDSCAPE_ID/v
   -H "X-API-Key: $ICEPANEL_API_KEY" \
   -H "Content-Type: application/yaml" \
   --data-binary @icepanel-landscape-import.yaml
+```
+
+## Namespace option
+
+A namespace is a label that groups models by their import source. You can add a `namespace` to your import file to separate models by import source. When used with `prune=true`, only models in the same namespace are deleted. Models from other namespaces are left untouched.
+
+This is useful for large organizations running multiple CI/CD pipelines from different repositories against the same landscape, with each pipeline managing its own models independently.
+
+You can set the namespace in your YAML file:
+
+```yaml
+# yaml-language-server: $schema=https://api.icepanel.io/v1/schemas/LandscapeImportData
+
+namespace: my-repo
+
+modelObjects:
+  - id: system-storefront
+    name: Storefront
+    type: system
+```
+
+Or pass it directly in the request body when using JSON:
+
+```bash
+curl -sf -X POST "https://api.icepanel.io/v1/landscapes/$ICEPANEL_LANDSCAPE_ID/versions/latest/import" \
+  -H "X-API-Key: $ICEPANEL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "namespace": "my-repo",
+    "modelObjects": [...]
+  }'
 ```
