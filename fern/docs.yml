@@ -72,6 +72,8 @@ navigation:
             path: ./guides/update-descriptions.mdx
           - page: Create landscape versions
             path: ./guides/create-versions.mdx
+          - page: Invite users
+            path: ./guides/invite-users.mdx
 
   - tab: core_concepts
     layout:
