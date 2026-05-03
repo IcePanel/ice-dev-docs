@@ -6,6 +6,8 @@
           "api-key-create",
           "api-key-delete",
           "api-key-update",
+          "oauth-consent-deny",
+          "oauth-consent-grant",
           "organization-create",
           "organization-delete",
           "organization-update",
@@ -91,6 +93,8 @@
           "api-key-create",
           "api-key-delete",
           "api-key-update",
+          "oauth-consent-deny",
+          "oauth-consent-grant",
           "organization-create",
           "organization-delete",
           "organization-update",
@@ -1432,6 +1436,9 @@
             "$ref": "#/components/schemas/ActionApiKey"
           },
           {
+            "$ref": "#/components/schemas/ActionOAuth"
+          },
+          {
             "$ref": "#/components/schemas/ActionOrganization"
           },
           {
@@ -1713,6 +1720,9 @@
             "$ref": "#/components/schemas/AuthType"
           },
           "performedByAuthProvider": {
+            "type": "string"
+          },
+          "performedByClientId": {
             "type": "string"
           },
           "performedById": {
@@ -3645,6 +3655,86 @@
           }
         ]
       },
+      "ActionOAuthConsentGrantProps": {
+        "properties": {
+          "clientName": {
+            "type": "string"
+          },
+          "landscapeId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "clientName",
+          "landscapeId"
+        ],
+        "type": "object"
+      },
+      "ActionOAuthConsentGrant": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "props": {
+            "$ref": "#/components/schemas/ActionOAuthConsentGrantProps"
+          },
+          "type": {
+            "enum": [
+              "oauth-consent-grant"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "props",
+          "type"
+        ],
+        "type": "object"
+      },
+      "ActionOAuthConsentDenyProps": {
+        "properties": {
+          "clientName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "clientName"
+        ],
+        "type": "object"
+      },
+      "ActionOAuthConsentDeny": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "props": {
+            "$ref": "#/components/schemas/ActionOAuthConsentDenyProps"
+          },
+          "type": {
+            "enum": [
+              "oauth-consent-deny"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "props",
+          "type"
+        ],
+        "type": "object"
+      },
+      "ActionOAuth": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ActionOAuthConsentDeny"
+          },
+          {
+            "$ref": "#/components/schemas/ActionOAuthConsentGrant"
+          }
+        ]
+      },
       "ActionOrganizationCreateContext": {
         "properties": {
           "name": {
@@ -4657,6 +4747,10 @@
           "commit": {
             "type": "number"
           },
+          "content": {
+            "description": "The markdown content of the ADR",
+            "type": "string"
+          },
           "description": {
             "description": "The description of the ADR",
             "type": "string"
@@ -4688,6 +4782,10 @@
         "properties": {
           "commit": {
             "type": "number"
+          },
+          "content": {
+            "description": "The markdown content of the ADR",
+            "type": "string"
           },
           "description": {
             "description": "The description of the ADR",
@@ -4729,6 +4827,10 @@
         "properties": {
           "commit": {
             "type": "number"
+          },
+          "content": {
+            "description": "The markdown content of the ADR",
+            "type": "string"
           },
           "description": {
             "description": "The description of the ADR",
@@ -6430,6 +6532,16 @@
         ],
         "type": "string"
       },
+      "CatalogTechnologyStatusNullable": {
+        "enum": [
+          "approved",
+          "pending-review",
+          "rejected",
+          null
+        ],
+        "nullable": true,
+        "type": "string"
+      },
       "CatalogTechnologyReviewRejectionReason": {
         "enum": [
           "duplicate",
@@ -6582,8 +6694,8 @@
             "type": "array"
           },
           "status": {
-            "$ref": "#/components/schemas/CatalogTechnologyStatus",
-            "description": "Current status of the technology, including pending review, approved, and rejected. Approved technologies are visible to all users."
+            "$ref": "#/components/schemas/CatalogTechnologyStatusNullable",
+            "description": "Current status of the technology, including pending review, approved, and rejected. Approved technologies are visible to all users. Set to null to make the technology private."
           },
           "type": {
             "$ref": "#/components/schemas/CatalogTechnologyTypeNullable",
@@ -6668,8 +6780,8 @@
             "type": "array"
           },
           "status": {
-            "$ref": "#/components/schemas/CatalogTechnologyStatus",
-            "description": "Current status of the technology, including pending review, approved, and rejected. Approved technologies are visible to all users."
+            "$ref": "#/components/schemas/CatalogTechnologyStatusNullable",
+            "description": "Current status of the technology, including pending review, approved, and rejected. Approved technologies are visible to all users. Set to null to make the technology private."
           },
           "type": {
             "$ref": "#/components/schemas/CatalogTechnologyTypeNullable",
@@ -6761,8 +6873,8 @@
             "type": "array"
           },
           "status": {
-            "$ref": "#/components/schemas/CatalogTechnologyStatus",
-            "description": "Current status of the technology, including pending review, approved, and rejected. Approved technologies are visible to all users."
+            "$ref": "#/components/schemas/CatalogTechnologyStatusNullable",
+            "description": "Current status of the technology, including pending review, approved, and rejected. Approved technologies are visible to all users. Set to null to make the technology private."
           },
           "type": {
             "$ref": "#/components/schemas/CatalogTechnologyTypeNullable",
@@ -8973,6 +9085,25 @@
         ],
         "type": "object"
       },
+      "DiagramContentGenerateDescriptionFilter": {
+        "properties": {
+          "modelObjectIds": {
+            "description": "Filter any objects with these model object ids, if not provided, all objects in the diagram will be included",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AIDescriptionType",
+            "description": "Type description to generate: \"caption\" or \"detailed\""
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
       "DiagramExportImageOptions": {
         "properties": {
           "draftId": {
@@ -9002,6 +9133,12 @@
               "type": "string"
             },
             "type": "array"
+          },
+          "maxWidth": {
+            "description": "Maximum pixel width for the exported PNG. The image will be scaled down if the diagram exceeds this width. Defaults to no limit (up to 10240px).",
+            "maximum": 10240,
+            "minimum": 100,
+            "type": "integer"
           },
           "pinIds": {
             "items": {
@@ -10838,6 +10975,9 @@
           },
           "id": {
             "type": "string"
+          },
+          "internal": {
+            "type": "boolean"
           },
           "name": {
             "type": "string"
@@ -13172,8 +13312,9 @@
       "ModelObjectExpandKey": {
         "enum": [
           "domain",
-          "technologies",
-          "tags"
+          "flows",
+          "tags",
+          "technologies"
         ],
         "type": "string"
       },
@@ -13186,6 +13327,13 @@
             "properties": {
               "domain": {
                 "$ref": "#/components/schemas/DomainExport"
+              },
+              "flowsExpanded": {
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/FlowExport"
+                },
+                "description": "Expanded flow exports keyed by flow ID.",
+                "type": "object"
               },
               "tags": {
                 "additionalProperties": {
@@ -13348,6 +13496,14 @@
         },
         "type": "object"
       },
+      "OrganizationAiModel": {
+        "enum": [
+          "gpt-5",
+          "gpt-5-mini",
+          "gpt-5-nano"
+        ],
+        "type": "string"
+      },
       "OrganizationPartial": {
         "properties": {
           "aiFeatures": {
@@ -13357,6 +13513,9 @@
             "default": true,
             "description": "Whether to enable all AI features for the organization",
             "type": "boolean"
+          },
+          "aiModel": {
+            "$ref": "#/components/schemas/OrganizationAiModel"
           },
           "billingCurrency": {
             "$ref": "#/components/schemas/OrganizationBillingCurrency"
@@ -13381,6 +13540,11 @@
           },
           "name": {
             "type": "string"
+          },
+          "oauthLandscapeWriteEnabled": {
+            "default": true,
+            "description": "Whether OAuth connections can make changes to landscape data",
+            "type": "boolean"
           },
           "shareLinkAuthDomains": {
             "items": {
@@ -13405,6 +13569,9 @@
             "description": "Whether to enable all AI features for the organization",
             "type": "boolean"
           },
+          "aiModel": {
+            "$ref": "#/components/schemas/OrganizationAiModel"
+          },
           "billingCurrency": {
             "$ref": "#/components/schemas/OrganizationBillingCurrency"
           },
@@ -13428,6 +13595,11 @@
           },
           "name": {
             "type": "string"
+          },
+          "oauthLandscapeWriteEnabled": {
+            "default": true,
+            "description": "Whether OAuth connections can make changes to landscape data",
+            "type": "boolean"
           },
           "shareLinkAuthDomains": {
             "items": {
@@ -13455,6 +13627,9 @@
             "description": "Whether to enable all AI features for the organization",
             "type": "boolean"
           },
+          "aiModel": {
+            "$ref": "#/components/schemas/OrganizationAiModel"
+          },
           "billingCurrency": {
             "$ref": "#/components/schemas/OrganizationBillingCurrency"
           },
@@ -13479,6 +13654,11 @@
           "name": {
             "type": "string"
           },
+          "oauthLandscapeWriteEnabled": {
+            "default": true,
+            "description": "Whether OAuth connections can make changes to landscape data",
+            "type": "boolean"
+          },
           "shareLinkAuthDomains": {
             "items": {
               "type": "string"
@@ -13497,6 +13677,9 @@
           },
           "billingCollectionMethod": {
             "$ref": "#/components/schemas/OrganizationCollectionMethod"
+          },
+          "billingMonthlyCost": {
+            "type": "number"
           },
           "billingPaymentMethod": {
             "type": "boolean"
@@ -13571,6 +13754,7 @@
           "createdById",
           "id",
           "lineShapeDefault",
+          "oauthLandscapeWriteEnabled",
           "plan",
           "seats",
           "shareLinkAuthDomains",
@@ -13807,6 +13991,9 @@
             "$ref": "#/components/schemas/AuthType"
           },
           "performedByAuthProvider": {
+            "type": "string"
+          },
+          "performedByClientId": {
             "type": "string"
           },
           "performedById": {
@@ -14416,11 +14603,13 @@
           "diagrams",
           "flows",
           "model-objects",
+          "model-viewer",
           "model-connections",
           "dependencies",
           "technologies",
           "diagram",
-          "flow"
+          "flow",
+          "adrs"
         ],
         "type": "string"
       },
@@ -14448,6 +14637,10 @@
       },
       "ShareLinkOptionsRequired": {
         "properties": {
+          "adrId": {
+            "nullable": true,
+            "type": "string"
+          },
           "connectionIds": {
             "items": {
               "type": "string"
@@ -14621,6 +14814,7 @@
           }
         },
         "required": [
+          "adrId",
           "connectionIds",
           "diagramId",
           "domainId",
@@ -14656,6 +14850,10 @@
       },
       "ShareLinkOptions": {
         "properties": {
+          "adrId": {
+            "nullable": true,
+            "type": "string"
+          },
           "connectionIds": {
             "items": {
               "type": "string"
@@ -14851,6 +15049,7 @@
           }
         },
         "required": [
+          "adrId",
           "connectionIds",
           "diagramId",
           "domainId",
@@ -17174,8 +17373,19 @@
         ],
         "type": "object"
       },
+      "OAuthScope": {
+        "enum": [
+          "landscape.read",
+          "landscape.write"
+        ],
+        "type": "string"
+      },
       "UserSession": {
         "properties": {
+          "clientId": {
+            "description": "Client ID for OAuth sessions",
+            "type": "string"
+          },
           "createdAt": {
             "format": "date-time",
             "type": "string"
@@ -17191,6 +17401,10 @@
             "description": "IP address of the client",
             "type": "string"
           },
+          "landscapeId": {
+            "description": "Landscape ID for OAuth sessions",
+            "type": "string"
+          },
           "providerId": {
             "description": "ID for the auth provider",
             "type": "string"
@@ -17198,6 +17412,12 @@
           "revokedAt": {
             "format": "date-time",
             "type": "string"
+          },
+          "scopes": {
+            "items": {
+              "$ref": "#/components/schemas/OAuthScope"
+            },
+            "type": "array"
           },
           "userAgent": {
             "type": "string"
@@ -23523,6 +23743,21 @@
             "$ref": "#/components/schemas/ActionModelObjectsExportProps"
           },
           {
+            "$ref": "#/components/schemas/ActionOAuth"
+          },
+          {
+            "$ref": "#/components/schemas/ActionOAuthConsentDeny"
+          },
+          {
+            "$ref": "#/components/schemas/ActionOAuthConsentDenyProps"
+          },
+          {
+            "$ref": "#/components/schemas/ActionOAuthConsentGrant"
+          },
+          {
+            "$ref": "#/components/schemas/ActionOAuthConsentGrantProps"
+          },
+          {
             "$ref": "#/components/schemas/ActionOrganization"
           },
           {
@@ -23877,6 +24112,9 @@
             "$ref": "#/components/schemas/CatalogTechnologyStatus"
           },
           {
+            "$ref": "#/components/schemas/CatalogTechnologyStatusNullable"
+          },
+          {
             "$ref": "#/components/schemas/CatalogTechnologyType"
           },
           {
@@ -23983,6 +24221,9 @@
           },
           {
             "$ref": "#/components/schemas/DiagramContent"
+          },
+          {
+            "$ref": "#/components/schemas/DiagramContentGenerateDescriptionFilter"
           },
           {
             "$ref": "#/components/schemas/DiagramContentPartial"
@@ -24525,6 +24766,9 @@
             "$ref": "#/components/schemas/ModelStatusType"
           },
           {
+            "$ref": "#/components/schemas/OAuthScope"
+          },
+          {
             "$ref": "#/components/schemas/Organization"
           },
           {
@@ -24535,6 +24779,9 @@
           },
           {
             "$ref": "#/components/schemas/OrganizationActionType"
+          },
+          {
+            "$ref": "#/components/schemas/OrganizationAiModel"
           },
           {
             "$ref": "#/components/schemas/OrganizationBillingCurrency"
@@ -25622,6 +25869,7 @@
         "type": "string"
       },
       "ImportLink": {
+        "additionalProperties": false,
         "properties": {
           "customName": {
             "description": "Friendly name for the link set by the user",
@@ -25642,6 +25890,7 @@
         "type": "object"
       },
       "ImportIcon": {
+        "additionalProperties": false,
         "properties": {
           "technologyId": {
             "type": "string"
@@ -25663,6 +25912,7 @@
         ]
       },
       "ModelConnectionImport": {
+        "additionalProperties": false,
         "properties": {
           "description": {
             "description": "Detailed description",
@@ -25729,6 +25979,7 @@
         "type": "object"
       },
       "ModelObjectImport": {
+        "additionalProperties": false,
         "properties": {
           "caption": {
             "description": "Display description",
@@ -25770,7 +26021,7 @@
             "type": "string"
           },
           "parentId": {
-            "description": "Parent model object ID, must follow the IcePanel hierarchy.\n\nDomain: parent must be missing/null\n\nActor/System/Group: parent must be a domain\n\nApp/Store: parent must be a system\n\nComponent: parent must be an app or store",
+            "description": "Parent model object ID, must follow the IcePanel hierarchy.\n\nDomain: parent must be missing/null\n\nActor/System: parent must be a domain\n\nGroup: parent must be a domain or another group\n\nApp/Store: parent must be a system\n\nComponent: parent must be an app or store",
             "nullable": true,
             "type": "string"
           },
@@ -25807,6 +26058,7 @@
         "type": "object"
       },
       "TagImport": {
+        "additionalProperties": false,
         "properties": {
           "color": {
             "$ref": "#/components/schemas/TagColor"
@@ -25837,6 +26089,7 @@
         "type": "object"
       },
       "TagGroupImport": {
+        "additionalProperties": false,
         "properties": {
           "icon": {
             "$ref": "#/components/schemas/TagGroupIcon"
@@ -25862,6 +26115,7 @@
         "type": "object"
       },
       "LandscapeImportData": {
+        "additionalProperties": false,
         "example": {
           "modelConnections": [
             {
@@ -26966,6 +27220,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -27071,6 +27335,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -27189,6 +27463,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -27296,6 +27580,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -27402,6 +27696,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -27658,7 +27962,14 @@
     },
     "/catalog/suggestion/brand": {
       "get": {
-        "security": [],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
         "tags": [
           "Catalog Technologies"
         ],
@@ -28106,6 +28417,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -28228,6 +28549,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -28349,6 +28680,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -28478,6 +28819,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -28619,6 +28970,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -28740,6 +29101,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -28866,6 +29237,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -28976,6 +29357,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -29085,6 +29476,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -29203,6 +29604,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -29332,6 +29743,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -29450,6 +29871,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -29547,16 +29978,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
-                  "type": {
-                    "$ref": "#/components/schemas/AIDescriptionType",
-                    "description": "Type of description to generate: \"caption\" for a short caption(50-70 characters), or \"detailed\" for a detailed description (max 2000 characters)"
-                  }
-                },
-                "required": [
-                  "type"
-                ],
-                "type": "object"
+                "$ref": "#/components/schemas/DiagramContentGenerateDescriptionFilter"
               }
             }
           },
@@ -29596,6 +30018,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -29717,6 +30149,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -29856,6 +30298,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -30006,6 +30458,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -30132,6 +30594,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -30244,6 +30716,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -30367,6 +30849,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -30567,6 +31059,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -30718,6 +31220,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "409": {
             "content": {
               "application/json": {
@@ -30828,6 +31340,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -30941,6 +31463,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -31064,6 +31596,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -31181,6 +31723,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -31394,6 +31946,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -31543,6 +32105,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -31669,6 +32241,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -31768,6 +32350,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -31886,6 +32478,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -32021,6 +32623,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -32142,6 +32754,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -32266,6 +32888,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -32379,6 +33011,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -32488,6 +33130,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -32602,6 +33254,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -32711,6 +33373,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -32831,6 +33503,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -33025,6 +33707,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -33173,6 +33865,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -33290,6 +33992,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -34513,6 +35225,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -34752,6 +35474,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -35232,6 +35964,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -35331,6 +36073,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -35455,6 +36207,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -35565,6 +36327,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -35665,6 +36437,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -35767,6 +36549,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -35868,6 +36660,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -35962,6 +36764,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -36054,6 +36866,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -36137,6 +36959,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -36250,6 +37082,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -36353,6 +37195,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -36523,6 +37375,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -36614,6 +37476,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -36738,6 +37610,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -36995,6 +37877,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -37260,6 +38152,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -37353,6 +38255,24 @@
               },
               "type": "array"
             }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "format": "id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "minimum": 1,
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -37366,6 +38286,9 @@
                         "$ref": "#/components/schemas/ModelConnectionExpanded"
                       },
                       "type": "array"
+                    },
+                    "nextCursor": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -37386,6 +38309,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -37419,6 +38352,11 @@
           }
         },
         "summary": "List",
+        "x-fern-pagination": {
+          "cursor": "$request.cursor",
+          "next_cursor": "$response.nextCursor",
+          "results": "$response.modelConnections"
+        },
         "x-fern-request-name": "ModelConnectionsListRequest",
         "x-fern-sdk-method-name": "list"
       },
@@ -37499,6 +38437,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -37633,6 +38581,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -37807,6 +38765,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -37956,6 +38924,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -38087,6 +39065,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -38184,6 +39172,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -38319,6 +39317,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -38412,6 +39420,24 @@
               },
               "type": "array"
             }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "format": "id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "minimum": 1,
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -38425,6 +39451,9 @@
                         "$ref": "#/components/schemas/ModelObjectExpanded"
                       },
                       "type": "array"
+                    },
+                    "nextCursor": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -38445,6 +39474,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -38478,6 +39517,11 @@
           }
         },
         "summary": "List",
+        "x-fern-pagination": {
+          "cursor": "$request.cursor",
+          "next_cursor": "$response.nextCursor",
+          "results": "$response.modelObjects"
+        },
         "x-fern-request-name": "ModelObjectsListRequest",
         "x-fern-sdk-method-name": "list"
       },
@@ -38693,6 +39737,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -38813,6 +39867,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -39090,6 +40154,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -39197,6 +40271,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -39295,6 +40379,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -39395,6 +40489,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -39517,6 +40621,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "422": {
             "content": {
               "application/json": {
@@ -39621,6 +40735,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -39724,6 +40848,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -39818,6 +40952,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -39942,6 +41086,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -40056,6 +41210,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -40209,6 +41373,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -40313,6 +41487,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -40881,6 +42065,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -41076,6 +42270,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -41273,6 +42477,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -41381,6 +42595,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -41486,6 +42710,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -41582,6 +42816,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -41685,6 +42929,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -41799,6 +43053,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -41899,6 +43163,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -42005,6 +43279,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -42132,6 +43416,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -42238,6 +43532,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -42364,6 +43668,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -42479,6 +43793,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -42588,6 +43912,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -42943,6 +44277,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -43059,6 +44403,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -43171,6 +44525,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -43295,6 +44659,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -43415,6 +44789,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -43547,6 +44931,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -43668,6 +45062,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -43781,6 +45185,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -43891,6 +45305,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -44000,6 +45424,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -44118,6 +45552,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -44247,6 +45691,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -44365,6 +45819,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -44461,6 +45925,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -44675,6 +46149,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -45221,6 +46705,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -45441,6 +46935,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -45554,6 +47058,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -45650,6 +47164,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -45875,6 +47399,16 @@
             },
             "description": "Unauthorized"
           },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -45984,6 +47518,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
@@ -46181,6 +47725,16 @@
               }
             },
             "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
           },
           "404": {
             "content": {
