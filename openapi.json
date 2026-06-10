@@ -1619,6 +1619,8 @@
             "type": "string"
           },
           "endAtId": {
+            "deprecated": true,
+            "description": "use cursor instead",
             "type": "string"
           },
           "endBeforeDate": {
@@ -1626,6 +1628,8 @@
             "type": "string"
           },
           "endBeforeId": {
+            "deprecated": true,
+            "description": "use cursor instead",
             "type": "string"
           },
           "includeActionsInContext": {
@@ -1676,6 +1680,8 @@
             "type": "string"
           },
           "startAfterId": {
+            "deprecated": true,
+            "description": "use cursor instead",
             "type": "string"
           },
           "startAtDate": {
@@ -1683,6 +1689,8 @@
             "type": "string"
           },
           "startAtId": {
+            "deprecated": true,
+            "description": "use cursor instead",
             "type": "string"
           }
         },
@@ -14154,6 +14162,8 @@
             "type": "string"
           },
           "endAtId": {
+            "deprecated": true,
+            "description": "use cursor instead",
             "type": "string"
           },
           "endBeforeDate": {
@@ -14161,6 +14171,8 @@
             "type": "string"
           },
           "endBeforeId": {
+            "deprecated": true,
+            "description": "use cursor instead",
             "type": "string"
           },
           "includeActionsInContext": {
@@ -14211,6 +14223,8 @@
             "type": "string"
           },
           "startAfterId": {
+            "deprecated": true,
+            "description": "use cursor instead",
             "type": "string"
           },
           "startAtDate": {
@@ -14218,6 +14232,8 @@
             "type": "string"
           },
           "startAtId": {
+            "deprecated": true,
+            "description": "use cursor instead",
             "type": "string"
           }
         },
@@ -17452,12 +17468,24 @@
           "c4ModelExperience": {
             "type": "string"
           },
+          "defaultDomainHandleIds": {
+            "additionalProperties": {
+              "format": "short-id",
+              "nullable": true,
+              "type": "string"
+            },
+            "description": "Map of landscape id to the default domain handle id for that landscape",
+            "nullable": true,
+            "type": "object"
+          },
           "defaultOrganizationId": {
+            "format": "id",
             "nullable": true,
             "type": "string"
           },
           "defaultOrganizationLandscapeIds": {
             "additionalProperties": {
+              "format": "id",
               "nullable": true,
               "type": "string"
             },
@@ -17496,12 +17524,24 @@
           "c4ModelExperience": {
             "type": "string"
           },
+          "defaultDomainHandleIds": {
+            "additionalProperties": {
+              "format": "short-id",
+              "nullable": true,
+              "type": "string"
+            },
+            "description": "Map of landscape id to the default domain handle id for that landscape",
+            "nullable": true,
+            "type": "object"
+          },
           "defaultOrganizationId": {
+            "format": "id",
             "nullable": true,
             "type": "string"
           },
           "defaultOrganizationLandscapeIds": {
             "additionalProperties": {
+              "format": "id",
               "nullable": true,
               "type": "string"
             },
@@ -17543,12 +17583,24 @@
           "c4ModelExperience": {
             "type": "string"
           },
+          "defaultDomainHandleIds": {
+            "additionalProperties": {
+              "format": "short-id",
+              "nullable": true,
+              "type": "string"
+            },
+            "description": "Map of landscape id to the default domain handle id for that landscape",
+            "nullable": true,
+            "type": "object"
+          },
           "defaultOrganizationId": {
+            "format": "id",
             "nullable": true,
             "type": "string"
           },
           "defaultOrganizationLandscapeIds": {
             "additionalProperties": {
+              "format": "id",
               "nullable": true,
               "type": "string"
             },
@@ -17597,6 +17649,7 @@
         "required": [
           "email",
           "createdAt",
+          "defaultDomainHandleIds",
           "defaultOrganizationId",
           "defaultOrganizationLandscapeIds",
           "id",
@@ -27725,6 +27778,14 @@
             "schema": {
               "$ref": "#/components/schemas/ActionLogFilter"
             }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -27738,6 +27799,9 @@
                         "$ref": "#/components/schemas/ActionLog"
                       },
                       "type": "array"
+                    },
+                    "nextCursor": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -27811,6 +27875,11 @@
           }
         },
         "summary": "List",
+        "x-fern-pagination": {
+          "cursor": "$request.cursor",
+          "next_cursor": "$response.nextCursor",
+          "results": "$response.actionLogs"
+        },
         "x-fern-request-name": "ActionLogsListRequest",
         "x-fern-sdk-method-name": "list"
       }
@@ -27836,6 +27905,7 @@
           "landscapes",
           "logs"
         ],
+        "deprecated": true,
         "description": "Find an action log",
         "operationId": "actionLogFind",
         "parameters": [
@@ -27937,6 +28007,7 @@
           }
         },
         "summary": "Get",
+        "x-fern-availability": "deprecated",
         "x-fern-request-name": "ActionLogFindRequest",
         "x-fern-sdk-method-name": "get"
       }
@@ -27988,6 +28059,14 @@
             "schema": {
               "$ref": "#/components/schemas/ActionLogFilter"
             }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -28001,6 +28080,9 @@
                         "$ref": "#/components/schemas/ActionLog"
                       },
                       "type": "array"
+                    },
+                    "nextCursor": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -28074,6 +28156,11 @@
           }
         },
         "summary": "List Children",
+        "x-fern-pagination": {
+          "cursor": "$request.cursor",
+          "next_cursor": "$response.nextCursor",
+          "results": "$response.actionLogs"
+        },
         "x-fern-request-name": "ActionLogChildrenListRequest",
         "x-fern-sdk-method-name": "listChildren"
       }
@@ -43814,6 +43901,14 @@
             "schema": {
               "$ref": "#/components/schemas/OrganizationLogFilter"
             }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -43822,6 +43917,9 @@
               "application/json": {
                 "schema": {
                   "properties": {
+                    "nextCursor": {
+                      "type": "string"
+                    },
                     "organizationLogs": {
                       "items": {
                         "$ref": "#/components/schemas/OrganizationLog"
@@ -43900,6 +43998,11 @@
           }
         },
         "summary": "List",
+        "x-fern-pagination": {
+          "cursor": "$request.cursor",
+          "next_cursor": "$response.nextCursor",
+          "results": "$response.organizationLogs"
+        },
         "x-fern-request-name": "OrganizationLogsListRequest",
         "x-fern-sdk-method-name": "list"
       }
@@ -43925,6 +44028,7 @@
           "organizations",
           "logs"
         ],
+        "deprecated": true,
         "description": "Find an organization log (only available on the scale plan and above)",
         "operationId": "organizationLogFind",
         "parameters": [
@@ -44026,6 +44130,7 @@
           }
         },
         "summary": "Get",
+        "x-fern-availability": "deprecated",
         "x-fern-request-name": "OrganizationLogFindRequest",
         "x-fern-sdk-method-name": "get"
       }
