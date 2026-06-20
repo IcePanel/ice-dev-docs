@@ -9198,6 +9198,16 @@
         ],
         "type": "object"
       },
+      "DiagramContentNullable": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/DiagramContent"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
       "DiagramContentGenerateDescriptionFilter": {
         "properties": {
           "modelObjectIds": {
@@ -13773,7 +13783,6 @@
             "$ref": "#/components/schemas/OrganizationAIFeatures"
           },
           "aiFeaturesEnabled": {
-            "default": true,
             "description": "Whether to enable all AI features for the organization",
             "type": "boolean"
           },
@@ -13807,7 +13816,6 @@
             "type": "string"
           },
           "oauthLandscapeWriteEnabled": {
-            "default": true,
             "description": "Whether OAuth connections can make changes to landscape data",
             "type": "boolean"
           },
@@ -13830,7 +13838,6 @@
             "$ref": "#/components/schemas/OrganizationAIFeatures"
           },
           "aiFeaturesEnabled": {
-            "default": true,
             "description": "Whether to enable all AI features for the organization",
             "type": "boolean"
           },
@@ -13864,7 +13871,6 @@
             "type": "string"
           },
           "oauthLandscapeWriteEnabled": {
-            "default": true,
             "description": "Whether OAuth connections can make changes to landscape data",
             "type": "boolean"
           },
@@ -13890,7 +13896,6 @@
             "$ref": "#/components/schemas/OrganizationAIFeatures"
           },
           "aiFeaturesEnabled": {
-            "default": true,
             "description": "Whether to enable all AI features for the organization",
             "type": "boolean"
           },
@@ -13924,7 +13929,6 @@
             "type": "string"
           },
           "oauthLandscapeWriteEnabled": {
-            "default": true,
             "description": "Whether OAuth connections can make changes to landscape data",
             "type": "boolean"
           },
@@ -18077,16 +18081,63 @@
         ],
         "type": "object"
       },
-      "WebhookEventType": {
+      "WebhookEventCollection": {
         "enum": [
-          "model-connection.create",
-          "model-connection.delete",
-          "model-connection.update",
-          "model-object.create",
-          "model-object.delete",
-          "model-object.update"
+          "model-connection",
+          "model-object"
         ],
         "type": "string"
+      },
+      "WebhookEventOperation": {
+        "enum": [
+          "created",
+          "deleted",
+          "updated"
+        ],
+        "type": "string"
+      },
+      "WebhookEventType": {
+        "enum": [
+          "model-connection:created",
+          "model-connection:deleted",
+          "model-connection:updated",
+          "model-object:created",
+          "model-object:deleted",
+          "model-object:updated"
+        ],
+        "type": "string"
+      },
+      "WebhookEvent": {
+        "properties": {
+          "collection": {
+            "$ref": "#/components/schemas/WebhookEventCollection"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "operation": {
+            "$ref": "#/components/schemas/WebhookEventOperation"
+          },
+          "organizationId": {
+            "type": "string"
+          },
+          "resourceId": {
+            "type": "string"
+          },
+          "subscriptionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "createdAt",
+          "operation",
+          "collection",
+          "organizationId",
+          "subscriptionId",
+          "resourceId"
+        ],
+        "type": "object"
       },
       "WebhookSubscriptionPartial": {
         "properties": {
@@ -18295,6 +18346,33 @@
             "$ref": "#/components/schemas/SocketServerVersionEvents"
           }
         ]
+      },
+      "SocketMessages": {
+        "properties": {
+          "DiagramContentBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageDiagramContentBroadcast"
+          },
+          "DiagramContentClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageDiagramContentClientSubscribe"
+          },
+          "DiagramContentClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageDiagramContentClientUnsubscribe"
+          }
+        },
+        "required": [
+          "DiagramContentBroadcast",
+          "DiagramContentClientSubscribe",
+          "DiagramContentClientUnsubscribe"
+        ],
+        "type": "object"
+      },
+      "SocketMessageType": {
+        "enum": [
+          "DiagramContentBroadcast",
+          "DiagramContentClientSubscribe",
+          "DiagramContentClientUnsubscribe"
+        ],
+        "type": "string"
       },
       "SocketClientAdrsListBody": {
         "properties": {
@@ -20143,6 +20221,174 @@
           "diagram-modified",
           "diagram-removed",
           "diagrams-list-stream"
+        ],
+        "type": "object"
+      },
+      "SocketDiagramContentClientSubscription": {
+        "properties": {
+          "diagramId": {
+            "format": "id",
+            "type": "string"
+          },
+          "landscapeId": {
+            "format": "id",
+            "type": "string"
+          },
+          "versionId": {
+            "format": "id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "landscapeId",
+          "versionId",
+          "diagramId"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramContentClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramContentClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketDiagramContentClientEventName": {
+        "enum": [
+          "diagram-content-subscribe",
+          "diagram-content-unsubscribe"
+        ],
+        "type": "string"
+      },
+      "SocketDiagramContentClientEvents": {
+        "properties": {
+          "diagram-content-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "diagram-content-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "diagram-content-subscribe",
+          "diagram-content-unsubscribe"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramContentBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "diagramContent": {
+                "$ref": "#/components/schemas/DiagramContent"
+              },
+              "id": {
+                "format": "id",
+                "type": "string"
+              },
+              "type": {
+                "$ref": "#/components/schemas/DocumentBroadcastType"
+              }
+            },
+            "required": [
+              "diagramContent",
+              "id",
+              "type"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketDiagramContentServerEventName": {
+        "enum": [
+          "diagram-content-broadcast"
+        ],
+        "type": "string"
+      },
+      "SocketDiagramContentServerEvents": {
+        "properties": {
+          "diagram-content-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "diagramContent": {
+                    "$ref": "#/components/schemas/DiagramContent"
+                  },
+                  "id": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "type": {
+                    "$ref": "#/components/schemas/DocumentBroadcastType"
+                  }
+                },
+                "required": [
+                  "diagramContent",
+                  "id",
+                  "type"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "diagram-content-broadcast"
         ],
         "type": "object"
       },
@@ -24775,6 +25021,9 @@
             "$ref": "#/components/schemas/DiagramContentGenerateDescriptionFilter"
           },
           {
+            "$ref": "#/components/schemas/DiagramContentNullable"
+          },
+          {
             "$ref": "#/components/schemas/DiagramContentPartial"
           },
           {
@@ -24857,6 +25106,9 @@
           },
           {
             "$ref": "#/components/schemas/DiagramZoomOverridesNullable"
+          },
+          {
+            "$ref": "#/components/schemas/DocumentBroadcastType"
           },
           {
             "$ref": "#/components/schemas/Domain"
@@ -25420,6 +25672,9 @@
             "$ref": "#/components/schemas/PubSubEditorTyping"
           },
           {
+            "$ref": "#/components/schemas/QueryBroadcastType"
+          },
+          {
             "$ref": "#/components/schemas/RealityConnector"
           },
           {
@@ -25838,6 +26093,36 @@
           },
           {
             "$ref": "#/components/schemas/SocketClientVersionsUnsubscribeBody"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDiagramContentClientEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDiagramContentClientEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDiagramContentServerEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDiagramContentServerEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageDiagramContentBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageDiagramContentClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageDiagramContentClientUnsubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageType"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessages"
           },
           {
             "$ref": "#/components/schemas/SocketServerAdrAddedBody"
@@ -26408,6 +26693,15 @@
           },
           {
             "$ref": "#/components/schemas/VersionUpdate"
+          },
+          {
+            "$ref": "#/components/schemas/WebhookEvent"
+          },
+          {
+            "$ref": "#/components/schemas/WebhookEventCollection"
+          },
+          {
+            "$ref": "#/components/schemas/WebhookEventOperation"
           },
           {
             "$ref": "#/components/schemas/WebhookEventType"
@@ -27708,6 +28002,24 @@
           "type"
         ],
         "type": "object"
+      },
+      "DocumentBroadcastType": {
+        "enum": [
+          "added",
+          "initial",
+          "modified",
+          "removed"
+        ],
+        "type": "string"
+      },
+      "QueryBroadcastType": {
+        "enum": [
+          "added",
+          "initial",
+          "modified",
+          "removed"
+        ],
+        "type": "string"
       },
       "Theme": {
         "enum": [
