@@ -4659,6 +4659,8 @@
       "ADRFilter": {
         "properties": {
           "name": {
+            "description": "The name of the ADR",
+            "maxLength": 1000,
             "type": "string"
           },
           "status": {
@@ -4722,18 +4724,23 @@
       "ADRRelatedItem": {
         "properties": {
           "adrId": {
+            "format": "id",
             "type": "string"
           },
           "diagramId": {
+            "format": "id",
             "type": "string"
           },
           "draftId": {
+            "format": "id",
             "type": "string"
           },
           "id": {
+            "format": "id",
             "type": "string"
           },
           "index": {
+            "minimum": 0,
             "type": "number"
           },
           "link": {
@@ -4753,6 +4760,7 @@
       "ADRPartial": {
         "properties": {
           "commit": {
+            "minimum": 0,
             "type": "number"
           },
           "content": {
@@ -4792,6 +4800,7 @@
       "ADRRequired": {
         "properties": {
           "commit": {
+            "minimum": 0,
             "type": "number"
           },
           "content": {
@@ -4827,6 +4836,7 @@
           },
           "handleId": {
             "description": "The handle id of the ADR",
+            "format": "handle-id",
             "type": "string"
           }
         },
@@ -4840,6 +4850,7 @@
       "ADR": {
         "properties": {
           "commit": {
+            "minimum": 0,
             "type": "number"
           },
           "content": {
@@ -4875,6 +4886,7 @@
           },
           "handleId": {
             "description": "The handle id of the ADR",
+            "format": "handle-id",
             "type": "string"
           },
           "createdAt": {
@@ -4899,13 +4911,16 @@
           },
           "id": {
             "description": "The id of the ADR",
+            "format": "id",
             "type": "string"
           },
           "landscapeId": {
             "description": "The id of the landscape that the ADR belongs to",
+            "format": "id",
             "type": "string"
           },
           "latestEntityId": {
+            "format": "id",
             "type": "string"
           },
           "number": {
@@ -4923,9 +4938,11 @@
             "type": "string"
           },
           "version": {
+            "minimum": 0,
             "type": "number"
           },
           "versionId": {
+            "format": "id",
             "type": "string"
           }
         },
@@ -26677,6 +26694,9 @@
             "$ref": "#/components/schemas/VersionFilter"
           },
           {
+            "$ref": "#/components/schemas/VersionIdPathParam"
+          },
+          {
             "$ref": "#/components/schemas/VersionOptional"
           },
           {
@@ -26723,6 +26743,20 @@
           "desc"
         ],
         "type": "string"
+      },
+      "VersionIdPathParam": {
+        "oneOf": [
+          {
+            "format": "id",
+            "type": "string"
+          },
+          {
+            "enum": [
+              "latest"
+            ],
+            "type": "string"
+          }
+        ]
       },
       "ImportModelObjectType": {
         "enum": [
@@ -28729,6 +28763,706 @@
         "summary": "By Entity",
         "x-fern-request-name": "ActionLogStatsByEntityRequest",
         "x-fern-sdk-method-name": "byEntity"
+      }
+    },
+    "/landscapes/{landscapeId}/versions/{versionId}/adrs": {
+      "post": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": [
+          "ADRs"
+        ],
+        "x-eov-operation-handler": "adrs",
+        "x-fern-audiences": [
+          "public"
+        ],
+        "x-fern-sdk-group-name": "adrs",
+        "operationId": "adrCreate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "landscapeId",
+            "required": true,
+            "schema": {
+              "format": "id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "versionId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/VersionIdPathParam"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ADRRequired"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "adr": {
+                      "$ref": "#/components/schemas/ADR"
+                    }
+                  },
+                  "required": [
+                    "adr"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Resource Exhausted"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Internal Server"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Create",
+        "x-fern-request-name": "ADRCreateRequest",
+        "x-fern-sdk-method-name": "create"
+      },
+      "get": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": [
+          "ADRs"
+        ],
+        "x-eov-operation-handler": "adrs",
+        "x-fern-audiences": [
+          "public"
+        ],
+        "x-fern-sdk-group-name": "adrs",
+        "operationId": "adrsList",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "landscapeId",
+            "required": true,
+            "schema": {
+              "format": "id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "versionId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/VersionIdPathParam"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ADRFilter"
+            },
+            "style": "deepObject"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "adrs": {
+                      "items": {
+                        "$ref": "#/components/schemas/ADR"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "adrs"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Internal Server"
+          }
+        },
+        "summary": "List",
+        "x-fern-request-name": "ADRsListRequest",
+        "x-fern-sdk-method-name": "list"
+      }
+    },
+    "/landscapes/{landscapeId}/versions/{versionId}/adrs/{adrId}": {
+      "delete": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": [
+          "ADRs"
+        ],
+        "x-eov-operation-handler": "adrs",
+        "x-fern-audiences": [
+          "public"
+        ],
+        "x-fern-sdk-group-name": "adrs",
+        "operationId": "adrDelete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "landscapeId",
+            "required": true,
+            "schema": {
+              "format": "id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "versionId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/VersionIdPathParam"
+            }
+          },
+          {
+            "in": "path",
+            "name": "adrId",
+            "required": true,
+            "schema": {
+              "format": "id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Internal Server"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Delete",
+        "x-fern-request-name": "ADRDeleteRequest",
+        "x-fern-sdk-method-name": "delete"
+      },
+      "get": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": [
+          "ADRs"
+        ],
+        "x-eov-operation-handler": "adrs",
+        "x-fern-audiences": [
+          "public"
+        ],
+        "x-fern-sdk-group-name": "adrs",
+        "operationId": "adrFind",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "landscapeId",
+            "required": true,
+            "schema": {
+              "format": "id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "versionId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/VersionIdPathParam"
+            }
+          },
+          {
+            "in": "path",
+            "name": "adrId",
+            "required": true,
+            "schema": {
+              "format": "id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "adr": {
+                      "$ref": "#/components/schemas/ADR"
+                    }
+                  },
+                  "required": [
+                    "adr"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Internal Server"
+          }
+        },
+        "summary": "Get",
+        "x-fern-request-name": "ADRFindRequest",
+        "x-fern-sdk-method-name": "get"
+      },
+      "patch": {
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": [
+          "ADRs"
+        ],
+        "x-eov-operation-handler": "adrs",
+        "x-fern-audiences": [
+          "public"
+        ],
+        "x-fern-sdk-group-name": "adrs",
+        "operationId": "adrUpdate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "landscapeId",
+            "required": true,
+            "schema": {
+              "format": "id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "versionId",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/VersionIdPathParam"
+            }
+          },
+          {
+            "in": "path",
+            "name": "adrId",
+            "required": true,
+            "schema": {
+              "format": "id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ADRPartial"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "adr": {
+                      "$ref": "#/components/schemas/ADR"
+                    }
+                  },
+                  "required": [
+                    "adr"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Resource Exhausted"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Internal Server"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Update",
+        "x-fern-request-name": "ADRUpdateRequest",
+        "x-fern-sdk-method-name": "update"
       }
     },
     "/catalog/technologies": {
@@ -51267,5 +52001,594 @@
       "x-fern-server-name": "API V1"
     }
   ],
-  "webhooks": {}
+  "webhooks": {
+    "model-connection:created": {
+      "post": {
+        "description": "Called when a model connection was created",
+        "operationId": "onModelConnectionCreated",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "model-connection"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "created"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Model connection created"
+      }
+    },
+    "model-connection:deleted": {
+      "post": {
+        "description": "Called when a model connection was deleted",
+        "operationId": "onModelConnectionDeleted",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "model-connection"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "deleted"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Model connection deleted"
+      }
+    },
+    "model-connection:updated": {
+      "post": {
+        "description": "Called when a model connection was updated",
+        "operationId": "onModelConnectionUpdated",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "model-connection"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "updated"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Model connection updated"
+      }
+    },
+    "model-object:created": {
+      "post": {
+        "description": "Called when a model object was created",
+        "operationId": "onModelObjectCreated",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "model-object"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "created"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Model object created"
+      }
+    },
+    "model-object:deleted": {
+      "post": {
+        "description": "Called when a model object was deleted",
+        "operationId": "onModelObjectDeleted",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "model-object"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "deleted"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Model object deleted"
+      }
+    },
+    "model-object:updated": {
+      "post": {
+        "description": "Called when a model object was updated",
+        "operationId": "onModelObjectUpdated",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "model-object"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "updated"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Model object updated"
+      }
+    }
+  },
+  "x-fern-webhook-signature": {
+    "algorithm": "sha256",
+    "encoding": "hex",
+    "header": "X-IcePanel-Signature",
+    "payload-format": {
+      "components": [
+        "timestamp",
+        "body"
+      ],
+      "delimiter": "."
+    },
+    "timestamp": {
+      "format": "unix-seconds",
+      "header": "X-IcePanel-Timestamp",
+      "tolerance": 300
+    },
+    "type": "hmac"
+  }
 }
