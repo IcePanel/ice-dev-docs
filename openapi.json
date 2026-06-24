@@ -28914,7 +28914,7 @@
           }
         },
         "summary": "Create",
-        "x-fern-request-name": "ADRCreateRequest",
+        "x-fern-request-name": "AdrCreateRequest",
         "x-fern-sdk-method-name": "create"
       },
       "get": {
@@ -28961,6 +28961,25 @@
               "$ref": "#/components/schemas/ADRFilter"
             },
             "style": "deepObject"
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "number"
+            }
           }
         ],
         "responses": {
@@ -28974,6 +28993,9 @@
                         "$ref": "#/components/schemas/ADR"
                       },
                       "type": "array"
+                    },
+                    "nextCursor": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -29037,7 +29059,12 @@
           }
         },
         "summary": "List",
-        "x-fern-request-name": "ADRsListRequest",
+        "x-fern-pagination": {
+          "cursor": "$request.cursor",
+          "next_cursor": "$response.nextCursor",
+          "results": "$response.adrs"
+        },
+        "x-fern-request-name": "AdrsListRequest",
         "x-fern-sdk-method-name": "list"
       }
     },
@@ -29171,7 +29198,7 @@
           }
         },
         "summary": "Delete",
-        "x-fern-request-name": "ADRDeleteRequest",
+        "x-fern-request-name": "AdrDeleteRequest",
         "x-fern-sdk-method-name": "delete"
       },
       "get": {
@@ -29291,7 +29318,7 @@
           }
         },
         "summary": "Get",
-        "x-fern-request-name": "ADRFindRequest",
+        "x-fern-request-name": "AdrFindRequest",
         "x-fern-sdk-method-name": "get"
       },
       "patch": {
@@ -29461,7 +29488,7 @@
           }
         },
         "summary": "Update",
-        "x-fern-request-name": "ADRUpdateRequest",
+        "x-fern-request-name": "AdrUpdateRequest",
         "x-fern-sdk-method-name": "update"
       }
     },
