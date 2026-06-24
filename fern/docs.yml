@@ -99,6 +99,7 @@ navigation:
   - tab: api_reference
     layout:
       - api: API Reference
+        alphabetized: true
         slug: ""
         snippets:
           typescript: '@icepanel/sdk'
