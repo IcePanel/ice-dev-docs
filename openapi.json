@@ -52029,109 +52029,31 @@
     }
   ],
   "webhooks": {
-    "model-connection:created": {
+    "model-connection": {
       "post": {
-        "description": "Called when a model connection was created",
-        "operationId": "onModelConnectionCreated",
+        "description": "Webhook event triggered when a model connection was modified",
+        "operationId": "onModelConnection",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
+                "example": {
                   "after": {
-                    "properties": {
-                      "id": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "landscapeId": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "versionId": {
-                        "format": "id",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ],
-                    "type": "object"
+                    "id": "fBNqNbMgDK83dYDlU5Da",
+                    "landscapeId": "NmVsPFh28AUk6grRC5H7",
+                    "versionId": "DdoNuj4wmCopKgjNnCSH"
                   },
                   "before": {
-                    "properties": {
-                      "id": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "landscapeId": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "versionId": {
-                        "format": "id",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ],
-                    "type": "object"
+                    "id": "fBNqNbMgDK83dYDlU5Da",
+                    "landscapeId": "NmVsPFh28AUk6grRC5H7",
+                    "versionId": "DdoNuj4wmCopKgjNnCSH"
                   },
-                  "collection": {
-                    "enum": [
-                      "model-connection"
-                    ],
-                    "type": "string"
-                  },
-                  "operation": {
-                    "enum": [
-                      "created"
-                    ],
-                    "type": "string"
-                  },
-                  "organizationId": {
-                    "format": "id",
-                    "type": "string"
-                  },
-                  "resourceId": {
-                    "format": "id",
-                    "type": "string"
-                  },
-                  "subscriptionId": {
-                    "format": "id",
-                    "type": "string"
-                  }
+                  "collection": "model-connection",
+                  "operation": "created",
+                  "organizationId": "FkSN1UrSJN06HzKePPaU",
+                  "resourceId": "fBNqNbMgDK83dYDlU5Da",
+                  "subscriptionId": "hprjTkpu06lQrrPtCw0v"
                 },
-                "required": [
-                  "collection",
-                  "operation",
-                  "organizationId",
-                  "resourceId",
-                  "subscriptionId"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "summary": "Model connection created"
-      }
-    },
-    "model-connection:deleted": {
-      "post": {
-        "description": "Called when a model connection was deleted",
-        "operationId": "onModelConnectionDeleted",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
                 "properties": {
                   "after": {
                     "properties": {
@@ -52181,6 +52103,8 @@
                   },
                   "operation": {
                     "enum": [
+                      "created",
+                      "updated",
                       "deleted"
                     ],
                     "type": "string"
@@ -52216,112 +52140,40 @@
             "description": "OK"
           }
         },
-        "summary": "Model connection deleted"
+        "summary": "Model Connection",
+        "tags": [
+          "Webhook Events"
+        ],
+        "x-fern-audiences": [
+          "public"
+        ]
       }
     },
-    "model-connection:updated": {
+    "model-object": {
       "post": {
-        "description": "Called when a model connection was updated",
-        "operationId": "onModelConnectionUpdated",
+        "description": "Webhook event triggered when a model object was modified",
+        "operationId": "onModelObject",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
+                "example": {
                   "after": {
-                    "properties": {
-                      "id": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "landscapeId": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "versionId": {
-                        "format": "id",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ],
-                    "type": "object"
+                    "id": "fBNqNbMgDK83dYDlU5Da",
+                    "landscapeId": "NmVsPFh28AUk6grRC5H7",
+                    "versionId": "DdoNuj4wmCopKgjNnCSH"
                   },
                   "before": {
-                    "properties": {
-                      "id": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "landscapeId": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "versionId": {
-                        "format": "id",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ],
-                    "type": "object"
+                    "id": "fBNqNbMgDK83dYDlU5Da",
+                    "landscapeId": "NmVsPFh28AUk6grRC5H7",
+                    "versionId": "DdoNuj4wmCopKgjNnCSH"
                   },
-                  "collection": {
-                    "enum": [
-                      "model-connection"
-                    ],
-                    "type": "string"
-                  },
-                  "operation": {
-                    "enum": [
-                      "updated"
-                    ],
-                    "type": "string"
-                  },
-                  "organizationId": {
-                    "format": "id",
-                    "type": "string"
-                  },
-                  "resourceId": {
-                    "format": "id",
-                    "type": "string"
-                  },
-                  "subscriptionId": {
-                    "format": "id",
-                    "type": "string"
-                  }
+                  "collection": "model-connection",
+                  "operation": "created",
+                  "organizationId": "FkSN1UrSJN06HzKePPaU",
+                  "resourceId": "fBNqNbMgDK83dYDlU5Da",
+                  "subscriptionId": "hprjTkpu06lQrrPtCw0v"
                 },
-                "required": [
-                  "collection",
-                  "operation",
-                  "organizationId",
-                  "resourceId",
-                  "subscriptionId"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "summary": "Model connection updated"
-      }
-    },
-    "model-object:created": {
-      "post": {
-        "description": "Called when a model object was created",
-        "operationId": "onModelObjectCreated",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
                 "properties": {
                   "after": {
                     "properties": {
@@ -52371,101 +52223,8 @@
                   },
                   "operation": {
                     "enum": [
-                      "created"
-                    ],
-                    "type": "string"
-                  },
-                  "organizationId": {
-                    "format": "id",
-                    "type": "string"
-                  },
-                  "resourceId": {
-                    "format": "id",
-                    "type": "string"
-                  },
-                  "subscriptionId": {
-                    "format": "id",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "collection",
-                  "operation",
-                  "organizationId",
-                  "resourceId",
-                  "subscriptionId"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "summary": "Model object created"
-      }
-    },
-    "model-object:deleted": {
-      "post": {
-        "description": "Called when a model object was deleted",
-        "operationId": "onModelObjectDeleted",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "after": {
-                    "properties": {
-                      "id": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "landscapeId": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "versionId": {
-                        "format": "id",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ],
-                    "type": "object"
-                  },
-                  "before": {
-                    "properties": {
-                      "id": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "landscapeId": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "versionId": {
-                        "format": "id",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ],
-                    "type": "object"
-                  },
-                  "collection": {
-                    "enum": [
-                      "model-object"
-                    ],
-                    "type": "string"
-                  },
-                  "operation": {
-                    "enum": [
+                      "created",
+                      "updated",
                       "deleted"
                     ],
                     "type": "string"
@@ -52501,102 +52260,13 @@
             "description": "OK"
           }
         },
-        "summary": "Model object deleted"
-      }
-    },
-    "model-object:updated": {
-      "post": {
-        "description": "Called when a model object was updated",
-        "operationId": "onModelObjectUpdated",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "after": {
-                    "properties": {
-                      "id": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "landscapeId": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "versionId": {
-                        "format": "id",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ],
-                    "type": "object"
-                  },
-                  "before": {
-                    "properties": {
-                      "id": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "landscapeId": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "versionId": {
-                        "format": "id",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ],
-                    "type": "object"
-                  },
-                  "collection": {
-                    "enum": [
-                      "model-object"
-                    ],
-                    "type": "string"
-                  },
-                  "operation": {
-                    "enum": [
-                      "updated"
-                    ],
-                    "type": "string"
-                  },
-                  "organizationId": {
-                    "format": "id",
-                    "type": "string"
-                  },
-                  "resourceId": {
-                    "format": "id",
-                    "type": "string"
-                  },
-                  "subscriptionId": {
-                    "format": "id",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "collection",
-                  "operation",
-                  "organizationId",
-                  "resourceId",
-                  "subscriptionId"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "summary": "Model object updated"
+        "summary": "Model Object",
+        "tags": [
+          "Webhook Events"
+        ],
+        "x-fern-audiences": [
+          "public"
+        ]
       }
     }
   },
