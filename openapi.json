@@ -1636,16 +1636,6 @@
             "description": "include actions from objects inside the context, eg: update of a model connection that is connected to a model object",
             "type": "boolean"
           },
-          "limit": {
-            "type": "number"
-          },
-          "order": {
-            "enum": [
-              "asc",
-              "desc"
-            ],
-            "type": "string"
-          },
           "performedBy": {
             "oneOf": [
               {
@@ -14199,16 +14189,6 @@
           "includeActionsInContext": {
             "description": "include actions from objects inside the context, eg: update of a model connection that is connected to a model object",
             "type": "boolean"
-          },
-          "limit": {
-            "type": "number"
-          },
-          "order": {
-            "enum": [
-              "asc",
-              "desc"
-            ],
-            "type": "string"
           },
           "performedBy": {
             "oneOf": [
@@ -28132,6 +28112,25 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 1000,
+              "maximum": 10000,
+              "minimum": 1,
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/SortDirection"
+            }
           }
         ],
         "responses": {
@@ -28412,6 +28411,25 @@
             "required": false,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 1000,
+              "maximum": 10000,
+              "minimum": 1,
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/SortDirection"
             }
           }
         ],
@@ -28975,8 +28993,8 @@
             "name": "limit",
             "required": false,
             "schema": {
-              "default": 100,
-              "maximum": 1000,
+              "default": 1000,
+              "maximum": 10000,
               "minimum": 1,
               "type": "number"
             }
@@ -29543,6 +29561,9 @@
             "name": "limit",
             "required": false,
             "schema": {
+              "default": 1000,
+              "maximum": 10000,
+              "minimum": 1,
               "type": "number"
             }
           }
@@ -44982,6 +45003,25 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 1000,
+              "maximum": 10000,
+              "minimum": 1,
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/SortDirection"
+            }
           }
         ],
         "responses": {
@@ -52039,20 +52079,20 @@
               "schema": {
                 "example": {
                   "after": {
-                    "id": "fBNqNbMgDK83dYDlU5Da",
-                    "landscapeId": "NmVsPFh28AUk6grRC5H7",
-                    "versionId": "DdoNuj4wmCopKgjNnCSH"
+                    "id": "zaPio5QOlExPRATLyS97",
+                    "landscapeId": "XvZbMAfNvEjROLJwegfM",
+                    "versionId": "3sKFDOoSVU1AYDF7PxUc"
                   },
                   "before": {
-                    "id": "fBNqNbMgDK83dYDlU5Da",
-                    "landscapeId": "NmVsPFh28AUk6grRC5H7",
-                    "versionId": "DdoNuj4wmCopKgjNnCSH"
+                    "id": "zaPio5QOlExPRATLyS97",
+                    "landscapeId": "XvZbMAfNvEjROLJwegfM",
+                    "versionId": "3sKFDOoSVU1AYDF7PxUc"
                   },
                   "collection": "model-connection",
                   "operation": "created",
-                  "organizationId": "FkSN1UrSJN06HzKePPaU",
-                  "resourceId": "fBNqNbMgDK83dYDlU5Da",
-                  "subscriptionId": "hprjTkpu06lQrrPtCw0v"
+                  "organizationId": "JGsRupgTA0966ozhGBIX",
+                  "resourceId": "zaPio5QOlExPRATLyS97",
+                  "subscriptionId": "UcHI6eEY8Pp5KT0u152N"
                 },
                 "properties": {
                   "after": {
@@ -52159,20 +52199,20 @@
               "schema": {
                 "example": {
                   "after": {
-                    "id": "fBNqNbMgDK83dYDlU5Da",
-                    "landscapeId": "NmVsPFh28AUk6grRC5H7",
-                    "versionId": "DdoNuj4wmCopKgjNnCSH"
+                    "id": "zaPio5QOlExPRATLyS97",
+                    "landscapeId": "XvZbMAfNvEjROLJwegfM",
+                    "versionId": "3sKFDOoSVU1AYDF7PxUc"
                   },
                   "before": {
-                    "id": "fBNqNbMgDK83dYDlU5Da",
-                    "landscapeId": "NmVsPFh28AUk6grRC5H7",
-                    "versionId": "DdoNuj4wmCopKgjNnCSH"
+                    "id": "zaPio5QOlExPRATLyS97",
+                    "landscapeId": "XvZbMAfNvEjROLJwegfM",
+                    "versionId": "3sKFDOoSVU1AYDF7PxUc"
                   },
                   "collection": "model-connection",
                   "operation": "created",
-                  "organizationId": "FkSN1UrSJN06HzKePPaU",
-                  "resourceId": "fBNqNbMgDK83dYDlU5Da",
-                  "subscriptionId": "hprjTkpu06lQrrPtCw0v"
+                  "organizationId": "JGsRupgTA0966ozhGBIX",
+                  "resourceId": "zaPio5QOlExPRATLyS97",
+                  "subscriptionId": "UcHI6eEY8Pp5KT0u152N"
                 },
                 "properties": {
                   "after": {
