@@ -4831,7 +4831,6 @@
           }
         },
         "required": [
-          "handleId",
           "name",
           "status"
         ],
@@ -4937,16 +4936,16 @@
           }
         },
         "required": [
-          "handleId",
           "name",
           "status",
           "commit",
           "createdAt",
           "createdBy",
           "createdById",
+          "handleId",
           "id",
-          "number",
           "landscapeId",
+          "number",
           "updatedAt",
           "updatedBy",
           "updatedById",
@@ -52079,20 +52078,20 @@
               "schema": {
                 "example": {
                   "after": {
-                    "id": "zaPio5QOlExPRATLyS97",
-                    "landscapeId": "XvZbMAfNvEjROLJwegfM",
-                    "versionId": "3sKFDOoSVU1AYDF7PxUc"
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
                   },
                   "before": {
-                    "id": "zaPio5QOlExPRATLyS97",
-                    "landscapeId": "XvZbMAfNvEjROLJwegfM",
-                    "versionId": "3sKFDOoSVU1AYDF7PxUc"
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
                   },
                   "collection": "model-connection",
                   "operation": "created",
-                  "organizationId": "JGsRupgTA0966ozhGBIX",
-                  "resourceId": "zaPio5QOlExPRATLyS97",
-                  "subscriptionId": "UcHI6eEY8Pp5KT0u152N"
+                  "organizationId": "ZGDaIrw2DrVnYnxMDES3",
+                  "resourceId": "ktLn0NRHkzKp2GTPzXl5",
+                  "subscriptionId": "cK0eZN6MLSw8XDg7uPnY"
                 },
                 "properties": {
                   "after": {
@@ -52199,20 +52198,20 @@
               "schema": {
                 "example": {
                   "after": {
-                    "id": "zaPio5QOlExPRATLyS97",
-                    "landscapeId": "XvZbMAfNvEjROLJwegfM",
-                    "versionId": "3sKFDOoSVU1AYDF7PxUc"
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
                   },
                   "before": {
-                    "id": "zaPio5QOlExPRATLyS97",
-                    "landscapeId": "XvZbMAfNvEjROLJwegfM",
-                    "versionId": "3sKFDOoSVU1AYDF7PxUc"
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
                   },
                   "collection": "model-connection",
                   "operation": "created",
-                  "organizationId": "JGsRupgTA0966ozhGBIX",
-                  "resourceId": "zaPio5QOlExPRATLyS97",
-                  "subscriptionId": "UcHI6eEY8Pp5KT0u152N"
+                  "organizationId": "ZGDaIrw2DrVnYnxMDES3",
+                  "resourceId": "ktLn0NRHkzKp2GTPzXl5",
+                  "subscriptionId": "cK0eZN6MLSw8XDg7uPnY"
                 },
                 "properties": {
                   "after": {
