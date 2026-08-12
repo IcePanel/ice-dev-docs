@@ -8832,6 +8832,8 @@
             "type": "string"
           },
           "points": {
+            "deprecated": true,
+            "description": "Deprecated: points are now computed automatically",
             "items": {
               "properties": {
                 "x": {
@@ -8883,6 +8885,8 @@
             "type": "string"
           },
           "points": {
+            "deprecated": true,
+            "description": "Deprecated: points are now computed automatically",
             "items": {
               "properties": {
                 "x": {
@@ -8915,7 +8919,6 @@
           "modelId",
           "originConnector",
           "originId",
-          "points",
           "targetConnector",
           "targetId"
         ],
@@ -18096,7 +18099,9 @@
           "adr",
           "domain",
           "model-connection",
-          "model-object"
+          "model-object",
+          "tag",
+          "tag-group"
         ],
         "type": "string"
       },
@@ -18121,7 +18126,13 @@
           "model-connection:updated",
           "model-object:created",
           "model-object:deleted",
-          "model-object:updated"
+          "model-object:updated",
+          "tag:created",
+          "tag:deleted",
+          "tag-group:created",
+          "tag-group:deleted",
+          "tag-group:updated",
+          "tag:updated"
         ],
         "type": "string"
       },
@@ -50981,6 +50992,126 @@
     }
   ],
   "webhooks": {
+    "domain": {
+      "post": {
+        "description": "Webhook event triggered when a domain was modified",
+        "operationId": "onDomain",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "example": {
+                  "after": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "before": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "collection": "domain",
+                  "operation": "created",
+                  "organizationId": "ZGDaIrw2DrVnYnxMDES3",
+                  "resourceId": "ktLn0NRHkzKp2GTPzXl5",
+                  "subscriptionId": "cK0eZN6MLSw8XDg7uPnY"
+                },
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "domain"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "created",
+                      "updated",
+                      "deleted"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Domain",
+        "tags": [
+          "Webhook Events"
+        ],
+        "x-fern-audiences": [
+          "public"
+        ]
+      }
+    },
     "model-connection": {
       "post": {
         "description": "Webhook event triggered when a model connection was modified",
@@ -51120,7 +51251,7 @@
                     "landscapeId": "kClOhzcBdYPX1tx4sYzC",
                     "versionId": "O1XSZ7r7xWMXfhd7FHAV"
                   },
-                  "collection": "model-connection",
+                  "collection": "model-object",
                   "operation": "created",
                   "organizationId": "ZGDaIrw2DrVnYnxMDES3",
                   "resourceId": "ktLn0NRHkzKp2GTPzXl5",
@@ -51213,6 +51344,246 @@
           }
         },
         "summary": "Model Object",
+        "tags": [
+          "Webhook Events"
+        ],
+        "x-fern-audiences": [
+          "public"
+        ]
+      }
+    },
+    "tag": {
+      "post": {
+        "description": "Webhook event triggered when a tag was modified",
+        "operationId": "onTag",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "example": {
+                  "after": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "before": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "collection": "tag",
+                  "operation": "created",
+                  "organizationId": "ZGDaIrw2DrVnYnxMDES3",
+                  "resourceId": "ktLn0NRHkzKp2GTPzXl5",
+                  "subscriptionId": "cK0eZN6MLSw8XDg7uPnY"
+                },
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "tag"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "created",
+                      "updated",
+                      "deleted"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Tag",
+        "tags": [
+          "Webhook Events"
+        ],
+        "x-fern-audiences": [
+          "public"
+        ]
+      }
+    },
+    "tag-group": {
+      "post": {
+        "description": "Webhook event triggered when a tag group was modified",
+        "operationId": "onTagGroup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "example": {
+                  "after": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "before": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "collection": "tag-group",
+                  "operation": "created",
+                  "organizationId": "ZGDaIrw2DrVnYnxMDES3",
+                  "resourceId": "ktLn0NRHkzKp2GTPzXl5",
+                  "subscriptionId": "cK0eZN6MLSw8XDg7uPnY"
+                },
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "tag-group"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "created",
+                      "updated",
+                      "deleted"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Tag Group",
         "tags": [
           "Webhook Events"
         ],
