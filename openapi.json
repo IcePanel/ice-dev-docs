@@ -6980,8 +6980,7 @@
             "type": "string"
           },
           "disabled": {
-            "default": false,
-            "description": "Whether the technology is disabled and not visible to users",
+            "description": "Whether the technology is disabled and not visible to users, defaults to false",
             "type": "boolean"
           },
           "iconUrl": {
@@ -8662,20 +8661,49 @@
           "area",
           "box"
         ],
-        "type": "string"
+        "type": "string",
+        "x-fern-enum": {
+          "area": {
+            "description": "An automatically sized area that wraps around its child objects, used to draw parents and groups on the diagram"
+          },
+          "box": {
+            "description": "A manually positioned and sized box, used to draw objects in scope of the diagram"
+          }
+        }
       },
       "DiagramObjectType": {
         "enum": [
           "actor",
           "app",
-          "group",
           "component",
+          "group",
           "store",
           "system"
         ],
-        "type": "string"
+        "type": "string",
+        "x-fern-enum": {
+          "actor": {
+            "description": "A person or role that interacts with your systems, e.g. a customer or support agent"
+          },
+          "app": {
+            "description": "An application that runs code or performs tasks within a system, e.g. a web app, API or microservice"
+          },
+          "component": {
+            "description": "A logical building block within an app or store, e.g. a module, controller or library"
+          },
+          "group": {
+            "description": "A collection of related objects, e.g. a team, department or business capability"
+          },
+          "store": {
+            "description": "A place where data or files are stored within a system, e.g. a database, file storage or message queue"
+          },
+          "system": {
+            "description": "A software system that delivers value to its users, e.g. an e-commerce platform or CRM"
+          }
+        }
       },
       "DiagramObjectCount": {
+        "description": "The number of objects on the diagram, counted by object type and shape",
         "properties": {
           "actor": {
             "type": "number"
@@ -8683,10 +8711,10 @@
           "app": {
             "type": "number"
           },
-          "group": {
+          "component": {
             "type": "number"
           },
-          "component": {
+          "group": {
             "type": "number"
           },
           "store": {
@@ -8705,8 +8733,8 @@
         "required": [
           "actor",
           "app",
-          "group",
           "component",
+          "group",
           "store",
           "system",
           "area",
@@ -8715,6 +8743,7 @@
         "type": "object"
       },
       "DiagramObjectConnector": {
+        "description": "The anchor point on the edge of an object where a connection attaches",
         "enum": [
           "top-left",
           "top-center",
@@ -8733,14 +8762,14 @@
         "type": "string"
       },
       "DiagramObjectPartial": {
+        "description": "An object placed on a diagram",
         "properties": {
           "height": {
+            "description": "The height of the object. Calculated automatically for area shapes, set to 0 when creating an area, defaults to 128",
             "type": "number"
           },
-          "id": {
-            "type": "string"
-          },
           "modelId": {
+            "description": "The id of the model object this object represents",
             "type": "string"
           },
           "shape": {
@@ -8750,26 +8779,28 @@
             "$ref": "#/components/schemas/DiagramObjectType"
           },
           "width": {
+            "description": "The width of the object. Calculated automatically for area shapes, set to 0 when creating an area, defaults to 256",
             "type": "number"
           },
           "x": {
+            "description": "The x position of the object. Calculated automatically for area shapes, set to 0 when creating an area",
             "type": "number"
           },
           "y": {
+            "description": "The y position of the object. Calculated automatically for area shapes, set to 0 when creating an area",
             "type": "number"
           }
         },
         "type": "object"
       },
-      "DiagramObject": {
+      "DiagramObjectRequired": {
         "properties": {
           "height": {
+            "description": "The height of the object. Calculated automatically for area shapes, set to 0 when creating an area, defaults to 128",
             "type": "number"
           },
-          "id": {
-            "type": "string"
-          },
           "modelId": {
+            "description": "The id of the model object this object represents",
             "type": "string"
           },
           "shape": {
@@ -8779,13 +8810,58 @@
             "$ref": "#/components/schemas/DiagramObjectType"
           },
           "width": {
+            "description": "The width of the object. Calculated automatically for area shapes, set to 0 when creating an area, defaults to 256",
             "type": "number"
           },
           "x": {
+            "description": "The x position of the object. Calculated automatically for area shapes, set to 0 when creating an area",
             "type": "number"
           },
           "y": {
+            "description": "The y position of the object. Calculated automatically for area shapes, set to 0 when creating an area",
             "type": "number"
+          }
+        },
+        "required": [
+          "modelId",
+          "shape",
+          "type",
+          "x",
+          "y"
+        ],
+        "type": "object"
+      },
+      "DiagramObject": {
+        "properties": {
+          "height": {
+            "description": "The height of the object. Calculated automatically for area shapes, set to 0 when creating an area, defaults to 128",
+            "type": "number"
+          },
+          "modelId": {
+            "description": "The id of the model object this object represents",
+            "type": "string"
+          },
+          "shape": {
+            "$ref": "#/components/schemas/DiagramObjectShape"
+          },
+          "type": {
+            "$ref": "#/components/schemas/DiagramObjectType"
+          },
+          "width": {
+            "description": "The width of the object. Calculated automatically for area shapes, set to 0 when creating an area, defaults to 256",
+            "type": "number"
+          },
+          "x": {
+            "description": "The x position of the object. Calculated automatically for area shapes, set to 0 when creating an area",
+            "type": "number"
+          },
+          "y": {
+            "description": "The y position of the object. Calculated automatically for area shapes, set to 0 when creating an area",
+            "type": "number"
+          },
+          "id": {
+            "description": "The id of the object, unique within the diagram",
+            "type": "string"
           }
         },
         "required": [
@@ -8801,33 +8877,36 @@
         "type": "object"
       },
       "LineShape": {
+        "description": "The visual style of a connection line",
         "enum": [
           "curved",
-          "straight",
-          "square"
+          "square",
+          "straight"
         ],
         "type": "string"
       },
       "DiagramConnectionPartial": {
         "properties": {
-          "id": {
-            "type": "string"
-          },
           "labelPosition": {
-            "description": "The percentage along the line where the label should be placed",
+            "description": "The percentage along the line where the label should be placed, defaults to 50",
+            "maximum": 100,
+            "minimum": 0,
             "type": "number"
           },
           "lineShape": {
             "$ref": "#/components/schemas/LineShape"
           },
           "modelId": {
+            "description": "The id of the model connection this connection represents",
             "nullable": true,
             "type": "string"
           },
           "originConnector": {
-            "$ref": "#/components/schemas/DiagramObjectConnector"
+            "$ref": "#/components/schemas/DiagramObjectConnector",
+            "description": "The anchor point on the edge of the origin object where the connection attaches"
           },
           "originId": {
+            "description": "The id of the diagram object the connection starts from",
             "nullable": true,
             "type": "string"
           },
@@ -8852,35 +8931,39 @@
             "type": "array"
           },
           "targetConnector": {
-            "$ref": "#/components/schemas/DiagramObjectConnector"
+            "$ref": "#/components/schemas/DiagramObjectConnector",
+            "description": "The anchor point on the edge of the target object where the connection attaches"
           },
           "targetId": {
+            "description": "The id of the diagram object the connection ends at",
             "nullable": true,
             "type": "string"
           }
         },
         "type": "object"
       },
-      "DiagramConnection": {
+      "DiagramConnectionRequired": {
         "properties": {
-          "id": {
-            "type": "string"
-          },
           "labelPosition": {
-            "description": "The percentage along the line where the label should be placed",
+            "description": "The percentage along the line where the label should be placed, defaults to 50",
+            "maximum": 100,
+            "minimum": 0,
             "type": "number"
           },
           "lineShape": {
             "$ref": "#/components/schemas/LineShape"
           },
           "modelId": {
+            "description": "The id of the model connection this connection represents",
             "nullable": true,
             "type": "string"
           },
           "originConnector": {
-            "$ref": "#/components/schemas/DiagramObjectConnector"
+            "$ref": "#/components/schemas/DiagramObjectConnector",
+            "description": "The anchor point on the edge of the origin object where the connection attaches"
           },
           "originId": {
+            "description": "The id of the diagram object the connection starts from",
             "nullable": true,
             "type": "string"
           },
@@ -8905,10 +8988,78 @@
             "type": "array"
           },
           "targetConnector": {
-            "$ref": "#/components/schemas/DiagramObjectConnector"
+            "$ref": "#/components/schemas/DiagramObjectConnector",
+            "description": "The anchor point on the edge of the target object where the connection attaches"
           },
           "targetId": {
+            "description": "The id of the diagram object the connection ends at",
             "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "modelId",
+          "originId",
+          "targetId"
+        ],
+        "type": "object"
+      },
+      "DiagramConnection": {
+        "properties": {
+          "labelPosition": {
+            "description": "The percentage along the line where the label should be placed, defaults to 50",
+            "maximum": 100,
+            "minimum": 0,
+            "type": "number"
+          },
+          "lineShape": {
+            "$ref": "#/components/schemas/LineShape"
+          },
+          "modelId": {
+            "description": "The id of the model connection this connection represents",
+            "nullable": true,
+            "type": "string"
+          },
+          "originConnector": {
+            "$ref": "#/components/schemas/DiagramObjectConnector",
+            "description": "The anchor point on the edge of the origin object where the connection attaches"
+          },
+          "originId": {
+            "description": "The id of the diagram object the connection starts from",
+            "nullable": true,
+            "type": "string"
+          },
+          "points": {
+            "deprecated": true,
+            "description": "Deprecated: points are now computed automatically",
+            "items": {
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "targetConnector": {
+            "$ref": "#/components/schemas/DiagramObjectConnector",
+            "description": "The anchor point on the edge of the target object where the connection attaches"
+          },
+          "targetId": {
+            "description": "The id of the diagram object the connection ends at",
+            "nullable": true,
+            "type": "string"
+          },
+          "id": {
+            "description": "The id of the connection, unique within the diagram",
             "type": "string"
           }
         },
@@ -8927,15 +9078,19 @@
       "DiagramCommentPartial": {
         "properties": {
           "commentId": {
+            "description": "The id of the comment this marker displays",
             "type": "string"
           },
           "id": {
+            "description": "The id of the comment marker, unique within the diagram",
             "type": "string"
           },
           "x": {
+            "description": "The x position of the comment on the diagram",
             "type": "number"
           },
           "y": {
+            "description": "The y position of the comment on the diagram",
             "type": "number"
           }
         },
@@ -8944,15 +9099,19 @@
       "DiagramComment": {
         "properties": {
           "commentId": {
+            "description": "The id of the comment this marker displays",
             "type": "string"
           },
           "id": {
+            "description": "The id of the comment marker, unique within the diagram",
             "type": "string"
           },
           "x": {
+            "description": "The x position of the comment on the diagram",
             "type": "number"
           },
           "y": {
+            "description": "The y position of the comment on the diagram",
             "type": "number"
           }
         },
@@ -8967,14 +9126,17 @@
       "DiagramContentPartial": {
         "properties": {
           "comments": {
+            "description": "Operations to apply to the comments on the diagram",
             "properties": {
               "$add": {
                 "additionalProperties": {
                   "$ref": "#/components/schemas/DiagramComment"
                 },
+                "description": "Add new comments to the diagram, keyed by comment id",
                 "type": "object"
               },
               "$remove": {
+                "description": "Remove comments from the diagram by id",
                 "items": {
                   "type": "string"
                 },
@@ -8984,29 +9146,35 @@
                 "additionalProperties": {
                   "$ref": "#/components/schemas/DiagramComment"
                 },
+                "description": "Replace all comments on the diagram, keyed by comment id",
                 "type": "object"
               },
               "$update": {
                 "additionalProperties": {
                   "$ref": "#/components/schemas/DiagramCommentPartial"
                 },
+                "description": "Update existing comments on the diagram, keyed by comment id",
                 "type": "object"
               }
             },
             "type": "object"
           },
           "commit": {
+            "description": "The commit number of the diagram content, incremented on each change",
             "type": "number"
           },
           "connections": {
+            "description": "Operations to apply to the connections on the diagram",
             "properties": {
               "$add": {
                 "additionalProperties": {
-                  "$ref": "#/components/schemas/DiagramConnection"
+                  "$ref": "#/components/schemas/DiagramConnectionRequired"
                 },
+                "description": "Add new connections to the diagram, keyed by connection id",
                 "type": "object"
               },
               "$remove": {
+                "description": "Remove connections from the diagram by id",
                 "items": {
                   "type": "string"
                 },
@@ -9014,28 +9182,33 @@
               },
               "$replace": {
                 "additionalProperties": {
-                  "$ref": "#/components/schemas/DiagramConnection"
+                  "$ref": "#/components/schemas/DiagramConnectionRequired"
                 },
+                "description": "Replace all connections on the diagram, keyed by connection id",
                 "type": "object"
               },
               "$update": {
                 "additionalProperties": {
                   "$ref": "#/components/schemas/DiagramConnectionPartial"
                 },
+                "description": "Update existing connections on the diagram, keyed by connection id",
                 "type": "object"
               }
             },
             "type": "object"
           },
           "objects": {
+            "description": "Operations to apply to the objects on the diagram",
             "properties": {
               "$add": {
                 "additionalProperties": {
-                  "$ref": "#/components/schemas/DiagramObject"
+                  "$ref": "#/components/schemas/DiagramObjectRequired"
                 },
+                "description": "Add new objects to the diagram, keyed by object id",
                 "type": "object"
               },
               "$remove": {
+                "description": "Remove objects from the diagram by id",
                 "items": {
                   "type": "string"
                 },
@@ -9043,14 +9216,16 @@
               },
               "$replace": {
                 "additionalProperties": {
-                  "$ref": "#/components/schemas/DiagramObject"
+                  "$ref": "#/components/schemas/DiagramObjectRequired"
                 },
+                "description": "Replace all objects on the diagram, keyed by object id",
                 "type": "object"
               },
               "$update": {
                 "additionalProperties": {
                   "$ref": "#/components/schemas/DiagramObjectPartial"
                 },
+                "description": "Update existing objects on the diagram, keyed by object id",
                 "type": "object"
               }
             },
@@ -9065,21 +9240,25 @@
             "additionalProperties": {
               "$ref": "#/components/schemas/DiagramComment"
             },
+            "description": "The comments on the diagram, keyed by comment id",
             "type": "object"
           },
           "commit": {
+            "description": "The commit number of the diagram content, incremented on each change",
             "type": "number"
           },
           "connections": {
             "additionalProperties": {
-              "$ref": "#/components/schemas/DiagramConnection"
+              "$ref": "#/components/schemas/DiagramConnectionRequired"
             },
+            "description": "The connections on the diagram, keyed by connection id",
             "type": "object"
           },
           "objects": {
             "additionalProperties": {
-              "$ref": "#/components/schemas/DiagramObject"
+              "$ref": "#/components/schemas/DiagramObjectRequired"
             },
+            "description": "The objects on the diagram, keyed by object id",
             "type": "object"
           }
         },
@@ -9091,9 +9270,11 @@
             "additionalProperties": {
               "$ref": "#/components/schemas/DiagramComment"
             },
+            "description": "The comments on the diagram, keyed by comment id",
             "type": "object"
           },
           "commit": {
+            "description": "The commit number of the diagram content, incremented on each change",
             "type": "number"
           },
           "connections": {
@@ -9129,10 +9310,12 @@
             "type": "string"
           },
           "groupId": {
+            "description": "The id of the diagram group the diagram belongs to, null when not in a group",
             "nullable": true,
             "type": "string"
           },
           "handleId": {
+            "description": "A short id of the diagram stable across landscape versions",
             "type": "string"
           },
           "id": {
@@ -9145,6 +9328,7 @@
             "type": "string"
           },
           "modelId": {
+            "description": "The id of the model object the diagram belongs to",
             "type": "string"
           },
           "name": {
@@ -9167,6 +9351,7 @@
             "type": "string"
           },
           "version": {
+            "description": "The version number of the diagram content, incremented on each update",
             "type": "number"
           },
           "versionId": {
@@ -11911,7 +12096,6 @@
         "type": "string"
       },
       "LandscapeExportSchema": {
-        "default": "v1",
         "description": "Schema version to use for JSON exports.\n\n`v1` (default) produces the legacy format where entities are keyed objects.\n\n`v2` produces the same structure as the `LandscapeImportData` used by the import endpoint, so an export can be imported directly.",
         "enum": [
           "v1",
@@ -11956,13 +12140,11 @@
           },
           "orientation": {
             "$ref": "#/components/schemas/LandscapeExportOrientation",
-            "default": "portrait",
-            "description": "Orientation to use when exporting to PDF"
+            "description": "Orientation to use when exporting to PDF, defaults to portrait"
           },
           "schema": {
             "$ref": "#/components/schemas/LandscapeExportSchema",
-            "default": "v1",
-            "description": "Schema version to use for JSON exports"
+            "description": "Schema version to use for JSON exports, defaults to v1"
           }
         },
         "type": "object"
@@ -13001,7 +13183,30 @@
           "store",
           "system"
         ],
-        "type": "string"
+        "type": "string",
+        "x-fern-enum": {
+          "actor": {
+            "description": "A person or role that interacts with your systems, e.g. a customer or support agent"
+          },
+          "app": {
+            "description": "An application that runs code or performs tasks within a system, e.g. a web app, API or microservice"
+          },
+          "component": {
+            "description": "A logical building block within an app or store, e.g. a module, controller or library"
+          },
+          "group": {
+            "description": "A collection of related objects, e.g. a team, department or business capability"
+          },
+          "root": {
+            "description": "The root object of a domain that all other objects descend from"
+          },
+          "store": {
+            "description": "A place where data or files are stored within a system, e.g. a database, file storage or message queue"
+          },
+          "system": {
+            "description": "A software system that delivers value to its users, e.g. an e-commerce platform or CRM"
+          }
+        }
       },
       "ModelObjectStatus": {
         "enum": [
@@ -18097,7 +18302,10 @@
       "WebhookEventCollection": {
         "enum": [
           "adr",
+          "diagram",
+          "diagram-group",
           "domain",
+          "flow",
           "model-connection",
           "model-object",
           "tag",
@@ -18118,9 +18326,18 @@
           "adr:created",
           "adr:deleted",
           "adr:updated",
+          "diagram:created",
+          "diagram:deleted",
+          "diagram-group:created",
+          "diagram-group:deleted",
+          "diagram-group:updated",
+          "diagram:updated",
           "domain:created",
           "domain:deleted",
           "domain:updated",
+          "flow:created",
+          "flow:deleted",
+          "flow:updated",
           "model-connection:created",
           "model-connection:deleted",
           "model-connection:updated",
@@ -18378,6 +18595,15 @@
       },
       "SocketMessages": {
         "properties": {
+          "DiagramBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageDiagramBroadcast"
+          },
+          "DiagramClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageDiagramClientSubscribe"
+          },
+          "DiagramClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageDiagramClientUnsubscribe"
+          },
           "DiagramContentBroadcast": {
             "$ref": "#/components/schemas/SocketMessageDiagramContentBroadcast"
           },
@@ -18386,27 +18612,108 @@
           },
           "DiagramContentClientUnsubscribe": {
             "$ref": "#/components/schemas/SocketMessageDiagramContentClientUnsubscribe"
+          },
+          "DiagramGroupBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageDiagramGroupBroadcast"
+          },
+          "DiagramGroupClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageDiagramGroupClientSubscribe"
+          },
+          "DiagramGroupClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageDiagramGroupClientUnsubscribe"
+          },
+          "FlowBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageFlowBroadcast"
+          },
+          "FlowClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageFlowClientSubscribe"
+          },
+          "FlowClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageFlowClientUnsubscribe"
+          },
+          "FlowsBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageFlowsBroadcast"
+          },
+          "FlowsClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageFlowsClientSubscribe"
+          },
+          "FlowsClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageFlowsClientUnsubscribe"
+          },
+          "TagBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageTagBroadcast"
+          },
+          "TagClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageTagClientSubscribe"
+          },
+          "TagClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageTagClientUnsubscribe"
+          },
+          "TagGroupBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageTagGroupBroadcast"
+          },
+          "TagGroupClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageTagGroupClientSubscribe"
+          },
+          "TagGroupClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageTagGroupClientUnsubscribe"
           }
         },
         "required": [
+          "DiagramBroadcast",
+          "DiagramClientSubscribe",
+          "DiagramClientUnsubscribe",
           "DiagramContentBroadcast",
           "DiagramContentClientSubscribe",
-          "DiagramContentClientUnsubscribe"
+          "DiagramContentClientUnsubscribe",
+          "DiagramGroupBroadcast",
+          "DiagramGroupClientSubscribe",
+          "DiagramGroupClientUnsubscribe",
+          "FlowBroadcast",
+          "FlowClientSubscribe",
+          "FlowClientUnsubscribe",
+          "FlowsBroadcast",
+          "FlowsClientSubscribe",
+          "FlowsClientUnsubscribe",
+          "TagBroadcast",
+          "TagClientSubscribe",
+          "TagClientUnsubscribe",
+          "TagGroupBroadcast",
+          "TagGroupClientSubscribe",
+          "TagGroupClientUnsubscribe"
         ],
         "type": "object"
       },
       "SocketMessageType": {
         "enum": [
+          "DiagramBroadcast",
+          "DiagramClientSubscribe",
+          "DiagramClientUnsubscribe",
           "DiagramContentBroadcast",
           "DiagramContentClientSubscribe",
-          "DiagramContentClientUnsubscribe"
+          "DiagramContentClientUnsubscribe",
+          "DiagramGroupBroadcast",
+          "DiagramGroupClientSubscribe",
+          "DiagramGroupClientUnsubscribe",
+          "FlowBroadcast",
+          "FlowClientSubscribe",
+          "FlowClientUnsubscribe",
+          "FlowsBroadcast",
+          "FlowsClientSubscribe",
+          "FlowsClientUnsubscribe",
+          "TagBroadcast",
+          "TagClientSubscribe",
+          "TagClientUnsubscribe",
+          "TagGroupBroadcast",
+          "TagGroupClientSubscribe",
+          "TagGroupClientUnsubscribe"
         ],
         "type": "string"
       },
       "SocketClientAdrsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -18719,7 +19026,7 @@
       "SocketClientCommentsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -18761,7 +19068,7 @@
       "SocketClientCommentsReplyListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -19337,7 +19644,7 @@
       "SocketClientDiagramsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -19379,7 +19686,7 @@
       "SocketClientDiagramContentsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -19421,7 +19728,7 @@
       "SocketClientDiagramGroupsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -20253,178 +20560,10 @@
         ],
         "type": "object"
       },
-      "SocketDiagramContentClientSubscription": {
-        "properties": {
-          "diagramId": {
-            "format": "id",
-            "type": "string"
-          },
-          "landscapeId": {
-            "format": "id",
-            "type": "string"
-          },
-          "versionId": {
-            "format": "id",
-            "type": "string"
-          }
-        },
-        "required": [
-          "landscapeId",
-          "versionId",
-          "diagramId"
-        ],
-        "type": "object"
-      },
-      "SocketMessageDiagramContentClientSubscribe": {
-        "properties": {
-          "body": {
-            "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
-          },
-          "reply": {
-            "type": "object"
-          }
-        },
-        "required": [
-          "body",
-          "reply"
-        ],
-        "type": "object"
-      },
-      "SocketMessageDiagramContentClientUnsubscribe": {
-        "properties": {
-          "body": {
-            "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
-          },
-          "reply": {
-            "type": "object"
-          }
-        },
-        "required": [
-          "body",
-          "reply"
-        ],
-        "type": "object"
-      },
-      "SocketDiagramContentClientEventName": {
-        "enum": [
-          "diagram-content-subscribe",
-          "diagram-content-unsubscribe"
-        ],
-        "type": "string"
-      },
-      "SocketDiagramContentClientEvents": {
-        "properties": {
-          "diagram-content-subscribe": {
-            "properties": {
-              "body": {
-                "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
-              },
-              "reply": {
-                "type": "object"
-              }
-            },
-            "required": [
-              "body",
-              "reply"
-            ],
-            "type": "object"
-          },
-          "diagram-content-unsubscribe": {
-            "properties": {
-              "body": {
-                "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
-              },
-              "reply": {
-                "type": "object"
-              }
-            },
-            "required": [
-              "body",
-              "reply"
-            ],
-            "type": "object"
-          }
-        },
-        "required": [
-          "diagram-content-subscribe",
-          "diagram-content-unsubscribe"
-        ],
-        "type": "object"
-      },
-      "SocketMessageDiagramContentBroadcast": {
-        "properties": {
-          "body": {
-            "properties": {
-              "diagramContent": {
-                "$ref": "#/components/schemas/DiagramContent"
-              },
-              "id": {
-                "format": "id",
-                "type": "string"
-              },
-              "type": {
-                "$ref": "#/components/schemas/DocumentBroadcastType"
-              }
-            },
-            "required": [
-              "diagramContent",
-              "id",
-              "type"
-            ],
-            "type": "object"
-          }
-        },
-        "required": [
-          "body"
-        ],
-        "type": "object"
-      },
-      "SocketDiagramContentServerEventName": {
-        "enum": [
-          "diagram-content-broadcast"
-        ],
-        "type": "string"
-      },
-      "SocketDiagramContentServerEvents": {
-        "properties": {
-          "diagram-content-broadcast": {
-            "properties": {
-              "body": {
-                "properties": {
-                  "diagramContent": {
-                    "$ref": "#/components/schemas/DiagramContent"
-                  },
-                  "id": {
-                    "format": "id",
-                    "type": "string"
-                  },
-                  "type": {
-                    "$ref": "#/components/schemas/DocumentBroadcastType"
-                  }
-                },
-                "required": [
-                  "diagramContent",
-                  "id",
-                  "type"
-                ],
-                "type": "object"
-              }
-            },
-            "required": [
-              "body"
-            ],
-            "type": "object"
-          }
-        },
-        "required": [
-          "diagram-content-broadcast"
-        ],
-        "type": "object"
-      },
       "SocketClientDomainsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -20737,7 +20876,7 @@
       "SocketClientDraftsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -21421,7 +21560,7 @@
       "SocketClientFlowsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -21844,7 +21983,7 @@
       "SocketClientModelObjectsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -21886,7 +22025,7 @@
       "SocketClientModelConnectionsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -22453,10 +22592,1205 @@
         ],
         "type": "object"
       },
+      "SocketDiagramClientSubscription": {
+        "properties": {
+          "landscapeId": {
+            "format": "id",
+            "type": "string"
+          },
+          "versionId": {
+            "format": "id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "landscapeId",
+          "versionId"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketDiagramClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketDiagramClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramGroupClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketDiagramClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramGroupClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketDiagramClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketDiagramClientEventName": {
+        "enum": [
+          "diagram-group-subscribe",
+          "diagram-group-unsubscribe",
+          "diagram-subscribe",
+          "diagram-unsubscribe"
+        ],
+        "type": "string"
+      },
+      "SocketDiagramClientEvents": {
+        "properties": {
+          "diagram-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketDiagramClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "diagram-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketDiagramClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "diagram-group-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketDiagramClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "diagram-group-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketDiagramClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "diagram-group-subscribe",
+          "diagram-group-unsubscribe",
+          "diagram-subscribe",
+          "diagram-unsubscribe"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "changes": {
+                "items": {
+                  "properties": {
+                    "diagram": {
+                      "$ref": "#/components/schemas/Diagram"
+                    },
+                    "id": {
+                      "format": "id",
+                      "type": "string"
+                    },
+                    "type": {
+                      "$ref": "#/components/schemas/QueryBroadcastType"
+                    }
+                  },
+                  "required": [
+                    "diagram",
+                    "id",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "staleReadTime": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "changes"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramGroupBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "changes": {
+                "items": {
+                  "properties": {
+                    "diagramGroup": {
+                      "$ref": "#/components/schemas/DiagramGroup"
+                    },
+                    "id": {
+                      "format": "id",
+                      "type": "string"
+                    },
+                    "type": {
+                      "$ref": "#/components/schemas/QueryBroadcastType"
+                    }
+                  },
+                  "required": [
+                    "diagramGroup",
+                    "id",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "staleReadTime": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "changes"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketDiagramServerEventName": {
+        "enum": [
+          "diagram-broadcast",
+          "diagram-group-broadcast"
+        ],
+        "type": "string"
+      },
+      "SocketDiagramServerEvents": {
+        "properties": {
+          "diagram-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "changes": {
+                    "items": {
+                      "properties": {
+                        "diagram": {
+                          "$ref": "#/components/schemas/Diagram"
+                        },
+                        "id": {
+                          "format": "id",
+                          "type": "string"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/QueryBroadcastType"
+                        }
+                      },
+                      "required": [
+                        "diagram",
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "staleReadTime": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "changes"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          },
+          "diagram-group-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "changes": {
+                    "items": {
+                      "properties": {
+                        "diagramGroup": {
+                          "$ref": "#/components/schemas/DiagramGroup"
+                        },
+                        "id": {
+                          "format": "id",
+                          "type": "string"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/QueryBroadcastType"
+                        }
+                      },
+                      "required": [
+                        "diagramGroup",
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "staleReadTime": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "changes"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "diagram-broadcast",
+          "diagram-group-broadcast"
+        ],
+        "type": "object"
+      },
+      "SocketDiagramContentClientSubscription": {
+        "properties": {
+          "diagramId": {
+            "format": "id",
+            "type": "string"
+          },
+          "landscapeId": {
+            "format": "id",
+            "type": "string"
+          },
+          "versionId": {
+            "format": "id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "landscapeId",
+          "versionId",
+          "diagramId"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramContentClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramContentClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketDiagramContentClientEventName": {
+        "enum": [
+          "diagram-content-subscribe",
+          "diagram-content-unsubscribe"
+        ],
+        "type": "string"
+      },
+      "SocketDiagramContentClientEvents": {
+        "properties": {
+          "diagram-content-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "diagram-content-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketDiagramContentClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "diagram-content-subscribe",
+          "diagram-content-unsubscribe"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDiagramContentBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "diagramContent": {
+                "$ref": "#/components/schemas/DiagramContent"
+              },
+              "id": {
+                "format": "id",
+                "type": "string"
+              },
+              "type": {
+                "$ref": "#/components/schemas/DocumentBroadcastType"
+              }
+            },
+            "required": [
+              "diagramContent",
+              "id",
+              "type"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketDiagramContentServerEventName": {
+        "enum": [
+          "diagram-content-broadcast"
+        ],
+        "type": "string"
+      },
+      "SocketDiagramContentServerEvents": {
+        "properties": {
+          "diagram-content-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "diagramContent": {
+                    "$ref": "#/components/schemas/DiagramContent"
+                  },
+                  "id": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "type": {
+                    "$ref": "#/components/schemas/DocumentBroadcastType"
+                  }
+                },
+                "required": [
+                  "diagramContent",
+                  "id",
+                  "type"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "diagram-content-broadcast"
+        ],
+        "type": "object"
+      },
+      "SocketFlowsClientSubscription": {
+        "properties": {
+          "landscapeId": {
+            "format": "id",
+            "type": "string"
+          },
+          "versionId": {
+            "format": "id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "landscapeId",
+          "versionId"
+        ],
+        "type": "object"
+      },
+      "SocketFlowClientSubscription": {
+        "properties": {
+          "flowId": {
+            "format": "id",
+            "type": "string"
+          },
+          "landscapeId": {
+            "format": "id",
+            "type": "string"
+          },
+          "versionId": {
+            "format": "id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "landscapeId",
+          "versionId",
+          "flowId"
+        ],
+        "type": "object"
+      },
+      "SocketMessageFlowsClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketFlowsClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageFlowsClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketFlowsClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageFlowClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketFlowClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageFlowClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketFlowClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketFlowClientEventName": {
+        "enum": [
+          "flow-subscribe",
+          "flow-unsubscribe",
+          "flows-subscribe",
+          "flows-unsubscribe"
+        ],
+        "type": "string"
+      },
+      "SocketFlowClientEvents": {
+        "properties": {
+          "flows-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketFlowsClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "flows-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketFlowsClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "flow-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketFlowClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "flow-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketFlowClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "flow-subscribe",
+          "flow-unsubscribe",
+          "flows-subscribe",
+          "flows-unsubscribe"
+        ],
+        "type": "object"
+      },
+      "SocketMessageFlowsBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "changes": {
+                "items": {
+                  "properties": {
+                    "flow": {
+                      "$ref": "#/components/schemas/Flow"
+                    },
+                    "id": {
+                      "format": "id",
+                      "type": "string"
+                    },
+                    "type": {
+                      "$ref": "#/components/schemas/QueryBroadcastType"
+                    }
+                  },
+                  "required": [
+                    "flow",
+                    "id",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "staleReadTime": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "changes"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketMessageFlowBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "flow": {
+                "$ref": "#/components/schemas/Flow"
+              },
+              "id": {
+                "format": "id",
+                "type": "string"
+              },
+              "type": {
+                "$ref": "#/components/schemas/DocumentBroadcastType"
+              }
+            },
+            "required": [
+              "flow",
+              "id",
+              "type"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketFlowServerEventName": {
+        "enum": [
+          "flow-broadcast",
+          "flows-broadcast"
+        ],
+        "type": "string"
+      },
+      "SocketFlowServerEvents": {
+        "properties": {
+          "flows-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "changes": {
+                    "items": {
+                      "properties": {
+                        "flow": {
+                          "$ref": "#/components/schemas/Flow"
+                        },
+                        "id": {
+                          "format": "id",
+                          "type": "string"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/QueryBroadcastType"
+                        }
+                      },
+                      "required": [
+                        "flow",
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "staleReadTime": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "changes"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          },
+          "flow-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "flow": {
+                    "$ref": "#/components/schemas/Flow"
+                  },
+                  "id": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "type": {
+                    "$ref": "#/components/schemas/DocumentBroadcastType"
+                  }
+                },
+                "required": [
+                  "flow",
+                  "id",
+                  "type"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "flow-broadcast",
+          "flows-broadcast"
+        ],
+        "type": "object"
+      },
+      "SocketTagClientSubscription": {
+        "properties": {
+          "landscapeId": {
+            "format": "id",
+            "type": "string"
+          },
+          "versionId": {
+            "format": "id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "landscapeId",
+          "versionId"
+        ],
+        "type": "object"
+      },
+      "SocketMessageTagClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketTagClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageTagClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketTagClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageTagGroupClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketTagClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageTagGroupClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketTagClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketTagClientEventName": {
+        "enum": [
+          "tag-group-subscribe",
+          "tag-group-unsubscribe",
+          "tag-subscribe",
+          "tag-unsubscribe"
+        ],
+        "type": "string"
+      },
+      "SocketTagClientEvents": {
+        "properties": {
+          "tag-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketTagClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "tag-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketTagClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "tag-group-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketTagClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "tag-group-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketTagClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "tag-group-subscribe",
+          "tag-group-unsubscribe",
+          "tag-subscribe",
+          "tag-unsubscribe"
+        ],
+        "type": "object"
+      },
+      "SocketMessageTagBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "changes": {
+                "items": {
+                  "properties": {
+                    "id": {
+                      "format": "id",
+                      "type": "string"
+                    },
+                    "tag": {
+                      "$ref": "#/components/schemas/Tag"
+                    },
+                    "type": {
+                      "$ref": "#/components/schemas/QueryBroadcastType"
+                    }
+                  },
+                  "required": [
+                    "tag",
+                    "id",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "staleReadTime": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "changes"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketMessageTagGroupBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "changes": {
+                "items": {
+                  "properties": {
+                    "id": {
+                      "format": "id",
+                      "type": "string"
+                    },
+                    "tagGroup": {
+                      "$ref": "#/components/schemas/TagGroup"
+                    },
+                    "type": {
+                      "$ref": "#/components/schemas/QueryBroadcastType"
+                    }
+                  },
+                  "required": [
+                    "tagGroup",
+                    "id",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "staleReadTime": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "changes"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketTagServerEventName": {
+        "enum": [
+          "tag-broadcast",
+          "tag-group-broadcast"
+        ],
+        "type": "string"
+      },
+      "SocketTagServerEvents": {
+        "properties": {
+          "tag-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "changes": {
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "format": "id",
+                          "type": "string"
+                        },
+                        "tag": {
+                          "$ref": "#/components/schemas/Tag"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/QueryBroadcastType"
+                        }
+                      },
+                      "required": [
+                        "tag",
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "staleReadTime": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "changes"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          },
+          "tag-group-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "changes": {
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "format": "id",
+                          "type": "string"
+                        },
+                        "tagGroup": {
+                          "$ref": "#/components/schemas/TagGroup"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/QueryBroadcastType"
+                        }
+                      },
+                      "required": [
+                        "tagGroup",
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "staleReadTime": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "changes"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "tag-broadcast",
+          "tag-group-broadcast"
+        ],
+        "type": "object"
+      },
       "SocketClientTagsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -22498,7 +23832,7 @@
       "SocketClientTagGroupsListBody": {
         "properties": {
           "batchSize": {
-            "default": 1000,
+            "description": "The number of items to return per batch, defaults to 1000",
             "maximum": 10000,
             "minimum": 1,
             "type": "number"
@@ -24134,10 +25468,16 @@
             "$ref": "#/components/schemas/CommentRequired"
           },
           {
+            "$ref": "#/components/schemas/DiagramConnectionRequired"
+          },
+          {
             "$ref": "#/components/schemas/DiagramContentRequired"
           },
           {
             "$ref": "#/components/schemas/DiagramGroupRequired"
+          },
+          {
+            "$ref": "#/components/schemas/DiagramObjectRequired"
           },
           {
             "$ref": "#/components/schemas/DiagramRequired"
@@ -25101,6 +26441,9 @@
             "$ref": "#/components/schemas/DiagramConnectionPartial"
           },
           {
+            "$ref": "#/components/schemas/DiagramConnectionRequired"
+          },
+          {
             "$ref": "#/components/schemas/DiagramContent"
           },
           {
@@ -25162,6 +26505,9 @@
           },
           {
             "$ref": "#/components/schemas/DiagramObjectPartial"
+          },
+          {
+            "$ref": "#/components/schemas/DiagramObjectRequired"
           },
           {
             "$ref": "#/components/schemas/DiagramObjectShape"
@@ -26184,6 +27530,15 @@
             "$ref": "#/components/schemas/SocketClientVersionsUnsubscribeBody"
           },
           {
+            "$ref": "#/components/schemas/SocketDiagramClientEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDiagramClientEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDiagramClientSubscription"
+          },
+          {
             "$ref": "#/components/schemas/SocketDiagramContentClientEventName"
           },
           {
@@ -26199,6 +27554,39 @@
             "$ref": "#/components/schemas/SocketDiagramContentServerEvents"
           },
           {
+            "$ref": "#/components/schemas/SocketDiagramServerEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDiagramServerEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketFlowClientEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketFlowClientEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketFlowClientSubscription"
+          },
+          {
+            "$ref": "#/components/schemas/SocketFlowServerEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketFlowServerEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketFlowsClientSubscription"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageDiagramBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageDiagramClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageDiagramClientUnsubscribe"
+          },
+          {
             "$ref": "#/components/schemas/SocketMessageDiagramContentBroadcast"
           },
           {
@@ -26206,6 +27594,51 @@
           },
           {
             "$ref": "#/components/schemas/SocketMessageDiagramContentClientUnsubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageDiagramGroupBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageDiagramGroupClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageDiagramGroupClientUnsubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageFlowBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageFlowClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageFlowClientUnsubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageFlowsBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageFlowsClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageFlowsClientUnsubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageTagBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageTagClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageTagClientUnsubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageTagGroupBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageTagGroupClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageTagGroupClientUnsubscribe"
           },
           {
             "$ref": "#/components/schemas/SocketMessageType"
@@ -26479,6 +27912,21 @@
           },
           {
             "$ref": "#/components/schemas/SocketServerVersionRemovedBody"
+          },
+          {
+            "$ref": "#/components/schemas/SocketTagClientEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketTagClientEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketTagClientSubscription"
+          },
+          {
+            "$ref": "#/components/schemas/SocketTagServerEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketTagServerEvents"
           },
           {
             "$ref": "#/components/schemas/SortDirection"
@@ -28209,11 +29657,11 @@
             }
           },
           {
+            "description": "The maximum number of items to return, defaults to 1000",
             "in": "query",
             "name": "limit",
             "required": false,
             "schema": {
-              "default": 1000,
               "maximum": 10000,
               "minimum": 1,
               "type": "number"
@@ -28533,11 +29981,11 @@
             }
           },
           {
+            "description": "The maximum number of items to return, defaults to 1000",
             "in": "query",
             "name": "limit",
             "required": false,
             "schema": {
-              "default": 1000,
               "maximum": 10000,
               "minimum": 1,
               "type": "number"
@@ -29146,11 +30594,11 @@
             }
           },
           {
+            "description": "The maximum number of items to return, defaults to 1000",
             "in": "query",
             "name": "limit",
             "required": false,
             "schema": {
-              "default": 1000,
               "maximum": 10000,
               "minimum": 1,
               "type": "number"
@@ -30407,187 +31855,6 @@
         "x-ice-panel-operation-subject": "comment",
         "x-ice-panel-operation-type": "read"
       },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Comment Replies"
-        ],
-        "x-eov-operation-handler": "commentReplies",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": [
-          "comments",
-          "replies"
-        ],
-        "operationId": "commentReplyUpsert",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "commentId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "commentReplyId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CommentReplyUpsert"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "commentReply": {
-                      "$ref": "#/components/schemas/CommentReply"
-                    }
-                  },
-                  "required": [
-                    "commentReply"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Upsert",
-        "x-fern-request-name": "CommentReplyUpsertRequest",
-        "x-fern-sdk-method-name": "upsert",
-        "x-ice-panel-operation-subject": "comment",
-        "x-ice-panel-operation-type": "write"
-      },
       "patch": {
         "security": [
           {
@@ -31375,176 +32642,6 @@
         "x-ice-panel-operation-subject": "comment",
         "x-ice-panel-operation-type": "read"
       },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Comments"
-        ],
-        "x-eov-operation-handler": "comments",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": "comments",
-        "operationId": "commentUpsert",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "commentId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CommentUpsert"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "comment": {
-                      "$ref": "#/components/schemas/Comment"
-                    }
-                  },
-                  "required": [
-                    "comment"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Upsert",
-        "x-fern-request-name": "CommentUpsertRequest",
-        "x-fern-sdk-method-name": "upsert",
-        "x-ice-panel-operation-subject": "comment",
-        "x-ice-panel-operation-type": "write"
-      },
       "patch": {
         "security": [
           {
@@ -32027,187 +33124,6 @@
         "x-fern-sdk-method-name": "get",
         "x-ice-panel-operation-subject": "diagram",
         "x-ice-panel-operation-type": "read"
-      },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Diagram Content"
-        ],
-        "x-eov-operation-handler": "diagramContents",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": [
-          "diagrams",
-          "content"
-        ],
-        "operationId": "diagramContentReplace",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "diagramId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "updateViewedAt",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DiagramContentRequired"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "diagramContent": {
-                      "$ref": "#/components/schemas/DiagramContent"
-                    }
-                  },
-                  "required": [
-                    "diagramContent"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Replace",
-        "x-fern-request-name": "DiagramContentReplaceRequest",
-        "x-fern-sdk-method-name": "replace",
-        "x-ice-panel-operation-subject": "diagram",
-        "x-ice-panel-operation-type": "write"
       },
       "patch": {
         "security": [
@@ -32920,179 +33836,6 @@
         "x-fern-sdk-method-name": "exists",
         "x-ice-panel-operation-subject": "diagram",
         "x-ice-panel-operation-type": "read"
-      },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Diagram Groups"
-        ],
-        "x-eov-operation-handler": "diagramGroups",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": [
-          "diagrams",
-          "groups"
-        ],
-        "operationId": "diagramGroupUpsert",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "diagramGroupId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DiagramGroupUpsert"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "diagramGroup": {
-                      "$ref": "#/components/schemas/DiagramGroup"
-                    }
-                  },
-                  "required": [
-                    "diagramGroup"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Upsert",
-        "x-fern-request-name": "DiagramGroupUpsertRequest",
-        "x-fern-sdk-method-name": "upsert",
-        "x-ice-panel-operation-subject": "diagram",
-        "x-ice-panel-operation-type": "write"
       },
       "patch": {
         "security": [
@@ -33966,187 +34709,6 @@
         "x-fern-sdk-method-name": "exists",
         "x-ice-panel-operation-subject": "diagram",
         "x-ice-panel-operation-type": "read"
-      },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Diagrams"
-        ],
-        "x-eov-operation-handler": "diagrams",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": "diagrams",
-        "operationId": "diagramUpsert",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "diagramId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "updateViewedAt",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DiagramCreate"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "diagram": {
-                      "$ref": "#/components/schemas/Diagram"
-                    },
-                    "diagramContent": {
-                      "$ref": "#/components/schemas/DiagramContent"
-                    }
-                  },
-                  "required": [
-                    "diagram"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Upsert",
-        "x-fern-request-name": "DiagramUpsertRequest",
-        "x-fern-sdk-method-name": "upsert",
-        "x-ice-panel-operation-subject": "diagram",
-        "x-ice-panel-operation-type": "write"
       },
       "patch": {
         "security": [
@@ -35602,176 +36164,6 @@
         "x-ice-panel-operation-subject": "domain",
         "x-ice-panel-operation-type": "read"
       },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Domains"
-        ],
-        "x-eov-operation-handler": "domains",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": "domains",
-        "operationId": "domainUpsert",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "domainId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DomainUpsert"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "domain": {
-                      "$ref": "#/components/schemas/Domain"
-                    }
-                  },
-                  "required": [
-                    "domain"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Upsert",
-        "x-fern-request-name": "DomainUpsertRequest",
-        "x-fern-sdk-method-name": "upsert",
-        "x-ice-panel-operation-subject": "domain",
-        "x-ice-panel-operation-type": "write"
-      },
       "patch": {
         "security": [
           {
@@ -36672,166 +37064,6 @@
         "x-ice-panel-operation-subject": "draft",
         "x-ice-panel-operation-type": "write"
       },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Drafts"
-        ],
-        "x-eov-operation-handler": "drafts",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": "drafts",
-        "operationId": "draftUpsert",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "draftId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DraftRequired"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "draft": {
-                      "$ref": "#/components/schemas/Draft"
-                    }
-                  },
-                  "required": [
-                    "draft"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Upsert",
-        "x-fern-request-name": "DraftUpsertRequest",
-        "x-fern-sdk-method-name": "upsert",
-        "x-ice-panel-operation-subject": "draft",
-        "x-ice-panel-operation-type": "write"
-      },
       "delete": {
         "security": [
           {
@@ -37654,176 +37886,6 @@
         "x-fern-sdk-method-name": "exists",
         "x-ice-panel-operation-subject": "flow",
         "x-ice-panel-operation-type": "read"
-      },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Flows"
-        ],
-        "x-eov-operation-handler": "flows",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": "flows",
-        "operationId": "flowUpsert",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "flowId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FlowRequired"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "flow": {
-                      "$ref": "#/components/schemas/Flow"
-                    }
-                  },
-                  "required": [
-                    "flow"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Upsert",
-        "x-fern-request-name": "FlowUpsertRequest",
-        "x-fern-sdk-method-name": "upsert",
-        "x-ice-panel-operation-subject": "flow",
-        "x-ice-panel-operation-type": "write"
       },
       "patch": {
         "security": [
@@ -40814,231 +40876,6 @@
         "x-ice-panel-operation-subject": "model-connection",
         "x-ice-panel-operation-type": "read"
       },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Model Connections"
-        ],
-        "x-eov-operation-handler": "modelConnections",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": [
-          "model",
-          "connections"
-        ],
-        "operationId": "modelConnectionUpsert",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "modelConnectionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "originConnector",
-            "required": false,
-            "schema": {
-              "enum": [
-                "top-left",
-                "top-center",
-                "top-right",
-                "right-top",
-                "right-middle",
-                "right-bottom",
-                "bottom-right",
-                "bottom-center",
-                "bottom-left",
-                "left-bottom",
-                "left-middle",
-                "left-top"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "targetConnector",
-            "required": false,
-            "schema": {
-              "enum": [
-                "top-left",
-                "top-center",
-                "top-right",
-                "right-top",
-                "right-middle",
-                "right-bottom",
-                "bottom-right",
-                "bottom-center",
-                "bottom-left",
-                "left-bottom",
-                "left-middle",
-                "left-top"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "updateDiagrams",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ModelConnectionUpsert"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "modelConnection": {
-                      "$ref": "#/components/schemas/ModelConnection"
-                    }
-                  },
-                  "required": [
-                    "modelConnection"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Upsert",
-        "x-fern-request-name": "ModelConnectionUpsertRequest",
-        "x-fern-sdk-method-name": "upsert",
-        "x-ice-panel-operation-subject": "model-connection",
-        "x-ice-panel-operation-type": "write"
-      },
       "patch": {
         "security": [
           {
@@ -42342,179 +42179,6 @@
         "x-ice-panel-operation-subject": "model-object",
         "x-ice-panel-operation-type": "read"
       },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Model Objects"
-        ],
-        "x-eov-operation-handler": "modelObjects",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": [
-          "model",
-          "objects"
-        ],
-        "operationId": "modelObjectUpsert",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "modelObjectId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ModelObjectUpsert"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "modelObject": {
-                      "$ref": "#/components/schemas/ModelObject"
-                    }
-                  },
-                  "required": [
-                    "modelObject"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Upsert",
-        "x-fern-request-name": "ModelObjectUpsertRequest",
-        "x-fern-sdk-method-name": "upsert",
-        "x-ice-panel-operation-subject": "model-object",
-        "x-ice-panel-operation-type": "write"
-      },
       "patch": {
         "security": [
           {
@@ -43452,11 +43116,11 @@
             }
           },
           {
+            "description": "The maximum number of items to return, defaults to 1000",
             "in": "query",
             "name": "limit",
             "required": false,
             "schema": {
-              "default": 1000,
               "maximum": 10000,
               "minimum": 1,
               "type": "number"
@@ -47299,179 +46963,6 @@
         "x-ice-panel-operation-subject": "tag-group",
         "x-ice-panel-operation-type": "read"
       },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Tag Groups"
-        ],
-        "x-eov-operation-handler": "tagGroups",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": [
-          "tags",
-          "groups"
-        ],
-        "operationId": "tagGroupUpsert",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "tagGroupId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TagGroupUpsert"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "tagGroup": {
-                      "$ref": "#/components/schemas/TagGroup"
-                    }
-                  },
-                  "required": [
-                    "tagGroup"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Upsert",
-        "x-fern-request-name": "TagGroupUpsertRequest",
-        "x-fern-sdk-method-name": "upsert",
-        "x-ice-panel-operation-subject": "tag-group",
-        "x-ice-panel-operation-type": "write"
-      },
       "patch": {
         "security": [
           {
@@ -48236,176 +47727,6 @@
         "x-fern-sdk-method-name": "get",
         "x-ice-panel-operation-subject": "tag",
         "x-ice-panel-operation-type": "read"
-      },
-      "put": {
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "BearerAuth": []
-          }
-        ],
-        "tags": [
-          "Tags"
-        ],
-        "x-eov-operation-handler": "tags",
-        "x-fern-audiences": [
-          "public"
-        ],
-        "x-fern-sdk-group-name": "tags",
-        "operationId": "tagUpsert",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "landscapeId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "versionId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "path",
-            "name": "tagId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TagUpsert"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "tag": {
-                      "$ref": "#/components/schemas/Tag"
-                    }
-                  },
-                  "required": [
-                    "tag"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unauthorized"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Forbidden"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Not Found"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Conflict"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Unprocessable Entity"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Resource Exhausted"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Internal Server"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            },
-            "description": "Service Unavailable"
-          }
-        },
-        "summary": "Upsert",
-        "x-fern-request-name": "TagUpsertRequest",
-        "x-fern-sdk-method-name": "upsert",
-        "x-ice-panel-operation-subject": "tag",
-        "x-ice-panel-operation-type": "write"
       },
       "patch": {
         "security": [
@@ -50992,6 +50313,246 @@
     }
   ],
   "webhooks": {
+    "diagram": {
+      "post": {
+        "description": "Webhook event triggered when a diagram was modified",
+        "operationId": "onDiagram",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "example": {
+                  "after": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "before": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "collection": "diagram",
+                  "operation": "created",
+                  "organizationId": "ZGDaIrw2DrVnYnxMDES3",
+                  "resourceId": "ktLn0NRHkzKp2GTPzXl5",
+                  "subscriptionId": "cK0eZN6MLSw8XDg7uPnY"
+                },
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "diagram"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "created",
+                      "updated",
+                      "deleted"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Diagram",
+        "tags": [
+          "Webhook Events"
+        ],
+        "x-fern-audiences": [
+          "public"
+        ]
+      }
+    },
+    "diagram-group": {
+      "post": {
+        "description": "Webhook event triggered when a diagram group was modified",
+        "operationId": "onDiagramGroup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "example": {
+                  "after": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "before": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "collection": "diagram-group",
+                  "operation": "created",
+                  "organizationId": "ZGDaIrw2DrVnYnxMDES3",
+                  "resourceId": "ktLn0NRHkzKp2GTPzXl5",
+                  "subscriptionId": "cK0eZN6MLSw8XDg7uPnY"
+                },
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "diagram-group"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "created",
+                      "updated",
+                      "deleted"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Diagram Group",
+        "tags": [
+          "Webhook Events"
+        ],
+        "x-fern-audiences": [
+          "public"
+        ]
+      }
+    },
     "domain": {
       "post": {
         "description": "Webhook event triggered when a domain was modified",
@@ -51104,6 +50665,126 @@
           }
         },
         "summary": "Domain",
+        "tags": [
+          "Webhook Events"
+        ],
+        "x-fern-audiences": [
+          "public"
+        ]
+      }
+    },
+    "flow": {
+      "post": {
+        "description": "Webhook event triggered when a flow was modified",
+        "operationId": "onFlow",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "example": {
+                  "after": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "before": {
+                    "id": "ktLn0NRHkzKp2GTPzXl5",
+                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
+                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
+                  },
+                  "collection": "flow",
+                  "operation": "created",
+                  "organizationId": "ZGDaIrw2DrVnYnxMDES3",
+                  "resourceId": "ktLn0NRHkzKp2GTPzXl5",
+                  "subscriptionId": "cK0eZN6MLSw8XDg7uPnY"
+                },
+                "properties": {
+                  "after": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "before": {
+                    "properties": {
+                      "id": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "landscapeId": {
+                        "format": "id",
+                        "type": "string"
+                      },
+                      "versionId": {
+                        "format": "id",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "collection": {
+                    "enum": [
+                      "flow"
+                    ],
+                    "type": "string"
+                  },
+                  "operation": {
+                    "enum": [
+                      "created",
+                      "updated",
+                      "deleted"
+                    ],
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "resourceId": {
+                    "format": "id",
+                    "type": "string"
+                  },
+                  "subscriptionId": {
+                    "format": "id",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "collection",
+                  "operation",
+                  "organizationId",
+                  "resourceId",
+                  "subscriptionId"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Flow",
         "tags": [
           "Webhook Events"
         ],
