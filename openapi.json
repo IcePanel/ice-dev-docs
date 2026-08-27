@@ -7040,6 +7040,213 @@
         ],
         "type": "object"
       },
+      "CatalogTechnologyField": {
+        "enum": [
+          "category",
+          "color",
+          "deprecatedAt",
+          "description",
+          "docsUrl",
+          "iconUrlDark",
+          "iconUrlLight",
+          "name",
+          "nameShort",
+          "provider",
+          "rejectionMessage",
+          "rejectionReason",
+          "restrictions",
+          "status",
+          "type",
+          "updatesUrl",
+          "websiteUrl",
+          "awsXmlSelector",
+          "azureUpdatesKeyword",
+          "createdAt",
+          "createdBy",
+          "createdById",
+          "defaultSlug",
+          "deletedAt",
+          "deletedBy",
+          "deletedById",
+          "disabled",
+          "iconUrl",
+          "organizationId",
+          "slugs",
+          "updatedAt",
+          "updatedBy",
+          "updatedById",
+          "updatesXmlUrl"
+        ],
+        "type": "string"
+      },
+      "CatalogTechnologyOptional": {
+        "properties": {
+          "category": {
+            "maxLength": 1000,
+            "type": "string"
+          },
+          "color": {
+            "$ref": "#/components/schemas/TagColor",
+            "description": "Technology color used in diagrams"
+          },
+          "deprecatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "description": {
+            "description": "Technical description for the technology, avoid marketing language",
+            "maxLength": 10000,
+            "type": "string"
+          },
+          "docsUrl": {
+            "description": "Documentation or readme url",
+            "maxLength": 2048,
+            "type": "string"
+          },
+          "iconUrlDark": {
+            "description": "Icon that only works on dark backgrounds",
+            "example": [
+              "/organizations/{organizationId}/dark/{catalogTechnologyId}.png",
+              "/dark/{catalogTechnologyId}.png"
+            ],
+            "maxLength": 2048,
+            "nullable": true,
+            "type": "string"
+          },
+          "iconUrlLight": {
+            "description": "Icon that only works on light backgrounds",
+            "example": [
+              "/organizations/{organizationId}/light/{catalogTechnologyId}.png",
+              "/light/{catalogTechnologyId}.png"
+            ],
+            "maxLength": 2048,
+            "nullable": true,
+            "type": "string"
+          },
+          "name": {
+            "description": "Long verbose name",
+            "maxLength": 1000,
+            "type": "string"
+          },
+          "nameShort": {
+            "description": "Short one or two word name to show in places with limited space",
+            "maxLength": 1000,
+            "type": "string"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/CatalogProviderNullable",
+            "description": "Service provider that provides this technology"
+          },
+          "rejectionMessage": {
+            "description": "If rejected, detail description of why",
+            "maxLength": 5000,
+            "type": "string"
+          },
+          "rejectionReason": {
+            "$ref": "#/components/schemas/CatalogTechnologyReviewRejectionReason",
+            "description": "If rejected, the reason why"
+          },
+          "restrictions": {
+            "description": "Restriction on which model object or connections this technology can be added to",
+            "items": {
+              "$ref": "#/components/schemas/CatalogRestriction"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CatalogTechnologyStatusNullable",
+            "description": "Current status of the technology, including pending review, approved, and rejected. Approved technologies are visible to all users. Set to null to make the technology private."
+          },
+          "type": {
+            "$ref": "#/components/schemas/CatalogTechnologyTypeNullable",
+            "description": "Type or category of technology"
+          },
+          "updatesUrl": {
+            "description": "Release notes or changelog url",
+            "maxLength": 2048,
+            "type": "string"
+          },
+          "websiteUrl": {
+            "description": "Landing page website url",
+            "maxLength": 2048,
+            "type": "string"
+          },
+          "awsXmlSelector": {
+            "type": "string"
+          },
+          "azureUpdatesKeyword": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/AuthType"
+          },
+          "createdById": {
+            "type": "string"
+          },
+          "defaultSlug": {
+            "description": "URL path name for the technology, used by stackfeed",
+            "type": "string"
+          },
+          "deletedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deletedBy": {
+            "$ref": "#/components/schemas/AuthType"
+          },
+          "deletedById": {
+            "type": "string"
+          },
+          "disabled": {
+            "description": "Whether the technology is disabled and not visible to users, defaults to false",
+            "type": "boolean"
+          },
+          "iconUrl": {
+            "deprecated": true,
+            "description": "Use either iconUrlDark or iconUrlLight",
+            "maxLength": 2048,
+            "nullable": true,
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "organizationId": {
+            "description": "Organization that owns this technology, or null if its publicly accessible",
+            "nullable": true,
+            "type": "string"
+          },
+          "slugs": {
+            "description": "Current and historical url path names used for the technology, used by stackfeed",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedBy": {
+            "$ref": "#/components/schemas/AuthType"
+          },
+          "updatedById": {
+            "type": "string"
+          },
+          "updatesXmlUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
       "CatalogTechnologyReviewCreate": {
         "properties": {
           "catalogTechnologyId": {
@@ -15963,6 +16170,13 @@
         ],
         "type": "string"
       },
+      "TagExpandKey": {
+        "enum": [
+          "modelConnectionIds",
+          "modelObjectIds"
+        ],
+        "type": "string"
+      },
       "TagPartial": {
         "properties": {
           "color": {
@@ -16098,18 +16312,6 @@
           "latestEntityId": {
             "type": "string"
           },
-          "modelConnectionIds": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "modelObjectIds": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
           "updatedAt": {
             "format": "date-time",
             "type": "string"
@@ -16140,8 +16342,6 @@
           "id",
           "labels",
           "landscapeId",
-          "modelConnectionIds",
-          "modelObjectIds",
           "updatedAt",
           "updatedBy",
           "updatedById",
@@ -16149,6 +16349,30 @@
           "versionId"
         ],
         "type": "object"
+      },
+      "TagExpanded": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Tag"
+          },
+          {
+            "properties": {
+              "modelConnectionIds": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "modelObjectIds": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          }
+        ]
       },
       "TagGroupFilter": {
         "properties": {
@@ -26315,7 +26539,13 @@
             "$ref": "#/components/schemas/CatalogTechnology"
           },
           {
+            "$ref": "#/components/schemas/CatalogTechnologyField"
+          },
+          {
             "$ref": "#/components/schemas/CatalogTechnologyFilter"
+          },
+          {
+            "$ref": "#/components/schemas/CatalogTechnologyOptional"
           },
           {
             "$ref": "#/components/schemas/CatalogTechnologyPartial"
@@ -27969,6 +28199,12 @@
           },
           {
             "$ref": "#/components/schemas/TagColor"
+          },
+          {
+            "$ref": "#/components/schemas/TagExpandKey"
+          },
+          {
+            "$ref": "#/components/schemas/TagExpanded"
           },
           {
             "$ref": "#/components/schemas/TagExport"
@@ -31151,6 +31387,375 @@
         "x-fern-sdk-method-name": "update",
         "x-ice-panel-operation-subject": "decision-record",
         "x-ice-panel-operation-type": "write"
+      }
+    },
+    "/catalog/technologies": {
+      "get": {
+        "security": [
+          {},
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": [
+          "Catalog Technologies"
+        ],
+        "x-eov-operation-handler": "catalogTechnologies",
+        "x-fern-sdk-group-name": [
+          "catalog",
+          "technologies"
+        ],
+        "description": "List technologies",
+        "operationId": "catalogTechnologiesList",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/CatalogTechnologyFilter"
+            }
+          },
+          {
+            "description": "list all technologies on the platform",
+            "in": "query",
+            "name": "admin",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-fern-hidden": true
+          },
+          {
+            "allowReserved": true,
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The maximum number of items to return, defaults to 1000",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "maximum": 10000,
+              "minimum": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "catalogTechnologies": {
+                      "items": {
+                        "$ref": "#/components/schemas/CatalogTechnology"
+                      },
+                      "type": "array"
+                    },
+                    "nextCursor": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "catalogTechnologies"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Resource Exhausted"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Internal Server"
+          }
+        },
+        "summary": "List",
+        "x-fern-audiences": [
+          "public"
+        ],
+        "x-fern-pagination": {
+          "cursor": "$request.cursor",
+          "next_cursor": "$response.nextCursor",
+          "results": "$response.catalogTechnologies"
+        },
+        "x-fern-request-name": "CatalogTechnologiesListRequest",
+        "x-fern-sdk-method-name": "list",
+        "x-ice-panel-operation-subject": "catalog",
+        "x-ice-panel-operation-type": "read"
+      }
+    },
+    "/catalog/technologies/select": {
+      "get": {
+        "security": [
+          {},
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": [
+          "Catalog Technologies"
+        ],
+        "x-eov-operation-handler": "catalogTechnologies",
+        "x-fern-sdk-group-name": [
+          "catalog",
+          "technologies"
+        ],
+        "description": "List technologies with selected fields",
+        "operationId": "catalogTechnologiesListSelect",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/CatalogTechnologyFilter"
+            }
+          },
+          {
+            "description": "list all technologies on the platform",
+            "in": "query",
+            "name": "admin",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-fern-hidden": true
+          },
+          {
+            "allowReserved": true,
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The maximum number of items to return, defaults to 1000",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "maximum": 10000,
+              "minimum": 1,
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "fields",
+            "required": true,
+            "schema": {
+              "items": {
+                "$ref": "#/components/schemas/CatalogTechnologyField"
+              },
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "catalogTechnologies": {
+                      "items": {
+                        "$ref": "#/components/schemas/CatalogTechnologyOptional"
+                      },
+                      "type": "array"
+                    },
+                    "nextCursor": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "catalogTechnologies"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Resource Exhausted"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Internal Server"
+          }
+        },
+        "summary": "List Select",
+        "x-fern-audiences": [
+          "public"
+        ],
+        "x-fern-pagination": {
+          "cursor": "$request.cursor",
+          "next_cursor": "$response.nextCursor",
+          "results": "$response.catalogTechnologies"
+        },
+        "x-fern-request-name": "CatalogTechnologiesListSelectRequest",
+        "x-fern-sdk-method-name": "listSelect",
+        "x-ice-panel-operation-subject": "catalog",
+        "x-ice-panel-operation-type": "read"
       }
     },
     "/catalog/icons/signed-url": {
@@ -47333,6 +47938,17 @@
             "schema": {
               "$ref": "#/components/schemas/TagFilter"
             }
+          },
+          {
+            "in": "query",
+            "name": "expand",
+            "required": false,
+            "schema": {
+              "items": {
+                "$ref": "#/components/schemas/TagExpandKey"
+              },
+              "type": "array"
+            }
           }
         ],
         "responses": {
@@ -47343,7 +47959,7 @@
                   "properties": {
                     "tags": {
                       "items": {
-                        "$ref": "#/components/schemas/Tag"
+                        "$ref": "#/components/schemas/TagExpanded"
                       },
                       "type": "array"
                     }
@@ -47487,7 +48103,7 @@
                 "schema": {
                   "properties": {
                     "tag": {
-                      "$ref": "#/components/schemas/Tag"
+                      "$ref": "#/components/schemas/TagExpanded"
                     }
                   },
                   "required": [
@@ -47630,6 +48246,17 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "query",
+            "name": "expand",
+            "required": false,
+            "schema": {
+              "items": {
+                "$ref": "#/components/schemas/TagExpandKey"
+              },
+              "type": "array"
+            }
           }
         ],
         "responses": {
@@ -47639,7 +48266,7 @@
                 "schema": {
                   "properties": {
                     "tag": {
-                      "$ref": "#/components/schemas/Tag"
+                      "$ref": "#/components/schemas/TagExpanded"
                     }
                   },
                   "required": [
@@ -47789,7 +48416,7 @@
                 "schema": {
                   "properties": {
                     "tag": {
-                      "$ref": "#/components/schemas/Tag"
+                      "$ref": "#/components/schemas/TagExpanded"
                     }
                   },
                   "required": [
