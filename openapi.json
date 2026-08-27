@@ -31426,7 +31426,9 @@
             "schema": {
               "type": "boolean"
             },
-            "x-fern-hidden": true
+            "x-fern-audiences": [
+              "internal"
+            ]
           },
           {
             "allowReserved": true,
@@ -31605,7 +31607,9 @@
             "schema": {
               "type": "boolean"
             },
-            "x-fern-hidden": true
+            "x-fern-audiences": [
+              "internal"
+            ]
           },
           {
             "allowReserved": true,
