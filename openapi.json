@@ -9094,6 +9094,26 @@
       },
       "DiagramConnectionPartial": {
         "properties": {
+          "breakpoints": {
+            "description": "User-controlled corner waypoints the connection routes through, ordered origin to target. Only valid on square connections, breakpoints are not stored on any other line shape and setting them on one is rejected. The path must be a valid orthogonal L-shape: consecutive breakpoints share an x or a y (no diagonals), no two are identical, and every interior breakpoint is a right-angle corner (segments alternate horizontal/vertical, no collinear or backtracking points).",
+            "items": {
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ],
+              "type": "object"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
           "labelPosition": {
             "description": "The percentage along the line where the label should be placed, defaults to 50",
             "maximum": 100,
@@ -9151,6 +9171,26 @@
       },
       "DiagramConnectionRequired": {
         "properties": {
+          "breakpoints": {
+            "description": "User-controlled corner waypoints the connection routes through, ordered origin to target. Only valid on square connections, breakpoints are not stored on any other line shape and setting them on one is rejected. The path must be a valid orthogonal L-shape: consecutive breakpoints share an x or a y (no diagonals), no two are identical, and every interior breakpoint is a right-angle corner (segments alternate horizontal/vertical, no collinear or backtracking points).",
+            "items": {
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ],
+              "type": "object"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
           "labelPosition": {
             "description": "The percentage along the line where the label should be placed, defaults to 50",
             "maximum": 100,
@@ -9213,6 +9253,26 @@
       },
       "DiagramConnection": {
         "properties": {
+          "breakpoints": {
+            "description": "User-controlled corner waypoints the connection routes through, ordered origin to target. Only valid on square connections, breakpoints are not stored on any other line shape and setting them on one is rejected. The path must be a valid orthogonal L-shape: consecutive breakpoints share an x or a y (no diagonals), no two are identical, and every interior breakpoint is a right-angle corner (segments alternate horizontal/vertical, no collinear or backtracking points).",
+            "items": {
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ],
+              "type": "object"
+            },
+            "maxItems": 100,
+            "type": "array"
+          },
           "labelPosition": {
             "description": "The percentage along the line where the label should be placed, defaults to 50",
             "maximum": 100,
@@ -13595,6 +13655,7 @@
           },
           "parentId": {
             "description": "Parent model object ID, null for the root level model object",
+            "minLength": 1,
             "nullable": true,
             "type": "string"
           },
@@ -13752,6 +13813,7 @@
           },
           "parentId": {
             "description": "Parent model object ID, null for the root level model object",
+            "minLength": 1,
             "nullable": true,
             "type": "string"
           },
@@ -13858,6 +13920,7 @@
           },
           "parentId": {
             "description": "Parent model object ID, null for the root level model object",
+            "minLength": 1,
             "nullable": true,
             "type": "string"
           },
