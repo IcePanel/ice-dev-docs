@@ -8340,6 +8340,9 @@
           "updatedById": {
             "type": "string"
           },
+          "version": {
+            "type": "number"
+          },
           "versionId": {
             "type": "string"
           }
@@ -8356,6 +8359,7 @@
           "updatedAt",
           "updatedBy",
           "updatedById",
+          "version",
           "versionId"
         ],
         "type": "object"
@@ -18882,6 +18886,24 @@
       },
       "SocketMessages": {
         "properties": {
+          "CommentBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageCommentBroadcast"
+          },
+          "CommentClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageCommentClientSubscribe"
+          },
+          "CommentClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageCommentClientUnsubscribe"
+          },
+          "CommentReplyBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageCommentReplyBroadcast"
+          },
+          "CommentReplyClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageCommentReplyClientSubscribe"
+          },
+          "CommentReplyClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageCommentReplyClientUnsubscribe"
+          },
           "DiagramBroadcast": {
             "$ref": "#/components/schemas/SocketMessageDiagramBroadcast"
           },
@@ -18909,6 +18931,15 @@
           "DiagramGroupClientUnsubscribe": {
             "$ref": "#/components/schemas/SocketMessageDiagramGroupClientUnsubscribe"
           },
+          "DomainBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageDomainBroadcast"
+          },
+          "DomainClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageDomainClientSubscribe"
+          },
+          "DomainClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageDomainClientUnsubscribe"
+          },
           "FlowBroadcast": {
             "$ref": "#/components/schemas/SocketMessageFlowBroadcast"
           },
@@ -18926,6 +18957,24 @@
           },
           "FlowsClientUnsubscribe": {
             "$ref": "#/components/schemas/SocketMessageFlowsClientUnsubscribe"
+          },
+          "ModelConnectionBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageModelConnectionBroadcast"
+          },
+          "ModelConnectionClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageModelConnectionClientSubscribe"
+          },
+          "ModelConnectionClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageModelConnectionClientUnsubscribe"
+          },
+          "ModelObjectBroadcast": {
+            "$ref": "#/components/schemas/SocketMessageModelObjectBroadcast"
+          },
+          "ModelObjectClientSubscribe": {
+            "$ref": "#/components/schemas/SocketMessageModelObjectClientSubscribe"
+          },
+          "ModelObjectClientUnsubscribe": {
+            "$ref": "#/components/schemas/SocketMessageModelObjectClientUnsubscribe"
           },
           "TagBroadcast": {
             "$ref": "#/components/schemas/SocketMessageTagBroadcast"
@@ -18947,6 +18996,12 @@
           }
         },
         "required": [
+          "CommentBroadcast",
+          "CommentClientSubscribe",
+          "CommentClientUnsubscribe",
+          "CommentReplyBroadcast",
+          "CommentReplyClientSubscribe",
+          "CommentReplyClientUnsubscribe",
           "DiagramBroadcast",
           "DiagramClientSubscribe",
           "DiagramClientUnsubscribe",
@@ -18956,12 +19011,21 @@
           "DiagramGroupBroadcast",
           "DiagramGroupClientSubscribe",
           "DiagramGroupClientUnsubscribe",
+          "DomainBroadcast",
+          "DomainClientSubscribe",
+          "DomainClientUnsubscribe",
           "FlowBroadcast",
           "FlowClientSubscribe",
           "FlowClientUnsubscribe",
           "FlowsBroadcast",
           "FlowsClientSubscribe",
           "FlowsClientUnsubscribe",
+          "ModelConnectionBroadcast",
+          "ModelConnectionClientSubscribe",
+          "ModelConnectionClientUnsubscribe",
+          "ModelObjectBroadcast",
+          "ModelObjectClientSubscribe",
+          "ModelObjectClientUnsubscribe",
           "TagBroadcast",
           "TagClientSubscribe",
           "TagClientUnsubscribe",
@@ -18973,6 +19037,12 @@
       },
       "SocketMessageType": {
         "enum": [
+          "CommentBroadcast",
+          "CommentClientSubscribe",
+          "CommentClientUnsubscribe",
+          "CommentReplyBroadcast",
+          "CommentReplyClientSubscribe",
+          "CommentReplyClientUnsubscribe",
           "DiagramBroadcast",
           "DiagramClientSubscribe",
           "DiagramClientUnsubscribe",
@@ -18982,12 +19052,21 @@
           "DiagramGroupBroadcast",
           "DiagramGroupClientSubscribe",
           "DiagramGroupClientUnsubscribe",
+          "DomainBroadcast",
+          "DomainClientSubscribe",
+          "DomainClientUnsubscribe",
           "FlowBroadcast",
           "FlowClientSubscribe",
           "FlowClientUnsubscribe",
           "FlowsBroadcast",
           "FlowsClientSubscribe",
           "FlowsClientUnsubscribe",
+          "ModelConnectionBroadcast",
+          "ModelConnectionClientSubscribe",
+          "ModelConnectionClientUnsubscribe",
+          "ModelObjectBroadcast",
+          "ModelObjectClientSubscribe",
+          "ModelObjectClientUnsubscribe",
           "TagBroadcast",
           "TagClientSubscribe",
           "TagClientUnsubscribe",
@@ -22879,6 +22958,351 @@
         ],
         "type": "object"
       },
+      "SocketCommentClientSubscription": {
+        "properties": {
+          "landscapeId": {
+            "format": "id",
+            "type": "string"
+          },
+          "versionId": {
+            "format": "id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "landscapeId",
+          "versionId"
+        ],
+        "type": "object"
+      },
+      "SocketMessageCommentClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketCommentClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageCommentClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketCommentClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageCommentReplyClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketCommentClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageCommentReplyClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketCommentClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketCommentClientEventName": {
+        "enum": [
+          "comment-reply-subscribe",
+          "comment-reply-unsubscribe",
+          "comment-subscribe",
+          "comment-unsubscribe"
+        ],
+        "type": "string"
+      },
+      "SocketCommentClientEvents": {
+        "properties": {
+          "comment-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketCommentClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "comment-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketCommentClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "comment-reply-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketCommentClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "comment-reply-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketCommentClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "comment-reply-subscribe",
+          "comment-reply-unsubscribe",
+          "comment-subscribe",
+          "comment-unsubscribe"
+        ],
+        "type": "object"
+      },
+      "SocketMessageCommentBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "changes": {
+                "items": {
+                  "properties": {
+                    "comment": {
+                      "$ref": "#/components/schemas/Comment"
+                    },
+                    "id": {
+                      "format": "id",
+                      "type": "string"
+                    },
+                    "type": {
+                      "$ref": "#/components/schemas/QueryBroadcastType"
+                    }
+                  },
+                  "required": [
+                    "comment",
+                    "id",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "staleReadTime": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "changes"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketMessageCommentReplyBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "changes": {
+                "items": {
+                  "properties": {
+                    "commentReply": {
+                      "$ref": "#/components/schemas/CommentReply"
+                    },
+                    "id": {
+                      "format": "id",
+                      "type": "string"
+                    },
+                    "type": {
+                      "$ref": "#/components/schemas/QueryBroadcastType"
+                    }
+                  },
+                  "required": [
+                    "commentReply",
+                    "id",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "staleReadTime": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "changes"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketCommentServerEventName": {
+        "enum": [
+          "comment-broadcast",
+          "comment-reply-broadcast"
+        ],
+        "type": "string"
+      },
+      "SocketCommentServerEvents": {
+        "properties": {
+          "comment-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "changes": {
+                    "items": {
+                      "properties": {
+                        "comment": {
+                          "$ref": "#/components/schemas/Comment"
+                        },
+                        "id": {
+                          "format": "id",
+                          "type": "string"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/QueryBroadcastType"
+                        }
+                      },
+                      "required": [
+                        "comment",
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "staleReadTime": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "changes"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          },
+          "comment-reply-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "changes": {
+                    "items": {
+                      "properties": {
+                        "commentReply": {
+                          "$ref": "#/components/schemas/CommentReply"
+                        },
+                        "id": {
+                          "format": "id",
+                          "type": "string"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/QueryBroadcastType"
+                        }
+                      },
+                      "required": [
+                        "commentReply",
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "staleReadTime": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "changes"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "comment-broadcast",
+          "comment-reply-broadcast"
+        ],
+        "type": "object"
+      },
       "SocketDiagramClientSubscription": {
         "properties": {
           "landscapeId": {
@@ -23392,6 +23816,199 @@
         ],
         "type": "object"
       },
+      "SocketDomainClientSubscription": {
+        "properties": {
+          "landscapeId": {
+            "format": "id",
+            "type": "string"
+          },
+          "versionId": {
+            "format": "id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "landscapeId",
+          "versionId"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDomainClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketDomainClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDomainClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketDomainClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketDomainClientEventName": {
+        "enum": [
+          "domain-subscribe",
+          "domain-unsubscribe"
+        ],
+        "type": "string"
+      },
+      "SocketDomainClientEvents": {
+        "properties": {
+          "domain-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketDomainClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "domain-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketDomainClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "domain-subscribe",
+          "domain-unsubscribe"
+        ],
+        "type": "object"
+      },
+      "SocketMessageDomainBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "changes": {
+                "items": {
+                  "properties": {
+                    "domain": {
+                      "$ref": "#/components/schemas/Domain"
+                    },
+                    "id": {
+                      "format": "id",
+                      "type": "string"
+                    },
+                    "type": {
+                      "$ref": "#/components/schemas/QueryBroadcastType"
+                    }
+                  },
+                  "required": [
+                    "domain",
+                    "id",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "staleReadTime": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "changes"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketDomainServerEventName": {
+        "enum": [
+          "domain-broadcast"
+        ],
+        "type": "string"
+      },
+      "SocketDomainServerEvents": {
+        "properties": {
+          "domain-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "changes": {
+                    "items": {
+                      "properties": {
+                        "domain": {
+                          "$ref": "#/components/schemas/Domain"
+                        },
+                        "id": {
+                          "format": "id",
+                          "type": "string"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/QueryBroadcastType"
+                        }
+                      },
+                      "required": [
+                        "domain",
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "staleReadTime": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "changes"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "domain-broadcast"
+        ],
+        "type": "object"
+      },
       "SocketFlowsClientSubscription": {
         "properties": {
           "landscapeId": {
@@ -23726,6 +24343,351 @@
         "required": [
           "flow-broadcast",
           "flows-broadcast"
+        ],
+        "type": "object"
+      },
+      "SocketModelClientSubscription": {
+        "properties": {
+          "landscapeId": {
+            "format": "id",
+            "type": "string"
+          },
+          "versionId": {
+            "format": "id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "landscapeId",
+          "versionId"
+        ],
+        "type": "object"
+      },
+      "SocketMessageModelObjectClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketModelClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageModelObjectClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketModelClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageModelConnectionClientSubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketModelClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketMessageModelConnectionClientUnsubscribe": {
+        "properties": {
+          "body": {
+            "$ref": "#/components/schemas/SocketModelClientSubscription"
+          },
+          "reply": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "body",
+          "reply"
+        ],
+        "type": "object"
+      },
+      "SocketModelClientEventName": {
+        "enum": [
+          "model-connection-subscribe",
+          "model-connection-unsubscribe",
+          "model-object-subscribe",
+          "model-object-unsubscribe"
+        ],
+        "type": "string"
+      },
+      "SocketModelClientEvents": {
+        "properties": {
+          "model-object-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketModelClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "model-object-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketModelClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "model-connection-subscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketModelClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          },
+          "model-connection-unsubscribe": {
+            "properties": {
+              "body": {
+                "$ref": "#/components/schemas/SocketModelClientSubscription"
+              },
+              "reply": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "body",
+              "reply"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "model-connection-subscribe",
+          "model-connection-unsubscribe",
+          "model-object-subscribe",
+          "model-object-unsubscribe"
+        ],
+        "type": "object"
+      },
+      "SocketMessageModelObjectBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "changes": {
+                "items": {
+                  "properties": {
+                    "id": {
+                      "format": "id",
+                      "type": "string"
+                    },
+                    "modelObject": {
+                      "$ref": "#/components/schemas/ModelObject"
+                    },
+                    "type": {
+                      "$ref": "#/components/schemas/QueryBroadcastType"
+                    }
+                  },
+                  "required": [
+                    "modelObject",
+                    "id",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "staleReadTime": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "changes"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketMessageModelConnectionBroadcast": {
+        "properties": {
+          "body": {
+            "properties": {
+              "changes": {
+                "items": {
+                  "properties": {
+                    "id": {
+                      "format": "id",
+                      "type": "string"
+                    },
+                    "modelConnection": {
+                      "$ref": "#/components/schemas/ModelConnection"
+                    },
+                    "type": {
+                      "$ref": "#/components/schemas/QueryBroadcastType"
+                    }
+                  },
+                  "required": [
+                    "modelConnection",
+                    "id",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "staleReadTime": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "changes"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "type": "object"
+      },
+      "SocketModelServerEventName": {
+        "enum": [
+          "model-connection-broadcast",
+          "model-object-broadcast"
+        ],
+        "type": "string"
+      },
+      "SocketModelServerEvents": {
+        "properties": {
+          "model-object-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "changes": {
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "format": "id",
+                          "type": "string"
+                        },
+                        "modelObject": {
+                          "$ref": "#/components/schemas/ModelObject"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/QueryBroadcastType"
+                        }
+                      },
+                      "required": [
+                        "modelObject",
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "staleReadTime": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "changes"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          },
+          "model-connection-broadcast": {
+            "properties": {
+              "body": {
+                "properties": {
+                  "changes": {
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "format": "id",
+                          "type": "string"
+                        },
+                        "modelConnection": {
+                          "$ref": "#/components/schemas/ModelConnection"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/QueryBroadcastType"
+                        }
+                      },
+                      "required": [
+                        "modelConnection",
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "staleReadTime": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "changes"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "model-connection-broadcast",
+          "model-object-broadcast"
         ],
         "type": "object"
       },
@@ -27823,6 +28785,21 @@
             "$ref": "#/components/schemas/SocketClientVersionsUnsubscribeBody"
           },
           {
+            "$ref": "#/components/schemas/SocketCommentClientEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketCommentClientEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketCommentClientSubscription"
+          },
+          {
+            "$ref": "#/components/schemas/SocketCommentServerEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketCommentServerEvents"
+          },
+          {
             "$ref": "#/components/schemas/SocketDiagramClientEventName"
           },
           {
@@ -27853,6 +28830,21 @@
             "$ref": "#/components/schemas/SocketDiagramServerEvents"
           },
           {
+            "$ref": "#/components/schemas/SocketDomainClientEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDomainClientEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDomainClientSubscription"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDomainServerEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketDomainServerEvents"
+          },
+          {
             "$ref": "#/components/schemas/SocketFlowClientEventName"
           },
           {
@@ -27869,6 +28861,24 @@
           },
           {
             "$ref": "#/components/schemas/SocketFlowsClientSubscription"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageCommentBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageCommentClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageCommentClientUnsubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageCommentReplyBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageCommentReplyClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageCommentReplyClientUnsubscribe"
           },
           {
             "$ref": "#/components/schemas/SocketMessageDiagramBroadcast"
@@ -27898,6 +28908,15 @@
             "$ref": "#/components/schemas/SocketMessageDiagramGroupClientUnsubscribe"
           },
           {
+            "$ref": "#/components/schemas/SocketMessageDomainBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageDomainClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageDomainClientUnsubscribe"
+          },
+          {
             "$ref": "#/components/schemas/SocketMessageFlowBroadcast"
           },
           {
@@ -27914,6 +28933,24 @@
           },
           {
             "$ref": "#/components/schemas/SocketMessageFlowsClientUnsubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageModelConnectionBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageModelConnectionClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageModelConnectionClientUnsubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageModelObjectBroadcast"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageModelObjectClientSubscribe"
+          },
+          {
+            "$ref": "#/components/schemas/SocketMessageModelObjectClientUnsubscribe"
           },
           {
             "$ref": "#/components/schemas/SocketMessageTagBroadcast"
@@ -27938,6 +28975,21 @@
           },
           {
             "$ref": "#/components/schemas/SocketMessages"
+          },
+          {
+            "$ref": "#/components/schemas/SocketModelClientEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketModelClientEvents"
+          },
+          {
+            "$ref": "#/components/schemas/SocketModelClientSubscription"
+          },
+          {
+            "$ref": "#/components/schemas/SocketModelServerEventName"
+          },
+          {
+            "$ref": "#/components/schemas/SocketModelServerEvents"
           },
           {
             "$ref": "#/components/schemas/SocketServerAdrAddedBody"
@@ -29909,6 +30961,7 @@
   "paths": {
     "/landscapes/{landscapeId}/action-logs": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -30085,6 +31138,7 @@
     },
     "/landscapes/{landscapeId}/action-logs/{actionLogId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -30225,6 +31279,7 @@
     },
     "/landscapes/{landscapeId}/action-logs/{actionLogId}/children": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -30409,6 +31464,7 @@
     },
     "/landscapes/{landscapeId}/action-logs/stats/by-type": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -30548,6 +31604,7 @@
     },
     "/landscapes/{landscapeId}/action-logs/stats/by-entity": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -30687,6 +31744,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/adrs": {
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -30840,6 +31898,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -31004,6 +32063,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/adrs/{adrId}": {
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -31148,6 +32208,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -31280,6 +32341,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -31471,6 +32533,7 @@
           "catalog",
           "technologies"
         ],
+        "x-oauth-scope": "all",
         "description": "List technologies",
         "operationId": "catalogTechnologiesList",
         "parameters": [
@@ -31959,6 +33022,7 @@
           "catalog",
           "technologies"
         ],
+        "x-oauth-scope": "all",
         "description": "Find a technology",
         "operationId": "catalogTechnologyFind",
         "parameters": [
@@ -32063,6 +33127,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/comments/{commentId}/replies": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -32210,6 +33275,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -32376,6 +33442,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/comments/{commentId}/replies/{commentReplyId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -32528,6 +33595,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -32710,6 +33778,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -32876,6 +33945,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/comments": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -33021,6 +34091,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -33175,6 +34246,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/comments/{commentId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -33315,6 +34387,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -33485,6 +34558,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -33647,6 +34721,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/diagrams/{diagramId}/content": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -33798,6 +34873,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -33981,6 +35057,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/diagram-groups": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -34127,6 +35204,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -34284,6 +35362,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/diagram-groups/{diagramGroupId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -34427,6 +35506,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "head": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -34510,6 +35590,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -34673,6 +35754,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -34828,6 +35910,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/diagrams": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -34971,6 +36054,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -35147,6 +36231,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/diagrams/{diagramId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -35295,6 +36380,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "head": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -35383,6 +36469,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -35564,6 +36651,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -35724,6 +36812,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/diagrams/{diagramId}/export/image/{diagramExportImageId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -35877,6 +36966,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/diagrams/{diagramId}/export/image": {
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -36033,6 +37123,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/diagrams/thumbnails": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -36178,6 +37269,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/diagrams/{diagramId}/thumbnail": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -36320,6 +37412,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/domains": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -36463,6 +37556,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -36617,6 +37711,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/domains/{domainId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -36757,6 +37852,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "head": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -36837,6 +37933,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -37007,6 +38104,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -37159,6 +38257,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/drafts": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -37293,6 +38392,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -37447,6 +38547,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/drafts/{draftId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -37577,6 +38678,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -37737,6 +38839,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -37881,6 +38984,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/drafts/{draftId}/merge": {
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -38043,6 +39147,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/flows": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -38186,6 +39291,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -38340,6 +39446,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/flows/{flowId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -38480,6 +39587,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "head": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -38560,6 +39668,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -38730,6 +39839,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -38882,6 +39992,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/flows/thumbnails": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -39027,6 +40138,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/flows/{flowId}/thumbnail": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -39169,6 +40281,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/flows/{flowId}/export/text": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -39302,6 +40415,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/flows/{flowId}/export/code": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -39435,6 +40549,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/flows/{flowId}/export/mermaid": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -39568,6 +40683,7 @@
     },
     "/landscapes/{landscapeId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -39682,6 +40798,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -39826,6 +40943,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -39954,6 +41072,7 @@
     },
     "/landscapes/{landscapeId}/duplicate": {
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -40108,6 +41227,7 @@
     },
     "/landscapes/{landscapeId}/copy": {
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -40254,6 +41374,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/search": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -40425,6 +41546,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/export": {
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -40590,6 +41712,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/export/{landscapeExportId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -40737,6 +41860,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/import": {
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -40910,6 +42034,7 @@
     "/landscapes/{landscapeId}/versions/{versionId}/import/{landscapeImportId}": {
       "get": {
         "description": "Get the status of a landscape import job.",
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -41055,6 +42180,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/model/connections": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -41238,6 +42364,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -41395,6 +42522,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/model/connections/{modelConnectionId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -41549,6 +42677,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -41730,6 +42859,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -41885,6 +43015,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/model/connections/export/csv": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -42018,6 +43149,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/model/connections/{modelConnectionId}/generate-description": {
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -42194,6 +43326,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/model/dependencies": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -42358,6 +43491,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/model/objects": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -42541,6 +43675,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -42698,6 +43833,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/model/objects/{modelObjectId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -42852,6 +43988,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -43025,6 +44162,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -43194,6 +44332,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/model/objects/{modelObjectId}/dependencies/export/json": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -43333,6 +44472,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/model/objects/export/csv": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -45003,6 +46143,7 @@
           "organizations",
           "technologies"
         ],
+        "x-oauth-scope": "organization",
         "operationId": "organizationTechnologiesList",
         "parameters": [
           {
@@ -46158,6 +47299,7 @@
           "organizations",
           "users"
         ],
+        "x-oauth-scope": "organization",
         "operationId": "organizationUsersList",
         "parameters": [
           {
@@ -46572,6 +47714,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/share-link": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -46720,6 +47863,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -46894,6 +48038,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -47054,6 +48199,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -47190,6 +48336,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/tag-groups": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -47336,6 +48483,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -47493,6 +48641,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/tag-groups/{tagGroupId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -47636,6 +48785,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -47809,6 +48959,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -47964,6 +49115,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/tags": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -48118,6 +49270,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -48272,6 +49425,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}/tags/{tagId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -48423,6 +49577,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -48593,6 +49748,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -48761,6 +49917,7 @@
           "public"
         ],
         "x-fern-sdk-group-name": "teams",
+        "x-oauth-scope": "organization",
         "operationId": "teamsList",
         "parameters": [
           {
@@ -49034,6 +50191,7 @@
           "public"
         ],
         "x-fern-sdk-group-name": "teams",
+        "x-oauth-scope": "organization",
         "operationId": "teamFind",
         "parameters": [
           {
@@ -49695,6 +50853,7 @@
     },
     "/landscapes/{landscapeId}/version/reverts": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -49825,6 +50984,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -49974,6 +51134,7 @@
     },
     "/landscapes/{landscapeId}/version/reverts/{versionRevertId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -50109,6 +51270,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -50266,6 +51428,7 @@
     },
     "/landscapes/{landscapeId}/versions": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -50427,6 +51590,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "post": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -50583,6 +51747,7 @@
     },
     "/landscapes/{landscapeId}/versions/{versionId}": {
       "get": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -50715,6 +51880,7 @@
         "x-ice-panel-operation-type": "read"
       },
       "patch": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
@@ -50867,6 +52033,7 @@
         "x-ice-panel-operation-type": "write"
       },
       "delete": {
+        "x-oauth-scope": "landscape",
         "security": [
           {
             "ApiKeyAuth": []
