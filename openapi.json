@@ -10368,9 +10368,6 @@
           "deletedById": {
             "type": "string"
           },
-          "headVersionId": {
-            "type": "string"
-          },
           "id": {
             "type": "string"
           },
@@ -17873,12 +17870,6 @@
           "id": {
             "type": "string"
           },
-          "modelObjectHandleIds": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
           "organizationId": {
             "type": "string"
           },
@@ -17900,7 +17891,6 @@
           "createdBy",
           "createdById",
           "id",
-          "modelObjectHandleIds",
           "organizationId",
           "updatedAt",
           "updatedBy",
@@ -17908,6 +17898,32 @@
           "userIds"
         ],
         "type": "object"
+      },
+      "TeamExpandKey": {
+        "enum": [
+          "modelObjectHandleIds"
+        ],
+        "type": "string"
+      },
+      "TeamExpanded": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Team"
+          },
+          {
+            "properties": {
+              "modelObjectHandleIds": {
+                "deprecated": true,
+                "description": "use GET /organizations/{organizationId}/teams/{teamId}/model/objects instead",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          }
+        ]
       },
       "UserNotificationsPartial": {
         "description": "Subscribe the user to specific types of notifications",
@@ -29508,6 +29524,12 @@
             "$ref": "#/components/schemas/Team"
           },
           {
+            "$ref": "#/components/schemas/TeamExpandKey"
+          },
+          {
+            "$ref": "#/components/schemas/TeamExpanded"
+          },
+          {
             "$ref": "#/components/schemas/TeamExport"
           },
           {
@@ -29702,6 +29724,7 @@
         "properties": {
           "description": {
             "description": "Detailed description",
+            "maxLength": 950000,
             "type": "string"
           },
           "direction": {
@@ -29725,6 +29748,7 @@
             "type": "array"
           },
           "name": {
+            "maxLength": 4000,
             "type": "string"
           },
           "originId": {
@@ -29771,10 +29795,12 @@
         "properties": {
           "caption": {
             "description": "Display description",
+            "maxLength": 50000,
             "type": "string"
           },
           "description": {
             "description": "Detailed description",
+            "maxLength": 950000,
             "type": "string"
           },
           "external": {
@@ -29808,6 +29834,7 @@
             "type": "array"
           },
           "name": {
+            "maxLength": 4000,
             "type": "string"
           },
           "parentId": {
@@ -29869,6 +29896,7 @@
             "type": "object"
           },
           "name": {
+            "maxLength": 4000,
             "type": "string"
           }
         },
@@ -29898,6 +29926,7 @@
             "type": "object"
           },
           "name": {
+            "maxLength": 4000,
             "type": "string"
           }
         },
@@ -49927,6 +49956,17 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "query",
+            "name": "expand",
+            "required": false,
+            "schema": {
+              "items": {
+                "$ref": "#/components/schemas/TeamExpandKey"
+              },
+              "type": "array"
+            }
           }
         ],
         "responses": {
@@ -49937,7 +49977,7 @@
                   "properties": {
                     "teams": {
                       "items": {
-                        "$ref": "#/components/schemas/Team"
+                        "$ref": "#/components/schemas/TeamExpanded"
                       },
                       "type": "array"
                     }
@@ -50209,6 +50249,17 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "query",
+            "name": "expand",
+            "required": false,
+            "schema": {
+              "items": {
+                "$ref": "#/components/schemas/TeamExpandKey"
+              },
+              "type": "array"
+            }
           }
         ],
         "responses": {
@@ -50218,7 +50269,7 @@
                 "schema": {
                   "properties": {
                     "team": {
-                      "$ref": "#/components/schemas/Team"
+                      "$ref": "#/components/schemas/TeamExpanded"
                     }
                   },
                   "required": [
