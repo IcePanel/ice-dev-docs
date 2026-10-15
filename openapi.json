@@ -10368,9 +10368,6 @@
           "deletedById": {
             "type": "string"
           },
-          "headVersionId": {
-            "type": "string"
-          },
           "id": {
             "type": "string"
           },
@@ -17873,12 +17870,6 @@
           "id": {
             "type": "string"
           },
-          "modelObjectHandleIds": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
           "organizationId": {
             "type": "string"
           },
@@ -17900,7 +17891,6 @@
           "createdBy",
           "createdById",
           "id",
-          "modelObjectHandleIds",
           "organizationId",
           "updatedAt",
           "updatedBy",
@@ -17908,6 +17898,32 @@
           "userIds"
         ],
         "type": "object"
+      },
+      "TeamExpandKey": {
+        "enum": [
+          "modelObjectHandleIds"
+        ],
+        "type": "string"
+      },
+      "TeamExpanded": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Team"
+          },
+          {
+            "properties": {
+              "modelObjectHandleIds": {
+                "deprecated": true,
+                "description": "use GET /organizations/{organizationId}/teams/{teamId}/model/objects instead",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          }
+        ]
       },
       "UserNotificationsPartial": {
         "description": "Subscribe the user to specific types of notifications",
@@ -18595,7 +18611,6 @@
           "adr",
           "diagram",
           "diagram-group",
-          "domain",
           "flow",
           "model-connection",
           "model-object",
@@ -18623,9 +18638,6 @@
           "diagram-group:deleted",
           "diagram-group:updated",
           "diagram:updated",
-          "domain:created",
-          "domain:deleted",
-          "domain:updated",
           "flow:created",
           "flow:deleted",
           "flow:updated",
@@ -29508,6 +29520,12 @@
             "$ref": "#/components/schemas/Team"
           },
           {
+            "$ref": "#/components/schemas/TeamExpandKey"
+          },
+          {
+            "$ref": "#/components/schemas/TeamExpanded"
+          },
+          {
             "$ref": "#/components/schemas/TeamExport"
           },
           {
@@ -29702,6 +29720,7 @@
         "properties": {
           "description": {
             "description": "Detailed description",
+            "maxLength": 950000,
             "type": "string"
           },
           "direction": {
@@ -29725,6 +29744,7 @@
             "type": "array"
           },
           "name": {
+            "maxLength": 4000,
             "type": "string"
           },
           "originId": {
@@ -29771,10 +29791,12 @@
         "properties": {
           "caption": {
             "description": "Display description",
+            "maxLength": 50000,
             "type": "string"
           },
           "description": {
             "description": "Detailed description",
+            "maxLength": 950000,
             "type": "string"
           },
           "external": {
@@ -29808,6 +29830,7 @@
             "type": "array"
           },
           "name": {
+            "maxLength": 4000,
             "type": "string"
           },
           "parentId": {
@@ -29869,6 +29892,7 @@
             "type": "object"
           },
           "name": {
+            "maxLength": 4000,
             "type": "string"
           }
         },
@@ -29898,6 +29922,7 @@
             "type": "object"
           },
           "name": {
+            "maxLength": 4000,
             "type": "string"
           }
         },
@@ -49927,6 +49952,17 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "query",
+            "name": "expand",
+            "required": false,
+            "schema": {
+              "items": {
+                "$ref": "#/components/schemas/TeamExpandKey"
+              },
+              "type": "array"
+            }
           }
         ],
         "responses": {
@@ -49937,7 +49973,7 @@
                   "properties": {
                     "teams": {
                       "items": {
-                        "$ref": "#/components/schemas/Team"
+                        "$ref": "#/components/schemas/TeamExpanded"
                       },
                       "type": "array"
                     }
@@ -50209,6 +50245,17 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "query",
+            "name": "expand",
+            "required": false,
+            "schema": {
+              "items": {
+                "$ref": "#/components/schemas/TeamExpandKey"
+              },
+              "type": "array"
+            }
           }
         ],
         "responses": {
@@ -50218,7 +50265,7 @@
                 "schema": {
                   "properties": {
                     "team": {
-                      "$ref": "#/components/schemas/Team"
+                      "$ref": "#/components/schemas/TeamExpanded"
                     }
                   },
                   "required": [
@@ -52406,126 +52453,6 @@
           }
         },
         "summary": "Diagram Group",
-        "tags": [
-          "Webhook Events"
-        ],
-        "x-fern-audiences": [
-          "public"
-        ]
-      }
-    },
-    "domain": {
-      "post": {
-        "description": "Webhook event triggered when a domain was modified",
-        "operationId": "onDomain",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "example": {
-                  "after": {
-                    "id": "ktLn0NRHkzKp2GTPzXl5",
-                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
-                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
-                  },
-                  "before": {
-                    "id": "ktLn0NRHkzKp2GTPzXl5",
-                    "landscapeId": "kClOhzcBdYPX1tx4sYzC",
-                    "versionId": "O1XSZ7r7xWMXfhd7FHAV"
-                  },
-                  "collection": "domain",
-                  "operation": "created",
-                  "organizationId": "ZGDaIrw2DrVnYnxMDES3",
-                  "resourceId": "ktLn0NRHkzKp2GTPzXl5",
-                  "subscriptionId": "cK0eZN6MLSw8XDg7uPnY"
-                },
-                "properties": {
-                  "after": {
-                    "properties": {
-                      "id": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "landscapeId": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "versionId": {
-                        "format": "id",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ],
-                    "type": "object"
-                  },
-                  "before": {
-                    "properties": {
-                      "id": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "landscapeId": {
-                        "format": "id",
-                        "type": "string"
-                      },
-                      "versionId": {
-                        "format": "id",
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ],
-                    "type": "object"
-                  },
-                  "collection": {
-                    "enum": [
-                      "domain"
-                    ],
-                    "type": "string"
-                  },
-                  "operation": {
-                    "enum": [
-                      "created",
-                      "updated",
-                      "deleted"
-                    ],
-                    "type": "string"
-                  },
-                  "organizationId": {
-                    "format": "id",
-                    "type": "string"
-                  },
-                  "resourceId": {
-                    "format": "id",
-                    "type": "string"
-                  },
-                  "subscriptionId": {
-                    "format": "id",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "collection",
-                  "operation",
-                  "organizationId",
-                  "resourceId",
-                  "subscriptionId"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "summary": "Domain",
         "tags": [
           "Webhook Events"
         ],
