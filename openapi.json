@@ -5183,6 +5183,7 @@
           "organization-user-invite-used",
           "schedule",
           "send-c4-model-ebook",
+          "user-continue-on-desktop",
           "user-email-verification",
           "user-register",
           "user-request-reset-password",
@@ -5957,6 +5958,29 @@
         ],
         "type": "object"
       },
+      "AutomationTriggerUserContinueOnDesktop": {
+        "properties": {
+          "requestedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "user-continue-on-desktop"
+            ],
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "requestedAt",
+          "type",
+          "userId"
+        ],
+        "type": "object"
+      },
       "AutomationTriggerUserEmailVerification": {
         "properties": {
           "emailVerificationToken": {
@@ -6080,6 +6104,9 @@
           },
           {
             "$ref": "#/components/schemas/AutomationTriggerOrganizationUserInviteUsed"
+          },
+          {
+            "$ref": "#/components/schemas/AutomationTriggerUserContinueOnDesktop"
           },
           {
             "$ref": "#/components/schemas/AutomationTriggerUserRegister"
@@ -27496,6 +27523,9 @@
           },
           {
             "$ref": "#/components/schemas/AutomationTriggerType"
+          },
+          {
+            "$ref": "#/components/schemas/AutomationTriggerUserContinueOnDesktop"
           },
           {
             "$ref": "#/components/schemas/AutomationTriggerUserEmailVerification"
