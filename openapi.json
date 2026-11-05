@@ -14517,6 +14517,7 @@
             "additionalProperties": {
               "type": "boolean"
             },
+            "maxProperties": 50,
             "type": "object"
           },
           "language": {
