@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: fern-api/sync-openapi@v2
+      - uses: fern-api/sync-openapi@8e936a4bac8ad11d698d7114f3074fa3397398ea # v2
         with:
           branch: main
           auto_merge: false
