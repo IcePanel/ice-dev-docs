@@ -4760,7 +4760,7 @@
           },
           "description": {
             "description": "The description of the ADR",
-            "maxLength": 100000,
+            "maxLength": 6000,
             "type": "string"
           },
           "name": {
@@ -4800,7 +4800,7 @@
           },
           "description": {
             "description": "The description of the ADR",
-            "maxLength": 100000,
+            "maxLength": 6000,
             "type": "string"
           },
           "name": {
@@ -4849,7 +4849,7 @@
           },
           "description": {
             "description": "The description of the ADR",
-            "maxLength": 100000,
+            "maxLength": 6000,
             "type": "string"
           },
           "name": {
@@ -9723,132 +9723,38 @@
         "properties": {
           "prompt": {
             "description": "Natural language instruction describing the changes to make to the diagram, e.g. \"add a Redis cache between the API and the database\"",
-            "maxLength": 4000,
+            "maxLength": 20000,
             "minLength": 1,
             "type": "string"
+          },
+          "viewport": {
+            "additionalProperties": false,
+            "description": "The area of the diagram the user is looking at, as the top left and bottom right corners in diagram coordinates, so new objects are placed where they can be seen",
+            "properties": {
+              "x1": {
+                "type": "number"
+              },
+              "x2": {
+                "type": "number"
+              },
+              "y1": {
+                "type": "number"
+              },
+              "y2": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x1",
+              "x2",
+              "y1",
+              "y2"
+            ],
+            "type": "object"
           }
         },
         "required": [
           "prompt"
-        ],
-        "type": "object"
-      },
-      "DiagramContentGenerateChanges": {
-        "properties": {
-          "connections": {
-            "description": "Operations applied to the connections on the diagram",
-            "properties": {
-              "$add": {
-                "additionalProperties": {
-                  "$ref": "#/components/schemas/DiagramConnectionRequired"
-                },
-                "description": "Create new connections on the diagram, keyed by id",
-                "type": "object"
-              },
-              "$remove": {
-                "description": "Delete connections on the diagram by id",
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              "$update": {
-                "additionalProperties": {
-                  "$ref": "#/components/schemas/DiagramConnectionPartial"
-                },
-                "description": "Update existing connections on the diagram, keyed by id",
-                "type": "object"
-              }
-            },
-            "type": "object"
-          },
-          "modelConnections": {
-            "description": "Operations applied to the model connections in the landscape",
-            "properties": {
-              "$add": {
-                "additionalProperties": {
-                  "$ref": "#/components/schemas/ModelConnectionRequired"
-                },
-                "description": "Create new model connections in the landscape, keyed by id",
-                "type": "object"
-              },
-              "$remove": {
-                "description": "Delete model connections in the landscape by id",
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              "$update": {
-                "additionalProperties": {
-                  "$ref": "#/components/schemas/ModelConnectionPartial"
-                },
-                "description": "Update existing model connections in the landscape, keyed by id",
-                "type": "object"
-              }
-            },
-            "type": "object"
-          },
-          "modelObjects": {
-            "description": "Operations applied to the model objects in the landscape",
-            "properties": {
-              "$add": {
-                "additionalProperties": {
-                  "$ref": "#/components/schemas/ModelObjectRequired"
-                },
-                "description": "Create new model objects in the landscape, keyed by id",
-                "type": "object"
-              },
-              "$remove": {
-                "description": "Delete model objects in the landscape by id",
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              "$update": {
-                "additionalProperties": {
-                  "$ref": "#/components/schemas/ModelObjectPartial"
-                },
-                "description": "Update existing model objects in the landscape, keyed by id",
-                "type": "object"
-              }
-            },
-            "type": "object"
-          },
-          "objects": {
-            "description": "Operations applied to the objects on the diagram",
-            "properties": {
-              "$add": {
-                "additionalProperties": {
-                  "$ref": "#/components/schemas/DiagramObjectRequired"
-                },
-                "description": "Create new objects on the diagram, keyed by id",
-                "type": "object"
-              },
-              "$remove": {
-                "description": "Delete objects on the diagram by id",
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              "$update": {
-                "additionalProperties": {
-                  "$ref": "#/components/schemas/DiagramObjectPartial"
-                },
-                "description": "Update existing objects on the diagram, keyed by id",
-                "type": "object"
-              }
-            },
-            "type": "object"
-          }
-        },
-        "required": [
-          "connections",
-          "modelConnections",
-          "modelObjects",
-          "objects"
         ],
         "type": "object"
       },
@@ -13676,8 +13582,7 @@
           }
         },
         "required": [
-          "catalogTechnologyId",
-          "name"
+          "catalogTechnologyId"
         ],
         "type": "object"
       },
@@ -27859,9 +27764,6 @@
           },
           {
             "$ref": "#/components/schemas/DiagramContentGenerate"
-          },
-          {
-            "$ref": "#/components/schemas/DiagramContentGenerateChanges"
           },
           {
             "$ref": "#/components/schemas/DiagramContentGenerateDescriptionFilter"
@@ -46335,6 +46237,15 @@
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/CatalogTechnologyFilter"
+            }
+          },
+          {
+            "allowReserved": true,
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           }
         ],
